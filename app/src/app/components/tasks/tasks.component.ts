@@ -13,9 +13,8 @@ import { AuthService } from '../../services/auth.service';
         <span>╔═══════════════╗</span>
         <div>
           <span>║</span>
-          <span
-            ><span>{{ tasks.length | number : '3.0-0' }}</span> task(s).</span
-          >
+          <span><span>{{ tasks.length | number : '3.0-0' }}</span> task(s).
+          </span>
           <span>║</span>
         </div>
         <span>╚═══════════════╝</span>
