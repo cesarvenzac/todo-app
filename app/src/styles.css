@@ -1,15 +1,32 @@
-/* You can add global styles to this file, and also import other style files */
+@font-face {
+  font-family: "Departure";
+  src: url("./assets/fonts/departure-mono/DepartureMono-Regular.otf")
+      format("opentype"),
+    url("./assets/fonts/departure-mono/DepartureMono-Regular.woff")
+      format("woff"),
+    url("./assets/fonts/departure-mono/DepartureMono-Regular.woff2")
+      format("woff2");
+}
+
 :root {
   --white: #fff;
   --black: #000;
   --primary: #0000ff;
+  font-family: Inter, sans-serif;
+  font-feature-settings: "liga" 1, "calt" 1; /* fix for Chrome */
+}
+
+@supports (font-variation-settings: normal) {
+  :root {
+    font-family: InterVariable, sans-serif;
+  }
 }
 
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
+  font-family: "Departure", monospace;
 }
 
 html {
