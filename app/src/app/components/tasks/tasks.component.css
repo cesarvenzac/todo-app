@@ -1,0 +1,39 @@
+.tasks-counter {
+  width: max-content;
+  display: flex;
+  flex-direction: column;
+}
+
+.tasks-counter div {
+  display: flex;
+  justify-content: space-between;
+}
+
+.tasks-counter div span > span {
+  color: var(--primary);
+}
+
+.add-task {
+  width: max-content;
+  display: flex;
+}
+
+.add-task button {
+  width: 2rem;
+  aspect-ratio: 1 / 1;
+}
+
+.tasks-list ul li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+  margin: 0.5rem 0;
+  border: 1px solid var(--black);
+}
+
+.tasks-list ul li button {
+  width: 2rem;
+  aspect-ratio: 1 / 1;
+  background-color: red;
+}

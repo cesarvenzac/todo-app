@@ -9,20 +9,26 @@ import { AuthService } from '../../services/auth.service';
   imports: [DecimalPipe],
   template: `
     <main>
-      <section class="counter">
-        <span>╔═══════════════════════╗</span>
-        <span> There are {{ tasks.length | number : '3.0-0' }} tasks. </span>
-        <span>╚═══════════════════════╝</span>
+      <section class="tasks-counter">
+        <span>╔═══════════════╗</span>
+        <div>
+          <span>║</span>
+          <span
+            ><span>{{ tasks.length | number : '3.0-0' }}</span> task(s).</span
+          >
+          <span>║</span>
+        </div>
+        <span>╚═══════════════╝</span>
       </section>
-      <section>
+      <section class="add-task">
         <input #newTask type="text" placeholder="Task description" />
         <button (click)="addTask(newTask.value)">+</button>
       </section>
-      <section>
+      <section class="tasks-list">
         <ul>
           @for (task of tasks; track task.id) {
           <li>
-            <input type="text" [value]="task.description" readonly />
+            <input type="text" [value]="task.description" />
             <button (click)="deleteTask(task.id)">×</button>
           </li>
           }
@@ -30,6 +36,7 @@ import { AuthService } from '../../services/auth.service';
       </section>
     </main>
   `,
+  styleUrls: ['./tasks.component.css'],
 })
 export class TasksComponent {
   private http = inject(HttpClient);

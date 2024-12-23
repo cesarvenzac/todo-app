@@ -20,6 +20,7 @@ import { Router } from '@angular/router';
     </header>
     <router-outlet></router-outlet>
   `,
+  styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
   authService = inject(AuthService);
