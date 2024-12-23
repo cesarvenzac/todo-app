@@ -3,9 +3,10 @@
     <span>╔═══════════════╗</span>
     <div>
       <span>║</span>
-      <span
-        ><span>{{ tasks.length | number : "3.0-0" }}</span> task(s).</span
-      >
+      <span>
+        <span>{{ tasks.length | number : "3.0-0" }}</span>
+        task(s).
+      </span>
       <span>║</span>
     </div>
     <span>╚═══════════════╝</span>
@@ -23,7 +24,7 @@
         addTask(newTaskName.value, newTaskDesc.value, newTaskPriority.value)
       "
     >
-      +
+      ADD
     </button>
   </section>
   <section class="tasks-list">
@@ -34,12 +35,14 @@
             type="text"
             [(ngModel)]="task.name"
             (keyup.enter)="updateTask(task)"
+            (blur)="updateTask(task)"
             placeholder="Task name"
           />
           <input
             type="text"
             [(ngModel)]="task.description"
             (keyup.enter)="updateTask(task)"
+            (blur)="updateTask(task)"
             placeholder="Description"
           />
         </div>
