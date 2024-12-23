@@ -1,1 +1,47 @@
 /* You can add global styles to this file, and also import other style files */
+:root {
+  --white: #fff;
+  --black: #000;
+  --primary: #0000ff;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
+html {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  height: 100%;
+  width: 100%;
+  background-color: var(--white);
+  color: var(--black);
+  padding: 0.5rem;
+}
+
+input {
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--black);
+}
+
+input:focus {
+  outline: none;
+  border: 1px solid var(--primary);
+}
+
+button {
+  padding: 0.5rem;
+  border: none;
+  background-color: var(--primary);
+  color: var(--white);
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
