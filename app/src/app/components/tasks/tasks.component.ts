@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { DecimalPipe, CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
+import { FilterPipe } from '../../pipes/filter.pipe';
 
 interface Task {
   id: number;
@@ -18,7 +19,7 @@ type TaskPriority = Task['priority'];
 @Component({
   selector: 'app-tasks',
   standalone: true,
-  imports: [DecimalPipe, CommonModule, FormsModule],
+  imports: [DecimalPipe, CommonModule, FormsModule, FilterPipe],
   templateUrl: './tasks.component.html',
   styleUrls: ['./tasks.component.css'],
 })
