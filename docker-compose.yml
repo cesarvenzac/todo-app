@@ -8,6 +8,9 @@ services:
       - "5038:5038"
     environment:
       - NODE_ENV=production
+    volumes:
+      - ./api:/usr/src/app
+      - /usr/src/app/node_modules
 
   app:
     build:
@@ -16,3 +19,6 @@ services:
       - "4200:4200"
     depends_on:
       - api
+    volumes:
+      - ./app:/usr/src/app
+      - /usr/src/app/node_modules
