@@ -22,5 +22,7 @@
       />
     </div>
     <button type="submit">Login</button>
+    <p>Don't have an account? <a routerLink="/register">Register</a></p>
+    <p *ngIf="error" class="error">{{ error }}</p>
   </form>
 </div>
