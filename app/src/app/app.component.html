@@ -1,0 +1,11 @@
+<h1>todo-app</h1>
+<input #newTask type="text" />
+<button (click)="addTask(newTask.value)">Add</button>
+<ul>
+  @for (task of tasks; track task.id) {
+  <li>
+    <span>{{ task.description }}</span>
+    <button (click)="deleteTask(task.id)">Delete</button>
+  </li>
+  }
+</ul>
