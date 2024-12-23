@@ -7,16 +7,16 @@
 ## Features
 
 - Add, and delete tasks
+- User authentication (register & login)
 - Mark tasks as completed [coming soon]
 - Filter tasks by status (all, active, completed) [coming soon]
 - Responsive design for mobile and desktop [coming soon]
 
-## Technical Stack
+## Security
 
-- **Frontend:** Angular
-- **Backend:** Node.js, Express
-- **Database:** MongoDB
-- **Containerization:** Docker
+- Passwords are hashed using bcrypt
+- JWT (JSON Web Token) is used for authentication and authorization
+- Secure communication with the backend using HTTPS [coming soon]
 
 ## Installation
 
