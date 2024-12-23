@@ -54,7 +54,7 @@ import { AuthService } from '../../services/auth.service';
         width: 100%;
         padding: 0.5rem;
         margin: 1rem 0;
-        background-color: #007bff;
+        background-color: var(--primary);
         color: white;
         border: none;
         cursor: pointer;
