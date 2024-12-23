@@ -1,47 +1,32 @@
 import { Component, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { DecimalPipe } from '@angular/common';
+import { DecimalPipe, CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
+
+interface Task {
+  id: number;
+  name: string;
+  description: string;
+  status: 'to start' | 'in progress' | 'completed';
+  priority: 'low' | 'medium' | 'high';
+}
+
+type TaskStatus = Task['status'];
+type TaskPriority = Task['priority'];
 
 @Component({
   selector: 'app-tasks',
   standalone: true,
-  imports: [DecimalPipe],
-  template: `
-    <main>
-      <section class="tasks-counter">
-        <span>╔═══════════════╗</span>
-        <div>
-          <span>║</span>
-          <span><span>{{ tasks.length | number : '3.0-0' }}</span> task(s).
-          </span>
-          <span>║</span>
-        </div>
-        <span>╚═══════════════╝</span>
-      </section>
-      <section class="add-task">
-        <input #newTask type="text" placeholder="Task description" />
-        <button (click)="addTask(newTask.value)">+</button>
-      </section>
-      <section class="tasks-list">
-        <ul>
-          @for (task of tasks; track task.id) {
-          <li>
-            <input type="text" [value]="task.description" />
-            <button (click)="deleteTask(task.id)">×</button>
-          </li>
-          }
-        </ul>
-      </section>
-    </main>
-  `,
+  imports: [DecimalPipe, CommonModule, FormsModule],
+  templateUrl: './tasks.component.html',
   styleUrls: ['./tasks.component.css'],
 })
 export class TasksComponent {
   private http = inject(HttpClient);
   private authService = inject(AuthService);
   private readonly apiUrl = 'http://localhost:5038/api/';
-  tasks: any[] = [];
+  tasks: Task[] = [];
 
   ngOnInit() {
     this.refreshTasks();
@@ -52,7 +37,7 @@ export class TasksComponent {
       'Authorization',
       `Bearer ${this.authService.getToken()}`
     );
-    this.http.get<any[]>(this.apiUrl + 'tasks', { headers }).subscribe({
+    this.http.get<Task[]>(this.apiUrl + 'tasks', { headers }).subscribe({
       next: (data) => {
         this.tasks = data;
       },
@@ -62,14 +47,62 @@ export class TasksComponent {
     });
   }
 
-  addTask(task: string) {
+  addTask(name: string, description: string, priority: string) {
+    if (!name.trim()) return;
+
+    const validPriority = this.validatePriority(priority);
+
     const headers = new HttpHeaders().set(
       'Authorization',
       `Bearer ${this.authService.getToken()}`
     );
+
     this.http
-      .post<any>(this.apiUrl + 'add', { description: task }, { headers })
-      .subscribe({ next: () => this.refreshTasks() });
+      .post<any>(
+        this.apiUrl + 'tasks/add',
+        {
+          name,
+          description,
+          priority: validPriority,
+          status: 'to start' as TaskStatus,
+        },
+        { headers }
+      )
+      .subscribe({
+        next: () => {
+          this.refreshTasks();
+        },
+        error: (error) => {
+          console.error('Error adding task:', error);
+        },
+      });
+  }
+
+  updateTask(task: Task) {
+    const headers = new HttpHeaders().set(
+      'Authorization',
+      `Bearer ${this.authService.getToken()}`
+    );
+
+    this.http
+      .put<any>(
+        this.apiUrl + 'tasks/update/' + task.id,
+        {
+          name: task.name,
+          description: task.description,
+          status: task.status,
+          priority: task.priority,
+        },
+        { headers }
+      )
+      .subscribe({
+        next: () => {
+          this.refreshTasks();
+        },
+        error: (error) => {
+          console.error('Error updating task:', error);
+        },
+      });
   }
 
   deleteTask(id: number) {
@@ -77,8 +110,27 @@ export class TasksComponent {
       'Authorization',
       `Bearer ${this.authService.getToken()}`
     );
+
     this.http
-      .delete<any>(this.apiUrl + 'delete/' + id, { headers })
-      .subscribe({ next: () => this.refreshTasks() });
+      .delete<any>(this.apiUrl + 'tasks/delete/' + id, { headers })
+      .subscribe({
+        next: () => {
+          this.refreshTasks();
+        },
+        error: (error) => {
+          console.error('Error deleting task:', error);
+        },
+      });
+  }
+
+  trackById(index: number, task: Task): number {
+    return task.id;
+  }
+
+  private validatePriority(priority: string): TaskPriority {
+    const validPriorities: TaskPriority[] = ['low', 'medium', 'high'];
+    return validPriorities.includes(priority as TaskPriority)
+      ? (priority as TaskPriority)
+      : 'medium';
   }
 }

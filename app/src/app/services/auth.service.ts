@@ -1,42 +1,48 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, tap } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private readonly apiUrl = 'http://localhost:5038/api/';
-  private isAuthenticatedSubject = new BehaviorSubject<boolean>(false);
+  private tokenKey = 'authToken';
+  private readonly apiUrl = 'http://localhost:5038/api/auth';
+  private isAuthenticatedSubject = new BehaviorSubject<boolean>(
+    this.hasToken()
+  );
+
   isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
 
-  constructor(private http: HttpClient) {
-    this.isAuthenticatedSubject.next(!!this.getToken());
+  constructor(private http: HttpClient) {}
+
+  private hasToken(): boolean {
+    return !!localStorage.getItem(this.tokenKey);
   }
 
-  login(email: string, password: string) {
-    return this.http
-      .post<{ token: string }>(this.apiUrl + 'login', { email, password })
-      .pipe(
-        tap((response) => {
-          localStorage.setItem('token', response.token);
-          this.isAuthenticatedSubject.next(true);
-        })
-      );
+  setToken(token: string) {
+    localStorage.setItem(this.tokenKey, token);
+    this.isAuthenticatedSubject.next(true);
   }
 
-  register(email: string, password: string) {
-    return this.http.post(this.apiUrl + 'register', { email, password });
+  getToken(): string | null {
+    return localStorage.getItem(this.tokenKey);
   }
 
-  logout() {
-    localStorage.removeItem('token');
+  clearToken() {
+    localStorage.removeItem(this.tokenKey);
     this.isAuthenticatedSubject.next(false);
   }
 
-  getToken() {
-    const token = localStorage.getItem('token');
-    // console.log('Retrieved token:', token);
-    return token;
+  register(email: string, password: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/register`, { email, password });
+  }
+
+  login(email: string, password: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/login`, { email, password });
+  }
+
+  logout() {
+    this.clearToken();
   }
 }

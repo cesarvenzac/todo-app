@@ -1,4 +1,4 @@
-.tasks-counter {
+/* .tasks-counter {
   width: max-content;
   display: flex;
   flex-direction: column;
@@ -36,4 +36,46 @@
   width: 2rem;
   aspect-ratio: 1 / 1;
   background-color: red;
+} */
+
+.task-main {
+  display: flex;
+  gap: 1rem;
+  flex: 1;
+}
+.task-controls {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+li {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+select {
+  padding: 0.25rem;
+  border-radius: 4px;
+}
+input {
+  padding: 0.25rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+.add-task {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+button {
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+}
+button:hover {
+  background-color: #0056b3;
 }
