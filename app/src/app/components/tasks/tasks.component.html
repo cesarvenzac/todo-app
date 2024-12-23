@@ -29,7 +29,7 @@
   </section>
   <section class="tasks-list">
     <section class="tasks-to_start">
-      <h2>To Start</h2>
+      <span>To Start</span>
       <ul>
         <li
           *ngFor="
@@ -37,40 +37,16 @@
             trackBy: trackById
           "
         >
-          <div class="task-main">
-            <input
-              type="text"
-              [(ngModel)]="task.name"
-              (keyup.enter)="updateTask(task)"
-              (blur)="updateTask(task)"
-              placeholder="Task name"
-            />
-            <input
-              type="text"
-              [(ngModel)]="task.description"
-              (keyup.enter)="updateTask(task)"
-              (blur)="updateTask(task)"
-              placeholder="Description"
-            />
-          </div>
-          <div class="task-controls">
-            <select [(ngModel)]="task.status" (change)="updateTask(task)">
-              <option value="to start">To Start</option>
-              <option value="in progress">In Progress</option>
-              <option value="completed">Completed</option>
-            </select>
-            <select [(ngModel)]="task.priority" (change)="updateTask(task)">
-              <option value="low">Low</option>
-              <option value="medium">Medium</option>
-              <option value="high">High</option>
-            </select>
-            <button (click)="deleteTask(task.id)">×</button>
-          </div>
+          <app-card
+            [task]="task"
+            (taskUpdated)="updateTask($event)"
+            (taskDeleted)="deleteTask($event)"
+          ></app-card>
         </li>
       </ul>
     </section>
     <section class="tasks-in_progress">
-      <h2>In Progress</h2>
+      <span>In Progress</span>
       <ul>
         <li
           *ngFor="
@@ -78,40 +54,16 @@
             trackBy: trackById
           "
         >
-          <div class="task-main">
-            <input
-              type="text"
-              [(ngModel)]="task.name"
-              (keyup.enter)="updateTask(task)"
-              (blur)="updateTask(task)"
-              placeholder="Task name"
-            />
-            <input
-              type="text"
-              [(ngModel)]="task.description"
-              (keyup.enter)="updateTask(task)"
-              (blur)="updateTask(task)"
-              placeholder="Description"
-            />
-          </div>
-          <div class="task-controls">
-            <select [(ngModel)]="task.status" (change)="updateTask(task)">
-              <option value="to start">To Start</option>
-              <option value="in progress">In Progress</option>
-              <option value="completed">Completed</option>
-            </select>
-            <select [(ngModel)]="task.priority" (change)="updateTask(task)">
-              <option value="low">Low</option>
-              <option value="medium">Medium</option>
-              <option value="high">High</option>
-            </select>
-            <button (click)="deleteTask(task.id)">×</button>
-          </div>
+          <app-card
+            [task]="task"
+            (taskUpdated)="updateTask($event)"
+            (taskDeleted)="deleteTask($event)"
+          ></app-card>
         </li>
       </ul>
     </section>
     <section class="tasks-completed">
-      <h2>Completed</h2>
+      <span>Completed</span>
       <ul>
         <li
           *ngFor="
@@ -119,35 +71,11 @@
             trackBy: trackById
           "
         >
-          <div class="task-main">
-            <input
-              type="text"
-              [(ngModel)]="task.name"
-              (keyup.enter)="updateTask(task)"
-              (blur)="updateTask(task)"
-              placeholder="Task name"
-            />
-            <input
-              type="text"
-              [(ngModel)]="task.description"
-              (keyup.enter)="updateTask(task)"
-              (blur)="updateTask(task)"
-              placeholder="Description"
-            />
-          </div>
-          <div class="task-controls">
-            <select [(ngModel)]="task.status" (change)="updateTask(task)">
-              <option value="to start">To Start</option>
-              <option value="in progress">In Progress</option>
-              <option value="completed">Completed</option>
-            </select>
-            <select [(ngModel)]="task.priority" (change)="updateTask(task)">
-              <option value="low">Low</option>
-              <option value="medium">Medium</option>
-              <option value="high">High</option>
-            </select>
-            <button (click)="deleteTask(task.id)">×</button>
-          </div>
+          <app-card
+            [task]="task"
+            (taskUpdated)="updateTask($event)"
+            (taskDeleted)="deleteTask($event)"
+          ></app-card>
         </li>
       </ul>
     </section>

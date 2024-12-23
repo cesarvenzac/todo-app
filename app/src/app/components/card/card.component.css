@@ -1,0 +1,48 @@
+.task-controls {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  flex: 1;
+}
+
+select {
+  padding: 0.25rem;
+  border-radius: unset;
+  outline: none;
+  border: none;
+  font-size: 0.75rem;
+  color: black;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  text-indent: 1px;
+  text-overflow: "";
+}
+
+input {
+  padding: 0.25rem;
+  border: 1px solid #ccc;
+}
+
+button {
+  padding: 0.25rem 0.5rem;
+  border: none;
+  background-color: var(--primary);
+  color: white;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: var(--primary);
+}
+
+.low-priority {
+  background-color: green;
+}
+
+.medium-priority {
+  background-color: orange;
+}
+
+.high-priority {
+  background-color: red;
+}

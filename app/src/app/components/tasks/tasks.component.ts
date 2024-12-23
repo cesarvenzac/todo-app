@@ -4,6 +4,7 @@ import { DecimalPipe, CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { FilterPipe } from '../../pipes/filter.pipe';
+import { CardComponent } from '../card/card.component';
 
 interface Task {
   id: number;
@@ -19,7 +20,7 @@ type TaskPriority = Task['priority'];
 @Component({
   selector: 'app-tasks',
   standalone: true,
-  imports: [DecimalPipe, CommonModule, FormsModule, FilterPipe],
+  imports: [DecimalPipe, CommonModule, FormsModule, FilterPipe, CardComponent],
   templateUrl: './tasks.component.html',
   styleUrls: ['./tasks.component.css'],
 })

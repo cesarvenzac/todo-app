@@ -1,0 +1,35 @@
+<div class="task-controls">
+  <input
+    type="text"
+    [(ngModel)]="task.name"
+    (keyup.enter)="updateTask(task)"
+    (blur)="updateTask(task)"
+    placeholder="Task name"
+  />
+  <input
+    type="text"
+    [(ngModel)]="task.description"
+    (keyup.enter)="updateTask(task)"
+    (blur)="updateTask(task)"
+    placeholder="Description"
+  />
+  <select [(ngModel)]="task.status" (change)="updateTask(task)">
+    <option value="to start">To Start</option>
+    <option value="in progress">In Progress</option>
+    <option value="completed">Completed</option>
+  </select>
+  <select
+    [(ngModel)]="task.priority"
+    (change)="updateTask(task)"
+    [ngClass]="{
+      'low-priority': task.priority === 'low',
+      'medium-priority': task.priority === 'medium',
+      'high-priority': task.priority === 'high'
+    }"
+  >
+    <option value="low">Low</option>
+    <option value="medium">Medium</option>
+    <option value="high">High</option>
+  </select>
+  <button (click)="deleteTask(task.id)">×</button>
+</div>
