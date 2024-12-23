@@ -1,7 +1,7 @@
-// src/app/components/tasks/tasks.component.ts
 import { Component, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { DecimalPipe } from '@angular/common';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-tasks',
@@ -33,6 +33,7 @@ import { DecimalPipe } from '@angular/common';
 })
 export class TasksComponent {
   private http = inject(HttpClient);
+  private authService = inject(AuthService);
   private readonly apiUrl = 'http://localhost:5038/api/';
   tasks: any[] = [];
 
@@ -41,7 +42,11 @@ export class TasksComponent {
   }
 
   refreshTasks() {
-    this.http.get<any[]>(this.apiUrl + 'tasks').subscribe({
+    const headers = new HttpHeaders().set(
+      'Authorization',
+      `Bearer ${this.authService.getToken()}`
+    );
+    this.http.get<any[]>(this.apiUrl + 'tasks', { headers }).subscribe({
       next: (data) => {
         this.tasks = data;
       },
@@ -52,14 +57,22 @@ export class TasksComponent {
   }
 
   addTask(task: string) {
+    const headers = new HttpHeaders().set(
+      'Authorization',
+      `Bearer ${this.authService.getToken()}`
+    );
     this.http
-      .post<any>(this.apiUrl + 'add', { description: task })
+      .post<any>(this.apiUrl + 'add', { description: task }, { headers })
       .subscribe({ next: () => this.refreshTasks() });
   }
 
   deleteTask(id: number) {
+    const headers = new HttpHeaders().set(
+      'Authorization',
+      `Bearer ${this.authService.getToken()}`
+    );
     this.http
-      .delete<any>(this.apiUrl + 'delete/' + id)
+      .delete<any>(this.apiUrl + 'delete/' + id, { headers })
       .subscribe({ next: () => this.refreshTasks() });
   }
 }

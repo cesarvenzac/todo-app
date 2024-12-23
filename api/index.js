@@ -17,18 +17,18 @@ const JWT_SECRET = process.env.JWT_SECRET;
 const DATABASE_NAME = "todo_app";
 let database;
 
-const authenticateToken = (req, res, next) => {
+function authenticateToken(req, res, next) {
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
 
-  if (!token) return res.sendStatus(401);
+  if (token == null) return res.sendStatus(401);
 
   jwt.verify(token, JWT_SECRET, (err, user) => {
     if (err) return res.sendStatus(403);
     req.user = user;
     next();
   });
-};
+}
 
 app.listen(5038, () => {
   MongoClient.connect(CONNECTION_STRING, (error, client) => {

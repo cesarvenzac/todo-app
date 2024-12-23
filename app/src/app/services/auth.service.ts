@@ -1,4 +1,3 @@
-// src/app/services/auth.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, tap } from 'rxjs';
@@ -36,6 +35,8 @@ export class AuthService {
   }
 
   getToken() {
-    return localStorage.getItem('token');
+    const token = localStorage.getItem('token');
+    // console.log('Retrieved token:', token);
+    return token;
   }
 }
