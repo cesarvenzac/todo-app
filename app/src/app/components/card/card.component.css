@@ -10,6 +10,7 @@ select {
   border-radius: unset;
   outline: none;
   /* border: none; */
+  border: 1px solid #ccc;
   font-size: 0.75rem;
   color: black;
   /* -webkit-appearance: none;
