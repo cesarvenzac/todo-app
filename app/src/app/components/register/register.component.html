@@ -1,5 +1,5 @@
 <div class="auth-container">
-  <h2>Register</h2>
+  <span>Register</span>
   <form (ngSubmit)="onSubmit()">
     <div>
       <label for="email">Email:</label>
@@ -23,7 +23,7 @@
         required
       />
     </div>
-    <button type="submit">Register</button>
+    <button type="submit">REGISTER</button>
     <p>Already have an account? <a routerLink="/login">Login</a></p>
     <p *ngIf="error" class="error">{{ error }}</p>
   </form>

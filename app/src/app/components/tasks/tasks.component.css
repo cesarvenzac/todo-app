@@ -1,4 +1,6 @@
 main {
+  margin-top: 0.5rem;
+  height: calc(100vh - 3.5rem);
   width: 100%;
   display: flex;
   flex-wrap: wrap;
@@ -32,6 +34,8 @@ main {
   display: flex;
   gap: 0.5rem;
   flex: 1;
+  width: 100%;
+  overflow-x: scroll;
 }
 
 .tasks-list > * {
@@ -45,6 +49,7 @@ main {
 
 .tasks-list > * > span {
   white-space: nowrap;
+  border-bottom: 1px solid var(--black);
 }
 
 ul {
@@ -65,13 +70,13 @@ select {
   padding: 0.25rem;
   border-radius: unset;
   outline: none;
-  border: none;
+  /* border: none; */
   font-size: 0.75rem;
   color: black;
-  -webkit-appearance: none;
+  /* -webkit-appearance: none;
   -moz-appearance: none;
   text-indent: 1px;
-  text-overflow: "";
+  text-overflow: ""; */
 }
 
 input {

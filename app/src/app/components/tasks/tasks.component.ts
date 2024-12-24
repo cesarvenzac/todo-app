@@ -107,7 +107,7 @@ export class TasksComponent {
       });
   }
 
-  deleteTask(_id: number) {
+  deleteTask(_id: string) {
     const headers = new HttpHeaders().set(
       'Authorization',
       `Bearer ${this.authService.getToken()}`

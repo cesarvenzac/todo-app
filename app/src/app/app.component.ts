@@ -33,7 +33,7 @@ import { Router } from '@angular/router';
           </g>
         </svg>
         @if (authService.isAuthenticated$ | async) {
-        <button (click)="logout()">Logout</button>
+        <button (click)="logout()">LOGOUT</button>
         }
       </nav>
     </header>
