@@ -1,15 +1,14 @@
-// src/app/app.component.ts
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectorRef } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, NgIf } from '@angular/common';
 import { AuthService } from './services/auth.service';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, HttpClientModule, AsyncPipe],
+  imports: [RouterOutlet, HttpClientModule, AsyncPipe, NgIf],
   template: `
     <header>
       <nav>
@@ -32,9 +31,17 @@ import { Router } from '@angular/router';
             </g>
           </g>
         </svg>
-        @if (authService.isAuthenticated$ | async) {
-        <button (click)="logout()">LOGOUT</button>
-        }
+        <div *ngIf="authService.isAuthenticated$ | async">
+          <img
+            *ngIf="userInfo?.avatar"
+            [src]="'http://localhost:5038/' + userInfo.avatar"
+            alt="Avatar"
+          />
+          <span *ngIf="userInfo"
+            >{{ userInfo.firstname }} {{ userInfo.lastname }}</span
+          >
+          <button (click)="logout()">LOGOUT</button>
+        </div>
       </nav>
     </header>
     <router-outlet></router-outlet>
@@ -44,6 +51,20 @@ import { Router } from '@angular/router';
 export class AppComponent {
   authService = inject(AuthService);
   router = inject(Router);
+  userInfo = this.authService.getUserInfo();
+  private cdr = inject(ChangeDetectorRef);
+
+  constructor() {
+    this.authService.isAuthenticated$.subscribe(() => {
+      this.userInfo = this.authService.getUserInfo();
+      this.cdr.markForCheck();
+    });
+
+    this.authService.userInfoUpdated.subscribe(() => {
+      this.userInfo = this.authService.getUserInfo();
+      this.cdr.markForCheck();
+    });
+  }
 
   logout() {
     this.authService.logout();

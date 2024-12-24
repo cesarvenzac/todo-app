@@ -70,7 +70,12 @@ async function loginUser(email, password, database) {
   const token = jwt.sign({ userId: user._id, email: user.email }, JWT_SECRET, {
     expiresIn: "24h",
   });
-  return { token };
+  return {
+    token,
+    firstname: user.firstname,
+    lastname: user.lastname,
+    avatar: user.avatar,
+  };
 }
 
 module.exports = { registerUser, loginUser };

@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -32,6 +32,12 @@ export class LoginComponent {
       .subscribe({
         next: (response) => {
           this.authService.setToken(response.token);
+          this.authService.setUserInfo({
+            firstname: response.firstname,
+            lastname: response.lastname,
+            avatar: response.avatar,
+          });
+          this.authService.userInfoUpdated.emit();
           this.router.navigate(['/']);
         },
         error: (err) => {
