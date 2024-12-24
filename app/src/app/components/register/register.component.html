@@ -23,6 +23,88 @@
         required
       />
     </div>
+    <div>
+      <label for="firstname">First Name:</label>
+      <input
+        type="text"
+        id="firstname"
+        [(ngModel)]="firstname"
+        name="firstname"
+        placeholder="First Name"
+        required
+      />
+    </div>
+    <div>
+      <label for="lastname">Last Name:</label>
+      <input
+        type="text"
+        id="lastname"
+        [(ngModel)]="lastname"
+        name="lastname"
+        placeholder="Last Name"
+        required
+      />
+    </div>
+    <div>
+      <label for="phone">Phone:</label>
+      <input
+        type="text"
+        id="phone"
+        [(ngModel)]="phone"
+        name="phone"
+        placeholder="Phone"
+        required
+      />
+    </div>
+    <div>
+      <label for="countryCode">Country Code:</label>
+      <input
+        type="text"
+        id="countryCode"
+        [(ngModel)]="countryCode"
+        name="countryCode"
+        placeholder="Country Code"
+        required
+      />
+    </div>
+    <div>
+      <label for="birthdate">Birthdate:</label>
+      <input
+        type="date"
+        id="birthdate"
+        [(ngModel)]="birthdate"
+        name="birthdate"
+        required
+      />
+    </div>
+    <div>
+      <label for="allowNewsletter">Allow Newsletter:</label>
+      <input
+        type="checkbox"
+        id="allowNewsletter"
+        [(ngModel)]="allowNewsletter"
+        name="allowNewsletter"
+      />
+    </div>
+    <div>
+      <label for="consent">Consent:</label>
+      <input
+        type="checkbox"
+        id="consent"
+        [(ngModel)]="consent"
+        name="consent"
+        required
+      />
+    </div>
+    <div>
+      <label for="avatar">Avatar:</label>
+      <input
+        type="file"
+        id="avatar"
+        (change)="onFileChange($event)"
+        name="avatar"
+      />
+    </div>
     <button type="submit">REGISTER</button>
     <p>Already have an account? <a routerLink="/login">Login</a></p>
     <p *ngIf="error" class="error">{{ error }}</p>

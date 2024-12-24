@@ -23,7 +23,7 @@ export class LoginComponent {
     private authService: AuthService
   ) {}
 
-  login() {
+  onSubmit() {
     this.http
       .post<any>('http://localhost:5038/api/auth/login', {
         email: this.email,
@@ -32,7 +32,7 @@ export class LoginComponent {
       .subscribe({
         next: (response) => {
           this.authService.setToken(response.token);
-          this.router.navigate(['/tasks']);
+          this.router.navigate(['/']);
         },
         error: (err) => {
           console.error('Error logging in:', err);
