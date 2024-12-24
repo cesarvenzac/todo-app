@@ -9,3 +9,15 @@ nav button {
   background-color: var(--white);
   color: var(--black);
 }
+
+nav div {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+nav div img {
+  height: 2rem;
+  aspect-ratio: 1 / 1;
+  border: 1px solid var(--black);
+}

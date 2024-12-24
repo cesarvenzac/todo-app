@@ -32,14 +32,12 @@ import { Router } from '@angular/router';
           </g>
         </svg>
         <div *ngIf="authService.isAuthenticated$ | async">
+          <span *ngIf="userInfo">Welcome {{ userInfo.firstname }}!</span>
           <img
             *ngIf="userInfo?.avatar"
             [src]="'http://localhost:5038/' + userInfo.avatar"
             alt="Avatar"
           />
-          <span *ngIf="userInfo"
-            >{{ userInfo.firstname }} {{ userInfo.lastname }}</span
-          >
           <button (click)="logout()">LOGOUT</button>
         </div>
       </nav>
