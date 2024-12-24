@@ -29,6 +29,7 @@ export class TasksComponent {
   private authService = inject(AuthService);
   private readonly apiUrl = 'http://localhost:5038/api/';
   tasks: Task[] = [];
+  Math = Math;
 
   ngOnInit() {
     this.refreshTasks();

@@ -37,7 +37,7 @@ html {
 body {
   height: 100%;
   width: 100%;
-  background-color: var(--white);
+  background-color: lightgrey;
   color: var(--black);
   padding: 0.5rem;
 }

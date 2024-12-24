@@ -1,18 +1,7 @@
 <main>
   <section class="side-menu">
-    <section class="tasks-counter">
-      <span>╔═══════════════╗</span>
-      <div>
-        <span>║</span>
-        <span>
-          <span>{{ tasks.length | number : "3.0-0" }}</span>
-          task(s).
-        </span>
-        <span>║</span>
-      </div>
-      <span>╚═══════════════╝</span>
-    </section>
     <section class="add-task">
+      <span>Add a task</span>
       <input #newTaskName type="text" placeholder="Task name" />
       <input #newTaskDesc type="text" placeholder="Task description" />
       <select #newTaskPriority>
@@ -28,6 +17,116 @@
         ADD
       </button>
     </section>
+    <section class="tasks-stats">
+      <span>
+        <span>{{ tasks.length | number : "3.0-0" }}</span>
+        task(s).
+      </span>
+      <span>
+        <span>{{
+          (tasks | filter : { status: "completed" }).length | number : "3.0-0"
+        }}</span>
+        completed.
+      </span>
+      <section class="progress-bar">
+        <span>
+          {{
+            ((tasks | filter : { status: "completed" }).length / tasks.length) *
+              100 | number : "1.0-0"
+          }}%
+        </span>
+        <span>
+          {{
+            "█".repeat(
+              ((tasks | filter : { status: "completed" }).length /
+                tasks.length) *
+                10
+            ) +
+              "░".repeat(
+                10 -
+                  ((tasks | filter : { status: "completed" }).length /
+                    tasks.length) *
+                    10
+              )
+          }}
+        </span>
+      </section>
+    </section>
+    <section class="tasks-stats">
+      <span>Priority Distribution:</span>
+      <section class="priority-stats">
+        <section class="priority-bar">
+          <span style="color: lightgreen">
+            {{
+              "█".repeat(
+                Math.min(
+                  Math.floor(
+                    ((tasks | filter : { priority: "low" }).length /
+                      tasks.length) *
+                      9
+                  ),
+                  9
+                )
+              )
+            }}
+          </span>
+          <span style="color: lightsalmon">
+            {{
+              "█".repeat(
+                Math.min(
+                  Math.floor(
+                    ((tasks | filter : { priority: "medium" }).length /
+                      tasks.length) *
+                      9
+                  ),
+                  9
+                )
+              )
+            }}
+          </span>
+          <span style="color: lightcoral">
+            {{
+              "█".repeat(
+                Math.min(
+                  Math.floor(
+                    ((tasks | filter : { priority: "high" }).length /
+                      tasks.length) *
+                      9
+                  ),
+                  9
+                )
+              )
+            }}
+          </span>
+        </section>
+      </section>
+    </section>
+    <!-- <section class="tasks-counter">
+      <span>╔═══════════════╗</span>
+      <div>
+        <span>║</span>
+        <span>
+          <span>{{ tasks.length | number : "3.0-0" }}</span>
+          task(s).
+        </span>
+        <span>║</span>
+      </div>
+      <span>╚═══════════════╝</span>
+    </section>
+    <section class="tasks-counter">
+      <span>┌───────────────┐</span>
+      <div>
+        <span>│</span>
+        <span>
+          <span>{{
+            (tasks | filter : { status: "completed" }).length | number : "3.0-0"
+          }}</span>
+          completed.
+        </span>
+        <span>│</span>
+      </div>
+      <span>└───────────────┘</span>
+    </section> -->
   </section>
   <section class="tasks-list">
     <section class="tasks-to_start">
