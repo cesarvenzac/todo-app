@@ -22,6 +22,10 @@ main {
   background-color: var(--white);
 }
 
+.add-task > span {
+  border-bottom: 1px solid var(--black);
+}
+
 .tasks-stats {
   display: flex;
   flex-direction: column;
@@ -35,19 +39,44 @@ main {
   color: var(--primary);
 }
 
-.progress-bar > span:last-child {
-  border: 1px solid var(--black);
-  color: var(--primary);
+.progress-bar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
 }
 
-.priority-stats {
-  display: flex;
+.progress-container {
+  width: 100%;
+  background-color: #e0e0e0;
+  height: 1rem;
+  overflow: hidden;
+}
+
+.progress {
+  height: 100%;
+  background-color: var(--primary);
 }
 
 .priority-bar {
   display: flex;
-  flex-direction: row;
-  border: 1px solid var(--black);
+  width: 100%;
+  height: 1rem;
+  overflow: hidden;
+}
+
+.priority {
+  height: 100%;
+}
+
+.priority.low {
+  background-color: lightgreen;
+}
+.priority.medium {
+  background-color: lightsalmon;
+}
+.priority.high {
+  background-color: lightcoral;
 }
 
 .tasks-counter {

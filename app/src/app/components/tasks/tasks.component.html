@@ -29,76 +29,51 @@
         completed.
       </span>
       <section class="progress-bar">
-        <span>
-          {{
+        <span
+          >{{
             ((tasks | filter : { status: "completed" }).length / tasks.length) *
               100 | number : "1.0-0"
-          }}%
-        </span>
-        <span>
-          {{
-            "█".repeat(
-              ((tasks | filter : { status: "completed" }).length /
+          }}%</span
+        >
+        <div class="progress-container">
+          <div
+            class="progress"
+            [style.width.%]="
+              ((tasks | filter : { status: 'completed' }).length /
                 tasks.length) *
-                10
-            ) +
-              "░".repeat(
-                10 -
-                  ((tasks | filter : { status: "completed" }).length /
-                    tasks.length) *
-                    10
-              )
-          }}
-        </span>
+              100
+            "
+          ></div>
+        </div>
       </section>
     </section>
     <section class="tasks-stats">
       <span>Priority Distribution:</span>
       <section class="priority-stats">
-        <section class="priority-bar">
-          <span style="color: lightgreen">
-            {{
-              "█".repeat(
-                Math.min(
-                  Math.floor(
-                    ((tasks | filter : { priority: "low" }).length /
-                      tasks.length) *
-                      9
-                  ),
-                  9
-                )
-              )
-            }}
-          </span>
-          <span style="color: lightsalmon">
-            {{
-              "█".repeat(
-                Math.min(
-                  Math.floor(
-                    ((tasks | filter : { priority: "medium" }).length /
-                      tasks.length) *
-                      9
-                  ),
-                  9
-                )
-              )
-            }}
-          </span>
-          <span style="color: lightcoral">
-            {{
-              "█".repeat(
-                Math.min(
-                  Math.floor(
-                    ((tasks | filter : { priority: "high" }).length /
-                      tasks.length) *
-                      9
-                  ),
-                  9
-                )
-              )
-            }}
-          </span>
-        </section>
+        <div class="priority-bar">
+          <div
+            class="priority low"
+            [style.width.%]="
+              ((tasks | filter : { priority: 'low' }).length / tasks.length) *
+              100
+            "
+          ></div>
+          <div
+            class="priority medium"
+            [style.width.%]="
+              ((tasks | filter : { priority: 'medium' }).length /
+                tasks.length) *
+              100
+            "
+          ></div>
+          <div
+            class="priority high"
+            [style.width.%]="
+              ((tasks | filter : { priority: 'high' }).length / tasks.length) *
+              100
+            "
+          ></div>
+        </div>
       </section>
     </section>
     <!-- <section class="tasks-counter">
