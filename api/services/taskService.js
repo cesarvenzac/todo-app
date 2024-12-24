@@ -1,3 +1,5 @@
+const { ObjectId } = require("mongodb");
+
 async function getAllTasks(userId, database) {
   return await database.collection("tasks").find({ userId }).toArray();
 }
@@ -14,9 +16,7 @@ async function createTask(
     throw { status: 400, message: "Task name is required" };
   }
 
-  const count = await database.collection("tasks").countDocuments({});
-  await database.collection("tasks").insertOne({
-    id: count + 1,
+  const result = await database.collection("tasks").insertOne({
     name,
     description,
     status,
@@ -25,7 +25,7 @@ async function createTask(
     createdAt: new Date(),
     updatedAt: new Date(),
   });
-  return { message: "Task added successfully" };
+  return { message: "Task added successfully", taskId: result.insertedId };
 }
 
 async function modifyTask(userId, taskId, name, description, status, priority, database) {
@@ -41,7 +41,7 @@ async function modifyTask(userId, taskId, name, description, status, priority, d
 
   const result = await database.collection("tasks").updateOne(
     {
-      id: parseInt(taskId),
+      _id: new ObjectId(taskId),
       userId,
     },
     {
@@ -64,7 +64,7 @@ async function modifyTask(userId, taskId, name, description, status, priority, d
 
 async function removeTask(userId, taskId, database) {
   const result = await database.collection("tasks").deleteOne({
-    id: parseInt(taskId),
+    _id: new ObjectId(taskId),
     userId,
   });
 

@@ -24,7 +24,7 @@ async function updateTask(req, res, database) {
     const { name, description, status, priority } = req.body;
     const result = await modifyTask(
       req.user.userId,
-      req.params.id,
+      req.params._id,
       name,
       description,
       status,
@@ -39,7 +39,7 @@ async function updateTask(req, res, database) {
 
 async function deleteTask(req, res, database) {
   try {
-    const result = await removeTask(req.user.userId, req.params.id, database);
+    const result = await removeTask(req.user.userId, req.params._id, database);
     res.json(result);
   } catch (error) {
     res.status(500).json({ error: "Internal server error" });

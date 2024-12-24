@@ -1,3 +1,10 @@
+main {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
 .tasks-counter {
   width: max-content;
   display: flex;
@@ -24,6 +31,7 @@
 .tasks-list {
   display: flex;
   gap: 0.5rem;
+  flex: 1;
 }
 
 .tasks-list > * {
@@ -33,6 +41,10 @@
   gap: 0.5rem;
   display: flex;
   flex-direction: column;
+}
+
+.tasks-list > * > span {
+  white-space: nowrap;
 }
 
 ul {

@@ -1,31 +1,33 @@
 <main>
-  <section class="tasks-counter">
-    <span>╔═══════════════╗</span>
-    <div>
-      <span>║</span>
-      <span>
-        <span>{{ tasks.length | number : "3.0-0" }}</span>
-        task(s).
-      </span>
-      <span>║</span>
-    </div>
-    <span>╚═══════════════╝</span>
-  </section>
-  <section class="add-task">
-    <input #newTaskName type="text" placeholder="Task name" />
-    <input #newTaskDesc type="text" placeholder="Task description" />
-    <select #newTaskPriority>
-      <option value="low">Low</option>
-      <option value="medium" selected>Medium</option>
-      <option value="high">High</option>
-    </select>
-    <button
-      (click)="
-        addTask(newTaskName.value, newTaskDesc.value, newTaskPriority.value)
-      "
-    >
-      ADD
-    </button>
+  <section class="side-menu">
+    <section class="tasks-counter">
+      <span>╔═══════════════╗</span>
+      <div>
+        <span>║</span>
+        <span>
+          <span>{{ tasks.length | number : "3.0-0" }}</span>
+          task(s).
+        </span>
+        <span>║</span>
+      </div>
+      <span>╚═══════════════╝</span>
+    </section>
+    <section class="add-task">
+      <input #newTaskName type="text" placeholder="Task name" />
+      <input #newTaskDesc type="text" placeholder="Task description" />
+      <select #newTaskPriority>
+        <option value="low">Low</option>
+        <option value="medium" selected>Medium</option>
+        <option value="high">High</option>
+      </select>
+      <button
+        (click)="
+          addTask(newTaskName.value, newTaskDesc.value, newTaskPriority.value)
+        "
+      >
+        ADD
+      </button>
+    </section>
   </section>
   <section class="tasks-list">
     <section class="tasks-to_start">

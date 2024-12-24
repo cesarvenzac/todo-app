@@ -12,13 +12,13 @@ import { FormsModule } from '@angular/forms';
 export class CardComponent {
   @Input() task: any;
   @Output() taskUpdated = new EventEmitter<any>();
-  @Output() taskDeleted = new EventEmitter<number>();
+  @Output() taskDeleted = new EventEmitter<string>();
 
   updateTask(task: any) {
     this.taskUpdated.emit(task);
   }
 
-  deleteTask(taskId: number) {
+  deleteTask(taskId: string) {
     this.taskDeleted.emit(taskId);
   }
 }

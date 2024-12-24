@@ -7,7 +7,7 @@ import { FilterPipe } from '../../pipes/filter.pipe';
 import { CardComponent } from '../card/card.component';
 
 interface Task {
-  id: number;
+  _id: string;
   name: string;
   description: string;
   status: 'to start' | 'in progress' | 'completed';
@@ -88,7 +88,7 @@ export class TasksComponent {
 
     this.http
       .put<any>(
-        this.apiUrl + 'tasks/update/' + task.id,
+        this.apiUrl + 'tasks/update/' + task._id,
         {
           name: task.name,
           description: task.description,
@@ -107,14 +107,14 @@ export class TasksComponent {
       });
   }
 
-  deleteTask(id: number) {
+  deleteTask(_id: number) {
     const headers = new HttpHeaders().set(
       'Authorization',
       `Bearer ${this.authService.getToken()}`
     );
 
     this.http
-      .delete<any>(this.apiUrl + 'tasks/delete/' + id, { headers })
+      .delete<any>(this.apiUrl + 'tasks/delete/' + _id, { headers })
       .subscribe({
         next: () => {
           this.refreshTasks();
@@ -125,8 +125,8 @@ export class TasksComponent {
       });
   }
 
-  trackById(index: number, task: Task): number {
-    return task.id;
+  trackById(index: number, task: Task): string {
+    return task._id;
   }
 
   private validatePriority(priority: string): TaskPriority {

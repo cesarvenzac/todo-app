@@ -6,13 +6,13 @@
     (blur)="updateTask(task)"
     placeholder="Task name"
   />
-  <input
+  <!-- <input
     type="text"
     [(ngModel)]="task.description"
     (keyup.enter)="updateTask(task)"
     (blur)="updateTask(task)"
     placeholder="Description"
-  />
+  /> -->
   <select [(ngModel)]="task.status" (change)="updateTask(task)">
     <option value="to start">To Start</option>
     <option value="in progress">In Progress</option>
@@ -31,5 +31,5 @@
     <option value="medium">Medium</option>
     <option value="high">High</option>
   </select>
-  <button (click)="deleteTask(task.id)">×</button>
+  <button (click)="deleteTask(task._id)">×</button>
 </div>

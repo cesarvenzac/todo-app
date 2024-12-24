@@ -10,10 +10,10 @@ module.exports = (database) => {
   router.post("/add", authenticateToken, multer().none(), (req, res) =>
     addTask(req, res, database)
   );
-  router.put("/update/:id", authenticateToken, multer().none(), (req, res) =>
+  router.put("/update/:_id", authenticateToken, multer().none(), (req, res) =>
     updateTask(req, res, database)
   );
-  router.delete("/delete/:id", authenticateToken, (req, res) => deleteTask(req, res, database));
+  router.delete("/delete/:_id", authenticateToken, (req, res) => deleteTask(req, res, database));
 
   return router;
 };
