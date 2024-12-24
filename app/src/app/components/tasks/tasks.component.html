@@ -1,7 +1,7 @@
 <main>
   <section class="side-menu">
     <section class="add-task">
-      <span>Add a task</span>
+      <span>Add</span>
       <input #newTaskName type="text" placeholder="Task name" />
       <input #newTaskDesc type="text" placeholder="Task description" />
       <select #newTaskPriority>
@@ -76,32 +76,6 @@
         </div>
       </section>
     </section>
-    <!-- <section class="tasks-counter">
-      <span>╔═══════════════╗</span>
-      <div>
-        <span>║</span>
-        <span>
-          <span>{{ tasks.length | number : "3.0-0" }}</span>
-          task(s).
-        </span>
-        <span>║</span>
-      </div>
-      <span>╚═══════════════╝</span>
-    </section>
-    <section class="tasks-counter">
-      <span>┌───────────────┐</span>
-      <div>
-        <span>│</span>
-        <span>
-          <span>{{
-            (tasks | filter : { status: "completed" }).length | number : "3.0-0"
-          }}</span>
-          completed.
-        </span>
-        <span>│</span>
-      </div>
-      <span>└───────────────┘</span>
-    </section> -->
   </section>
   <section class="tasks-list">
     <section class="tasks-to_start">

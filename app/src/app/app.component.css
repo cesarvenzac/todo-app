@@ -3,3 +3,9 @@ nav {
   justify-content: space-between;
   height: 2rem;
 }
+
+nav button {
+  border: 1px solid var(--black);
+  background-color: var(--white);
+  color: var(--black);
+}
