@@ -1,61 +1,118 @@
-# todo-app
+# Todo List Application
 
-## Overview
+A modern task management application built with Express.js, Angular, and MongoDB, designed for efficient task organization and team collaboration.
 
-`todo-app` is a simple and efficient task management application designed to help you keep track of your daily tasks and to-dos. This project is hosted on GitHub and is open for contributions.
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
+![Node](https://img.shields.io/badge/node-%3E%3D14.0.0-brightgreen)
+![Angular](https://img.shields.io/badge/angular-17-red)
 
 ## Features
 
-- Add, and delete tasks
-- User authentication (register & login)
-- Mark tasks as completed [coming soon]
-- Filter tasks by status (all, active, completed) [coming soon]
-- Responsive design for mobile and desktop [coming soon]
+### Core Features
 
-## Security
+- **Secure Authentication System**
 
-- Passwords are hashed using bcrypt
-- JWT (JSON Web Token) is used for authentication and authorization
-- Secure communication with the backend using HTTPS [coming soon]
+  - JWT-based authentication
+  - User registration with profile customization
+  - Protected routes and secure endpoints
 
-## Installation
+- **Task Management**
+  - Intuitive task creation and editing
+  - Status tracking (To Start, In Progress, Completed)
+  - Priority levels (Low, Medium, High)
+  - Real-time progress visualization
+  - Priority distribution analytics
 
-1. Clone the repository:
+### Coming Soon
 
-```sh
-git clone https://github.com/cesarvenzac/todo-app.git
+- Team collaboration features
+- Project management capabilities
+- Enhanced task features (attachments, comments, due dates)
+- Notifications system
+- Mobile optimization
+
+## Tech Stack
+
+### Backend
+
+- Express.js
+- MongoDB
+- JWT Authentication
+- Multer for file uploads
+- bcrypt for security
+
+### Frontend
+
+- Angular 17
+- Angular Router
+- HttpClient
+- Custom CSS with Variables
+
+### Infrastructure
+
+- Docker & Docker Compose
+- RESTful API architecture
+- Microservices design
+
+## Getting Started
+
+### Prerequisites
+
+- Docker and Docker Compose
+- Node.js ≥ 14
+- npm or yarn
+
+### Installation
+
+1. Clone the repository
+
+```bash
+git clone https://github.com/yourusername/todo-list-app.git
+cd todo-list-app
 ```
 
-2. Navigate to the project directory:
+2. Set up environment variables
 
-```sh
-cd todo-app
+```bash
+cp .env.example .env
 ```
 
-3. Build the Docker containers:
+3. Launch with Docker
 
-```sh
-docker-compose build
+```bash
+docker-compose up --build
 ```
 
-4. Start the Docker containers:
+### Development Mode
 
-```sh
-docker-compose up
+```bash
+npm install
+npm run dev
 ```
 
-## Usage
+### Testing
 
-1. Open your browser and navigate to `http://localhost:4020`
+```bash
+npm run test
+```
 
-<!-- ## Contributing
+## Documentation
 
-Contributions are welcome! Please fork the repository and create a pull request with your changes.
+Detailed documentation is available in the `/documentation` directory:
+
+- [Technical Description](documentation/description.md)
+- [Feature List](documentation/features.md)
+- [Architecture Overview](documentation/structure.md)
+- [Development Roadmap](documentation/plan.md)
+
+## Contributing
+
+Contributions are welcome! Please read our [Contributing Guidelines](CONTRIBUTING.md) before submitting pull requests.
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Contact
+## Support
 
-For any questions or feedback, please open an issue on GitHub. -->
+For support, please open an issue in the GitHub repository or contact the maintainers.

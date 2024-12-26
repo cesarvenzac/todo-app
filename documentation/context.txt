@@ -1,0 +1,2461 @@
+Directory structure:
+└── cesarvenzac-todo-app/
+    ├── documentation/
+    │   ├── context.txt
+    │   ├── description.md
+    │   ├── features.md
+    │   ├── plan.md
+    │   └── structure.md
+    ├── backend/
+    │   ├── controllers/
+    │   │   ├── authController.js
+    │   │   └── taskController.js
+    │   ├── services/
+    │   │   ├── taskService.js
+    │   │   └── authService.js
+    │   ├── middlewares/
+    │   │   └── authMiddleware.js
+    │   ├── package.json
+    │   ├── uploads/
+    │   │   ├── 9fc41cd438003a8d1a0f4189d1051a8d
+    │   │   ├── d8b03533e29a9c8c6ddd571d67ca9682
+    │   │   ├── 3a72f129f232b61d1c32c93f59870223
+    │   │   └── b5d16e3faf5b23736b61e607d3ee1214
+    │   ├── routes/
+    │   │   ├── taskRoutes.js
+    │   │   └── authRoutes.js
+    │   ├── Dockerfile
+    │   ├── package-lock.json
+    │   └── index.js
+    ├── .env
+    ├── .dockerignore
+    ├── .gitignore
+    ├── README.md
+    ├── docker-compose.yml
+    └── frontend/
+        ├── .vscode/
+        │   ├── tasks.json
+        │   ├── launch.json
+        │   └── extensions.json
+        ├── .gitignore
+        ├── tsconfig.app.json
+        ├── package.json
+        ├── tsconfig.spec.json
+        ├── Dockerfile
+        ├── tsconfig.json
+        ├── package-lock.json
+        ├── README.md
+        ├── src/
+        │   ├── index.html
+        │   ├── styles.css
+        │   ├── assets/
+        │   │   ├── fonts/
+        │   │   │   └── departure-mono/
+        │   │   │       ├── DepartureMono-Regular.woff2
+        │   │   │       ├── DepartureMono-Regular.otf
+        │   │   │       └── DepartureMono-Regular.woff
+        │   │   ├── .gitkeep
+        │   │   └── favicons/
+        │   ├── main.ts
+        │   └── app/
+        │       ├── app.routes.ts
+        │       ├── app.config.ts
+        │       ├── services/
+        │       │   └── auth.service.ts
+        │       ├── app.component.spec.ts
+        │       ├── components/
+        │       │   ├── card/
+        │       │   │   ├── card.component.spec.ts
+        │       │   │   ├── card.component.html
+        │       │   │   ├── card.component.ts
+        │       │   │   └── card.component.css
+        │       │   ├── login/
+        │       │   │   ├── login.component.html
+        │       │   │   ├── login.component.css
+        │       │   │   └── login.component.ts
+        │       │   ├── tasks/
+        │       │   │   ├── tasks.component.ts
+        │       │   │   ├── tasks.component.css
+        │       │   │   └── tasks.component.html
+        │       │   └── register/
+        │       │       ├── register.component.html
+        │       │       ├── register.component.ts
+        │       │       └── register.component.css
+        │       ├── app.component.css
+        │       ├── pipes/
+        │       │   └── filter.pipe.ts
+        │       ├── interceptors/
+        │       │   └── auth.interceptor.ts
+        │       ├── guards/
+        │       │   └── auth.guard.ts
+        │       ├── app.component.ts
+        │       └── app.component.html
+        ├── .editorconfig
+        └── angular.json
+
+================================================
+File: /README.md
+================================================
+# Todo List App
+
+## Overview
+
+The Todo List App is a task management application designed to help users efficiently organize and track their tasks. Built with Express.js, Angular.js, and MongoDB, it offers a seamless and responsive user experience.
+
+## Technologies
+
+- **Backend**: Express.js
+- **Frontend**: Angular.js
+- **Database**: MongoDB
+- **Containerization**: Docker
+
+## Key Features
+
+- **Authentication**: Secure login and registration for users. [DONE]
+- **Team Management**: Create teams and add users to teams for collaborative task management. [TO DO]
+- **Project Management**: Create projects and assign users to projects. [TO DO]
+- **Task Management**:
+  - Create, edit, and delete tasks. [DONE]
+  - Assign users to tasks. [TO DO]
+  - Provide detailed task descriptions. [TO IMPROVE]
+  - Track task status (to start, in progress, completed). [DONE]
+  - Set task priorities (low, medium, high). [DONE]
+  - Categorize tasks (work, personal, shopping, etc.). [TO DO]
+  - Attach images, files, and other documents to tasks. [TO DO]
+  - Share tasks with other users. [TO DO]
+  - Add comments and notes to tasks. [TO DO]
+  - Set task due dates. [TO DO]
+  - Use tags for task filtering and organization. [TO DO]
+  - Receive email and push notifications for task updates. [TO DO]
+
+## Prerequisites
+
+- Docker and Docker Compose
+- Node.js 14+
+- npm or yarn
+
+## Installation
+
+1. Clone the repository:
+
+```sh
+git clone https://github.com/yourusername/todo-list-app.git
+cd todo-list-app
+```
+
+2. Configure the environment:
+
+```sh
+cp .env.example .env
+```
+
+3. Launch the application with Docker:
+
+```sh
+docker-compose up --build
+```
+
+## Documentation
+
+- [Detailed Description](documentation/description.md)
+- [Features](documentation/features.md)
+- [Architecture](documentation/structure.md)
+
+## Development
+
+```sh
+npm install
+npm run dev
+```
+
+## Testing
+
+```sh
+npm run test
+```
+
+## Contributing
+
+Contributions are welcome! Please refer to our contribution guidelines for more details.
+
+## License
+
+This project is licensed under the MIT License.
+
+
+================================================
+File: /api/controllers/authController.js
+================================================
+const { registerUser, loginUser } = require("../services/authService");
+
+async function register(req, res, database) {
+  try {
+    const { email, password, firstname, lastname, phone, birthdate, allowNewsletter, consent } =
+      req.body;
+    const avatarPath = req.file ? req.file.path : null;
+    console.log("Registering user with email:", email);
+    const result = await registerUser(
+      email,
+      password,
+      firstname,
+      lastname,
+      phone,
+      birthdate,
+      allowNewsletter,
+      consent,
+      avatarPath,
+      database
+    );
+    res.status(201).json(result);
+  } catch (error) {
+    console.error("Error during registration:", error);
+    res.status(error.status || 500).json({ error: error.message });
+  }
+}
+
+async function login(req, res, database) {
+  try {
+    const { email, password } = req.body;
+    console.log("Logging in user with email:", email);
+    const result = await loginUser(email, password, database);
+    res.json(result);
+  } catch (error) {
+    console.error("Error during login:", error);
+    res.status(error.status || 500).json({ error: error.message });
+  }
+}
+
+module.exports = { register, login };
+
+
+================================================
+File: /api/controllers/taskController.js
+================================================
+const { getAllTasks, createTask, modifyTask, removeTask } = require("../services/taskService");
+
+async function getTasks(req, res, database) {
+  try {
+    const tasks = await getAllTasks(req.user.userId, database);
+    res.json(tasks);
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+}
+
+async function addTask(req, res, database) {
+  try {
+    const { name, description, status, priority } = req.body;
+    const result = await createTask(req.user.userId, name, description, status, priority, database);
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+}
+
+async function updateTask(req, res, database) {
+  try {
+    const { name, description, status, priority } = req.body;
+    const result = await modifyTask(
+      req.user.userId,
+      req.params._id,
+      name,
+      description,
+      status,
+      priority,
+      database
+    );
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+}
+
+async function deleteTask(req, res, database) {
+  try {
+    const result = await removeTask(req.user.userId, req.params._id, database);
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+}
+
+module.exports = { getTasks, addTask, updateTask, deleteTask };
+
+
+================================================
+File: /api/services/taskService.js
+================================================
+const { ObjectId } = require("mongodb");
+
+async function getAllTasks(userId, database) {
+  return await database.collection("tasks").find({ userId }).toArray();
+}
+
+async function createTask(
+  userId,
+  name,
+  description = "",
+  status = "to start",
+  priority = "medium",
+  database
+) {
+  if (!name) {
+    throw { status: 400, message: "Task name is required" };
+  }
+
+  const result = await database.collection("tasks").insertOne({
+    name,
+    description,
+    status,
+    priority,
+    userId,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  });
+  return { message: "Task added successfully", taskId: result.insertedId };
+}
+
+async function modifyTask(userId, taskId, name, description, status, priority, database) {
+  const validStatuses = ["to start", "in progress", "completed"];
+  if (status && !validStatuses.includes(status)) {
+    throw { status: 400, message: "Invalid status" };
+  }
+
+  const validPriorities = ["low", "medium", "high"];
+  if (priority && !validPriorities.includes(priority)) {
+    throw { status: 400, message: "Invalid priority" };
+  }
+
+  const result = await database.collection("tasks").updateOne(
+    {
+      _id: new ObjectId(taskId),
+      userId,
+    },
+    {
+      $set: {
+        ...(name && { name }),
+        ...(description && { description }),
+        ...(status && { status }),
+        ...(priority && { priority }),
+        updatedAt: new Date(),
+      },
+    }
+  );
+
+  if (result.matchedCount === 0) {
+    throw { status: 404, message: "Task not found" };
+  }
+
+  return { message: "Task updated successfully" };
+}
+
+async function removeTask(userId, taskId, database) {
+  const result = await database.collection("tasks").deleteOne({
+    _id: new ObjectId(taskId),
+    userId,
+  });
+
+  if (result.deletedCount === 0) {
+    throw { status: 404, message: "Task not found" };
+  }
+
+  return { message: "Task deleted successfully" };
+}
+
+module.exports = { getAllTasks, createTask, modifyTask, removeTask };
+
+
+================================================
+File: /api/services/authService.js
+================================================
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const JWT_SECRET = process.env.JWT_SECRET;
+
+async function registerUser(
+  email,
+  password,
+  firstname,
+  lastname,
+  phone,
+  birthdate,
+  allowNewsletter,
+  consent,
+  avatarPath,
+  database
+) {
+  if (
+    !email ||
+    !password ||
+    !firstname ||
+    !lastname ||
+    !phone ||
+    !birthdate ||
+    allowNewsletter === undefined ||
+    consent === undefined
+  ) {
+    console.error("Missing required fields");
+    throw { status: 400, message: "All fields are required" };
+  }
+
+  const hashedPassword = await bcrypt.hash(password, 10);
+
+  try {
+    await database.collection("users").insertOne({
+      email,
+      password: hashedPassword,
+      firstname,
+      lastname,
+      phone,
+      birthdate,
+      allowNewsletter,
+      consent,
+      avatar: avatarPath,
+      createdAt: new Date(),
+    });
+    return { message: "User registered successfully" };
+  } catch (error) {
+    console.error("Error inserting user:", error);
+    if (error.code === 11000) {
+      throw { status: 400, message: "Email already exists" };
+    }
+    throw { status: 500, message: "Internal server error" };
+  }
+}
+
+async function loginUser(email, password, database) {
+  console.log("Attempting to log in user with email:", email);
+  const user = await database.collection("users").findOne({ email });
+  if (!user) {
+    console.error("User not found");
+    throw { status: 401, message: "Invalid credentials" };
+  }
+
+  const validPassword = await bcrypt.compare(password, user.password);
+  if (!validPassword) {
+    console.error("Invalid password");
+    throw { status: 401, message: "Invalid credentials" };
+  }
+
+  const token = jwt.sign({ userId: user._id, email: user.email }, JWT_SECRET, {
+    expiresIn: "24h",
+  });
+  return {
+    token,
+    firstname: user.firstname,
+    lastname: user.lastname,
+    avatar: user.avatar,
+  };
+}
+
+module.exports = { registerUser, loginUser };
+
+
+================================================
+File: /api/middlewares/authMiddleware.js
+================================================
+const jwt = require("jsonwebtoken");
+const JWT_SECRET = process.env.JWT_SECRET;
+
+function authenticateToken(req, res, next) {
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
+
+  if (token == null) return res.sendStatus(401);
+
+  jwt.verify(token, JWT_SECRET, (err, user) => {
+    if (err) return res.sendStatus(403);
+    req.user = user;
+    next();
+  });
+}
+
+module.exports = { authenticateToken };
+
+
+================================================
+File: /api/package.json
+================================================
+{
+  "name": "api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "body-parser": "^1.20.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongodb": "^4.1.0",
+    "multer": "^1.4.5-lts.1"
+  }
+}
+
+
+================================================
+File: /api/routes/taskRoutes.js
+================================================
+const express = require("express");
+const { getTasks, addTask, updateTask, deleteTask } = require("../controllers/taskController");
+const { authenticateToken } = require("../middlewares/authMiddleware");
+const multer = require("multer");
+
+module.exports = (database) => {
+  const router = express.Router();
+
+  router.get("/", authenticateToken, (req, res) => getTasks(req, res, database));
+  router.post("/add", authenticateToken, multer().none(), (req, res) =>
+    addTask(req, res, database)
+  );
+  router.put("/update/:_id", authenticateToken, multer().none(), (req, res) =>
+    updateTask(req, res, database)
+  );
+  router.delete("/delete/:_id", authenticateToken, (req, res) => deleteTask(req, res, database));
+
+  return router;
+};
+
+
+================================================
+File: /api/routes/authRoutes.js
+================================================
+const express = require("express");
+const { register, login } = require("../controllers/authController");
+const multer = require("multer");
+const upload = multer({ dest: "uploads/" });
+
+module.exports = (database) => {
+  const router = express.Router();
+
+  router.post("/register", upload.single("avatar"), (req, res) => register(req, res, database));
+  router.post("/login", multer().none(), (req, res) => login(req, res, database));
+
+  return router;
+};
+
+
+================================================
+File: /api/Dockerfile
+================================================
+# Use the official Node.js image as the base image
+FROM node:18
+
+# Set the working directory
+WORKDIR /usr/src/app
+
+# Copy package.json and package-lock.json
+COPY package.json ./ 
+COPY package-lock.json ./ 
+
+# Install dependencies
+RUN npm install
+
+# Copy the rest of the application code
+COPY . .
+
+# Expose the port the app runs on
+EXPOSE 5038
+
+# Command to run the application
+CMD ["node", "index.js"]
+
+================================================
+File: /api/index.js
+================================================
+require("dotenv").config();
+const express = require("express");
+const MongoClient = require("mongodb").MongoClient;
+const cors = require("cors");
+const bodyParser = require("body-parser");
+const path = require("path");
+const authRoutes = require("./routes/authRoutes");
+const taskRoutes = require("./routes/taskRoutes");
+
+const app = express();
+app.use(cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use("/uploads", express.static(path.join(__dirname, "./uploads")));
+
+const CONNECTION_STRING = process.env.CONNECTION_STRING;
+const DATABASE_NAME = "todo_app";
+let database;
+
+app.listen(5038, () => {
+  MongoClient.connect(CONNECTION_STRING, (error, client) => {
+    if (error) throw error;
+    database = client.db(DATABASE_NAME);
+    console.log("Connected to `" + DATABASE_NAME + "`!");
+
+    database.collection("users").createIndex({ email: 1 }, { unique: true });
+
+    app.use("/api/auth", authRoutes(database));
+    app.use("/api/tasks", taskRoutes(database));
+  });
+});
+
+
+================================================
+File: /.dockerignore
+================================================
+node_modules
+dist
+.git
+.vscode
+*.log
+
+================================================
+File: /docker-compose.yml
+================================================
+services:
+  api:
+    build:
+      context: ./api
+    ports:
+      - "5038:5038"
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - ./api:/usr/src/app
+      - /usr/src/app/node_modules
+
+  app:
+    build:
+      context: ./app
+    ports:
+      - "4200:4200"
+    depends_on:
+      - api
+    volumes:
+      - ./app:/usr/src/app
+      - /usr/src/app/node_modules
+    command: ng serve --host 0.0.0.0 --poll 2000
+
+
+================================================
+File: /app/.vscode/tasks.json
+================================================
+{
+  // For more information, visit: https://go.microsoft.com/fwlink/?LinkId=733558
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "npm",
+      "script": "start",
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "typescript",
+        "pattern": "$tsc",
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": {
+            "regexp": "(.*?)"
+          },
+          "endsPattern": {
+            "regexp": "bundle generation complete"
+          }
+        }
+      }
+    },
+    {
+      "type": "npm",
+      "script": "test",
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "typescript",
+        "pattern": "$tsc",
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": {
+            "regexp": "(.*?)"
+          },
+          "endsPattern": {
+            "regexp": "bundle generation complete"
+          }
+        }
+      }
+    }
+  ]
+}
+
+
+================================================
+File: /app/.vscode/launch.json
+================================================
+{
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "ng serve",
+      "type": "chrome",
+      "request": "launch",
+      "preLaunchTask": "npm: start",
+      "url": "http://localhost:4200/"
+    },
+    {
+      "name": "ng test",
+      "type": "chrome",
+      "request": "launch",
+      "preLaunchTask": "npm: test",
+      "url": "http://localhost:9876/debug.html"
+    }
+  ]
+}
+
+
+================================================
+File: /app/.vscode/extensions.json
+================================================
+{
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=827846
+  "recommendations": ["angular.ng-template"]
+}
+
+
+================================================
+File: /app/.gitignore
+================================================
+# See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
+
+# Compiled output
+/dist
+/tmp
+/out-tsc
+/bazel-out
+
+# Node
+/node_modules
+npm-debug.log
+yarn-error.log
+
+# IDEs and editors
+.idea/
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# Visual Studio Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/*
+
+# Miscellaneous
+/.angular/cache
+.sass-cache/
+/connect.lock
+/coverage
+/libpeerconnection.log
+testem.log
+/typings
+
+# System files
+.DS_Store
+Thumbs.db
+
+
+================================================
+File: /app/tsconfig.app.json
+================================================
+/* To learn more about this file see: https://angular.io/config/tsconfig. */
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./out-tsc/app",
+    "types": []
+  },
+  "files": [
+    "src/main.ts"
+  ],
+  "include": [
+    "src/**/*.d.ts"
+  ]
+}
+
+
+================================================
+File: /app/package.json
+================================================
+{
+  "name": "todo-app",
+  "version": "0.0.0",
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve --host 0.0.0.0 --port 4200",
+    "build": "ng build",
+    "watch": "ng build --watch --configuration development",
+    "test": "ng test"
+  },
+  "private": true,
+  "dependencies": {
+    "@angular/animations": "^17.3.0",
+    "@angular/common": "^17.3.0",
+    "@angular/compiler": "^17.3.0",
+    "@angular/core": "^17.3.0",
+    "@angular/forms": "^17.3.0",
+    "@angular/platform-browser": "^17.3.0",
+    "@angular/platform-browser-dynamic": "^17.3.0",
+    "@angular/router": "^17.3.0",
+    "rxjs": "~7.8.0",
+    "tslib": "^2.3.0",
+    "zone.js": "~0.14.3"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "^17.3.11",
+    "@angular/cli": "^17.3.11",
+    "@angular/compiler-cli": "^17.3.0",
+    "@types/jasmine": "~5.1.0",
+    "jasmine-core": "~5.1.0",
+    "karma": "~6.4.0",
+    "karma-chrome-launcher": "~3.2.0",
+    "karma-coverage": "~2.2.0",
+    "karma-jasmine": "~5.1.0",
+    "karma-jasmine-html-reporter": "~2.1.0",
+    "typescript": "~5.4.2"
+  }
+}
+
+
+================================================
+File: /app/tsconfig.spec.json
+================================================
+/* To learn more about this file see: https://angular.io/config/tsconfig. */
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./out-tsc/spec",
+    "types": [
+      "jasmine"
+    ]
+  },
+  "include": [
+    "src/**/*.spec.ts",
+    "src/**/*.d.ts"
+  ]
+}
+
+
+================================================
+File: /app/Dockerfile
+================================================
+FROM node:18-alpine
+
+# Set the working directory
+WORKDIR /usr/src/app
+
+# Copy package.json and package-lock.json
+COPY package.json ./ 
+COPY package-lock.json ./ 
+
+# Install dependencies
+RUN npm install
+
+# Install Angular CLI globally
+RUN npm install -g @angular/cli
+
+# Copy the rest of the application files
+COPY . .
+
+# Expose the port the app runs on
+EXPOSE 4200
+
+# Command to run the application
+CMD ["ng", "serve", "--host", "0.0.0.0", "--poll", "2000"]
+
+================================================
+File: /app/tsconfig.json
+================================================
+/* To learn more about this file see: https://angular.io/config/tsconfig. */
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "outDir": "./dist/out-tsc",
+    "strict": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "sourceMap": true,
+    "declaration": false,
+    "experimentalDecorators": true,
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "target": "ES2022",
+    "module": "ES2022",
+    "useDefineForClassFields": false,
+    "lib": [
+      "ES2022",
+      "dom"
+    ]
+  },
+  "angularCompilerOptions": {
+    "enableI18nLegacyMessageIdFormat": false,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "strictTemplates": true
+  }
+}
+
+
+================================================
+File: /app/README.md
+================================================
+# TodoApp
+
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.11.
+
+## Development server
+
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+
+## Code scaffolding
+
+Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+
+## Build
+
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+
+## Running unit tests
+
+Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+
+## Running end-to-end tests
+
+Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+
+## Further help
+
+To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+
+
+================================================
+File: /app/src/index.html
+================================================
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Todo</title>
+    <base href="/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="svg" href="assets/favicons/favicon.svg" />
+    <link rel="preconnect" href="https://rsms.me/" />
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+  </head>
+  <body>
+    <app-root></app-root>
+  </body>
+</html>
+
+
+================================================
+File: /app/src/styles.css
+================================================
+@font-face {
+  font-family: "Departure";
+  src: url("./assets/fonts/departure-mono/DepartureMono-Regular.otf")
+      format("opentype"),
+    url("./assets/fonts/departure-mono/DepartureMono-Regular.woff")
+      format("woff"),
+    url("./assets/fonts/departure-mono/DepartureMono-Regular.woff2")
+      format("woff2");
+}
+
+:root {
+  --white: #fff;
+  --black: #000;
+  --primary: #0000ff;
+  font-family: Inter, sans-serif;
+  font-feature-settings: "liga" 1, "calt" 1; /* fix for Chrome */
+}
+
+@supports (font-variation-settings: normal) {
+  :root {
+    font-family: InterVariable, sans-serif;
+  }
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Departure", monospace;
+}
+
+html {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  height: 100%;
+  width: 100%;
+  background-color: lightgrey;
+  color: var(--black);
+  padding: 0.5rem;
+}
+
+input {
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--black);
+}
+
+input:focus {
+  outline: none;
+  border: 1px solid var(--primary);
+}
+
+button {
+  padding: 0.5rem;
+  border: none;
+  background-color: var(--primary);
+  color: var(--white);
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+================================================
+File: /app/src/main.ts
+================================================
+import { bootstrapApplication } from '@angular/platform-browser';
+import { appConfig } from './app/app.config';
+import { AppComponent } from './app/app.component';
+
+bootstrapApplication(AppComponent, appConfig)
+  .catch((err) => console.error(err));
+
+
+================================================
+File: /app/src/app/app.routes.ts
+================================================
+// src/app/app.routes.ts
+import { Routes } from '@angular/router';
+import { authGuard } from './guards/auth.guard';
+import { LoginComponent } from './components/login/login.component';
+import { RegisterComponent } from './components/register/register.component';
+import { TasksComponent } from './components/tasks/tasks.component';
+
+export const routes: Routes = [
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
+  { path: 'tasks', component: TasksComponent, canActivate: [authGuard] },
+  { path: '', redirectTo: '/tasks', pathMatch: 'full' },
+];
+
+
+================================================
+File: /app/src/app/app.config.ts
+================================================
+// src/app/app.config.ts
+import { ApplicationConfig } from '@angular/core';
+import { provideRouter } from '@angular/router';
+import { routes } from './app.routes';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { authInterceptor } from './interceptors/auth.interceptor';
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideRouter(routes),
+    provideHttpClient(withInterceptors([authInterceptor])),
+  ],
+};
+
+
+================================================
+File: /app/src/app/services/auth.service.ts
+================================================
+import { Injectable, EventEmitter } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject, Observable } from 'rxjs';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class AuthService {
+  private tokenKey = 'authToken';
+  private userInfoKey = 'userInfo';
+  private readonly apiUrl = 'http://localhost:5038/api/auth';
+  private isAuthenticatedSubject = new BehaviorSubject<boolean>(
+    this.hasToken()
+  );
+  isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
+  userInfoUpdated = new EventEmitter<void>();
+
+  constructor(private http: HttpClient) {}
+
+  private hasToken(): boolean {
+    return !!localStorage.getItem(this.tokenKey);
+  }
+
+  setToken(token: string) {
+    localStorage.setItem(this.tokenKey, token);
+    this.isAuthenticatedSubject.next(true);
+  }
+
+  setUserInfo(userInfo: any) {
+    localStorage.setItem(this.userInfoKey, JSON.stringify(userInfo));
+    this.userInfoUpdated.emit();
+  }
+
+  getUserInfo(): any {
+    const userInfo = localStorage.getItem(this.userInfoKey);
+    return userInfo ? JSON.parse(userInfo) : null;
+  }
+
+  getToken(): string | null {
+    return localStorage.getItem(this.tokenKey);
+  }
+
+  clearToken() {
+    localStorage.removeItem(this.tokenKey);
+    localStorage.removeItem(this.userInfoKey);
+    this.isAuthenticatedSubject.next(false);
+  }
+
+  register(email: string, password: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/register`, { email, password });
+  }
+
+  login(email: string, password: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/login`, { email, password });
+  }
+
+  logout() {
+    this.clearToken();
+  }
+}
+
+
+================================================
+File: /app/src/app/app.component.spec.ts
+================================================
+import { TestBed } from '@angular/core/testing';
+import { AppComponent } from './app.component';
+
+describe('AppComponent', () => {
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [AppComponent],
+    }).compileComponents();
+  });
+
+  it('should create the app', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.componentInstance;
+    expect(app).toBeTruthy();
+  });
+
+  it(`should have the 'todo-app' title`, () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.componentInstance;
+    expect(app.title).toEqual('todo-app');
+  });
+
+  it('should render title', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    fixture.detectChanges();
+    const compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, todo-app');
+  });
+});
+
+
+================================================
+File: /app/src/app/components/card/card.component.spec.ts
+================================================
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { CardComponent } from './card.component';
+
+describe('CardComponent', () => {
+  let component: CardComponent;
+  let fixture: ComponentFixture<CardComponent>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [CardComponent]
+    })
+    .compileComponents();
+    
+    fixture = TestBed.createComponent(CardComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});
+
+
+================================================
+File: /app/src/app/components/card/card.component.html
+================================================
+<div class="task-controls">
+  <input
+    type="text"
+    [(ngModel)]="task.name"
+    (keyup.enter)="updateTask(task)"
+    (blur)="updateTask(task)"
+    placeholder="Task name"
+  />
+  <!-- <input
+    type="text"
+    [(ngModel)]="task.description"
+    (keyup.enter)="updateTask(task)"
+    (blur)="updateTask(task)"
+    placeholder="Description"
+  /> -->
+  <select [(ngModel)]="task.status" (change)="updateTask(task)">
+    <option value="to start">To Start</option>
+    <option value="in progress">In Progress</option>
+    <option value="completed">Completed</option>
+  </select>
+  <select
+    [(ngModel)]="task.priority"
+    (change)="updateTask(task)"
+    [ngClass]="{
+      'low-priority': task.priority === 'low',
+      'medium-priority': task.priority === 'medium',
+      'high-priority': task.priority === 'high'
+    }"
+  >
+    <option value="low">Low</option>
+    <option value="medium">Medium</option>
+    <option value="high">High</option>
+  </select>
+  <button (click)="deleteTask(task._id)">×</button>
+</div>
+
+
+================================================
+File: /app/src/app/components/card/card.component.ts
+================================================
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+
+@Component({
+  selector: 'app-card',
+  standalone: true,
+  imports: [CommonModule, FormsModule],
+  templateUrl: './card.component.html',
+  styleUrls: ['./card.component.css'],
+})
+export class CardComponent {
+  @Input() task: any;
+  @Output() taskUpdated = new EventEmitter<any>();
+  @Output() taskDeleted = new EventEmitter<string>();
+
+  updateTask(task: any) {
+    this.taskUpdated.emit(task);
+  }
+
+  deleteTask(taskId: string) {
+    this.taskDeleted.emit(taskId);
+  }
+}
+
+
+================================================
+File: /app/src/app/components/card/card.component.css
+================================================
+.task-controls {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  flex: 1;
+}
+
+select {
+  padding: 0.25rem;
+  border-radius: unset;
+  outline: none;
+  /* border: none; */
+  border: 1px solid #ccc;
+  font-size: 0.75rem;
+  color: black;
+  /* -webkit-appearance: none;
+  -moz-appearance: none;
+  text-indent: 1px;
+  text-overflow: ""; */
+}
+
+input {
+  padding: 0.25rem;
+  border: 1px solid #ccc;
+}
+
+button {
+  padding: 0.25rem 0.5rem;
+  border: none;
+  background-color: lightgrey;
+  color: red;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: red;
+  color: white;
+}
+
+.low-priority {
+  background-color: lightgreen;
+}
+
+.medium-priority {
+  background-color: lightsalmon;
+}
+
+.high-priority {
+  background-color: lightcoral;
+}
+
+
+================================================
+File: /app/src/app/components/login/login.component.html
+================================================
+<div class="login-container">
+  <span>Login</span>
+  <form (ngSubmit)="onSubmit()">
+    <div>
+      <label for="email">Email:</label>
+      <input
+        type="email"
+        id="email"
+        [(ngModel)]="email"
+        name="email"
+        required
+      />
+    </div>
+    <div>
+      <label for="password">Password:</label>
+      <input
+        type="password"
+        id="password"
+        [(ngModel)]="password"
+        name="password"
+        required
+      />
+    </div>
+    <button type="submit">LOGIN</button>
+    <p>Don't have an account? <a routerLink="/register">Register</a></p>
+    <p *ngIf="error" class="error">{{ error }}</p>
+  </form>
+</div>
+
+
+================================================
+File: /app/src/app/components/login/login.component.css
+================================================
+.login-container {
+  max-width: 400px;
+  margin: 0.5rem 0;
+  padding: 0.5rem;
+  border: 1px solid var(--black);
+  background-color: var(--white);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+label {
+  font-size: 0.75rem;
+}
+
+input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+}
+
+button {
+  width: 100%;
+  padding: 0.5rem;
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: var(--primary);
+}
+
+.error {
+  color: red;
+}
+
+
+================================================
+File: /app/src/app/components/login/login.component.ts
+================================================
+import { Component } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Router, RouterModule } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+
+@Component({
+  selector: 'app-login',
+  standalone: true,
+  imports: [FormsModule, CommonModule, RouterModule],
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css'],
+})
+export class LoginComponent {
+  email: string = '';
+  password: string = '';
+  error: string = '';
+
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private authService: AuthService
+  ) {}
+
+  onSubmit() {
+    this.http
+      .post<any>('http://localhost:5038/api/auth/login', {
+        email: this.email,
+        password: this.password,
+      })
+      .subscribe({
+        next: (response) => {
+          this.authService.setToken(response.token);
+          this.authService.setUserInfo({
+            firstname: response.firstname,
+            lastname: response.lastname,
+            avatar: response.avatar,
+          });
+          this.authService.userInfoUpdated.emit();
+          this.router.navigate(['/']);
+        },
+        error: (err) => {
+          console.error('Error logging in:', err);
+          this.error = err.error.error || 'An error occurred';
+        },
+      });
+  }
+}
+
+================================================
+File: /app/src/app/components/tasks/tasks.component.ts
+================================================
+import { Component, inject } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { DecimalPipe, CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { AuthService } from '../../services/auth.service';
+import { FilterPipe } from '../../pipes/filter.pipe';
+import { CardComponent } from '../card/card.component';
+
+interface Task {
+  _id: string;
+  name: string;
+  description: string;
+  status: 'to start' | 'in progress' | 'completed';
+  priority: 'low' | 'medium' | 'high';
+}
+
+type TaskStatus = Task['status'];
+type TaskPriority = Task['priority'];
+
+@Component({
+  selector: 'app-tasks',
+  standalone: true,
+  imports: [DecimalPipe, CommonModule, FormsModule, FilterPipe, CardComponent],
+  templateUrl: './tasks.component.html',
+  styleUrls: ['./tasks.component.css'],
+})
+export class TasksComponent {
+  private http = inject(HttpClient);
+  private authService = inject(AuthService);
+  private readonly apiUrl = 'http://localhost:5038/api/';
+  tasks: Task[] = [];
+  Math = Math;
+
+  ngOnInit() {
+    this.refreshTasks();
+  }
+
+  refreshTasks() {
+    const headers = new HttpHeaders().set(
+      'Authorization',
+      `Bearer ${this.authService.getToken()}`
+    );
+    this.http.get<Task[]>(this.apiUrl + 'tasks', { headers }).subscribe({
+      next: (data) => {
+        this.tasks = data;
+      },
+      error: (error) => {
+        console.error('Error fetching tasks:', error);
+      },
+    });
+  }
+
+  addTask(name: string, description: string, priority: string) {
+    if (!name.trim()) return;
+
+    const validPriority = this.validatePriority(priority);
+
+    const headers = new HttpHeaders().set(
+      'Authorization',
+      `Bearer ${this.authService.getToken()}`
+    );
+
+    this.http
+      .post<any>(
+        this.apiUrl + 'tasks/add',
+        {
+          name,
+          description,
+          priority: validPriority,
+          status: 'to start' as TaskStatus,
+        },
+        { headers }
+      )
+      .subscribe({
+        next: () => {
+          this.refreshTasks();
+        },
+        error: (error) => {
+          console.error('Error adding task:', error);
+        },
+      });
+  }
+
+  updateTask(task: Task) {
+    const headers = new HttpHeaders().set(
+      'Authorization',
+      `Bearer ${this.authService.getToken()}`
+    );
+
+    this.http
+      .put<any>(
+        this.apiUrl + 'tasks/update/' + task._id,
+        {
+          name: task.name,
+          description: task.description,
+          status: task.status,
+          priority: task.priority,
+        },
+        { headers }
+      )
+      .subscribe({
+        next: () => {
+          this.refreshTasks();
+        },
+        error: (error) => {
+          console.error('Error updating task:', error);
+        },
+      });
+  }
+
+  deleteTask(_id: string) {
+    const headers = new HttpHeaders().set(
+      'Authorization',
+      `Bearer ${this.authService.getToken()}`
+    );
+
+    this.http
+      .delete<any>(this.apiUrl + 'tasks/delete/' + _id, { headers })
+      .subscribe({
+        next: () => {
+          this.refreshTasks();
+        },
+        error: (error) => {
+          console.error('Error deleting task:', error);
+        },
+      });
+  }
+
+  trackById(index: number, task: Task): string {
+    return task._id;
+  }
+
+  private validatePriority(priority: string): TaskPriority {
+    const validPriorities: TaskPriority[] = ['low', 'medium', 'high'];
+    return validPriorities.includes(priority as TaskPriority)
+      ? (priority as TaskPriority)
+      : 'medium';
+  }
+}
+
+
+================================================
+File: /app/src/app/components/tasks/tasks.component.css
+================================================
+main {
+  margin-top: 0.5rem;
+  height: calc(100vh - 3.5rem);
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.side-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.add-task {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  border: 1px solid var(--black);
+  background-color: var(--white);
+}
+
+.add-task > span {
+  border-bottom: 1px solid var(--black);
+}
+
+.tasks-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  border: 1px solid var(--black);
+  background-color: var(--white);
+}
+
+.tasks-stats > span > span {
+  color: var(--primary);
+}
+
+.progress-bar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.progress-container {
+  width: 100%;
+  background-color: #e0e0e0;
+  height: 1rem;
+  overflow: hidden;
+}
+
+.progress {
+  height: 100%;
+  background-color: var(--primary);
+  transition: width 300ms ease;
+}
+
+.priority-bar {
+  display: flex;
+  width: 100%;
+  height: 1rem;
+  overflow: hidden;
+}
+
+.priority {
+  height: 100%;
+  transition: width 300ms ease;
+}
+
+.priority.low {
+  background-color: lightgreen;
+}
+.priority.medium {
+  background-color: lightsalmon;
+}
+.priority.high {
+  background-color: lightcoral;
+}
+
+.tasks-counter {
+  width: max-content;
+  display: flex;
+  flex-direction: column;
+}
+
+.tasks-counter div {
+  display: flex;
+  justify-content: space-between;
+}
+
+.tasks-counter div span > span {
+  color: var(--primary);
+}
+
+.tasks-list {
+  display: flex;
+  gap: 0.5rem;
+  flex: 1;
+  width: 100%;
+  overflow-x: scroll;
+}
+
+.tasks-list > * {
+  padding: 0.5rem;
+  width: 100%;
+  border: 1px solid var(--black);
+  background-color: var(--white);
+  gap: 0.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.tasks-list > * > span {
+  white-space: nowrap;
+  border-bottom: 1px solid var(--black);
+}
+
+ul {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+li {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+select {
+  padding: 0.25rem;
+  border-radius: unset;
+  outline: none;
+  /* border: none; */
+  border: 1px solid #ccc;
+  font-size: 0.75rem;
+  color: black;
+  /* -webkit-appearance: none;
+  -moz-appearance: none;
+  text-indent: 1px;
+  text-overflow: ""; */
+}
+
+input {
+  padding: 0.25rem;
+  border: 1px solid #ccc;
+}
+
+button {
+  padding: 0.25rem 0.5rem;
+  border: none;
+  background-color: var(--primary);
+  color: white;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: var(--primary);
+}
+
+.low-priority {
+  background-color: green;
+}
+
+.medium-priority {
+  background-color: orange;
+}
+
+.high-priority {
+  background-color: red;
+}
+
+
+================================================
+File: /app/src/app/components/tasks/tasks.component.html
+================================================
+<main>
+  <section class="side-menu">
+    <section class="add-task">
+      <span>Add</span>
+      <input #newTaskName type="text" placeholder="Task name" />
+      <input #newTaskDesc type="text" placeholder="Task description" />
+      <select #newTaskPriority>
+        <option value="low">Low</option>
+        <option value="medium" selected>Medium</option>
+        <option value="high">High</option>
+      </select>
+      <button
+        (click)="
+          addTask(newTaskName.value, newTaskDesc.value, newTaskPriority.value)
+        "
+      >
+        ADD
+      </button>
+    </section>
+    <section class="tasks-stats">
+      <span>
+        <span>{{ tasks.length | number : "3.0-0" }}</span>
+        task(s).
+      </span>
+      <span>
+        <span>{{
+          (tasks | filter : { status: "completed" }).length | number : "3.0-0"
+        }}</span>
+        completed.
+      </span>
+      <section class="progress-bar">
+        <span
+          >{{
+            ((tasks | filter : { status: "completed" }).length / tasks.length) *
+              100 | number : "1.0-0"
+          }}%</span
+        >
+        <div class="progress-container">
+          <div
+            class="progress"
+            [style.width.%]="
+              ((tasks | filter : { status: 'completed' }).length /
+                tasks.length) *
+              100
+            "
+          ></div>
+        </div>
+      </section>
+    </section>
+    <section class="tasks-stats">
+      <span>Priority Distribution:</span>
+      <section class="priority-stats">
+        <div class="priority-bar">
+          <div
+            class="priority low"
+            [style.width.%]="
+              ((tasks | filter : { priority: 'low' }).length / tasks.length) *
+              100
+            "
+          ></div>
+          <div
+            class="priority medium"
+            [style.width.%]="
+              ((tasks | filter : { priority: 'medium' }).length /
+                tasks.length) *
+              100
+            "
+          ></div>
+          <div
+            class="priority high"
+            [style.width.%]="
+              ((tasks | filter : { priority: 'high' }).length / tasks.length) *
+              100
+            "
+          ></div>
+        </div>
+      </section>
+    </section>
+  </section>
+  <section class="tasks-list">
+    <section class="tasks-to_start">
+      <span>To Start</span>
+      <ul>
+        <li
+          *ngFor="
+            let task of tasks | filter : { status: 'to start' };
+            trackBy: trackById
+          "
+        >
+          <app-card
+            [task]="task"
+            (taskUpdated)="updateTask($event)"
+            (taskDeleted)="deleteTask($event)"
+          ></app-card>
+        </li>
+      </ul>
+    </section>
+    <section class="tasks-in_progress">
+      <span>In Progress</span>
+      <ul>
+        <li
+          *ngFor="
+            let task of tasks | filter : { status: 'in progress' };
+            trackBy: trackById
+          "
+        >
+          <app-card
+            [task]="task"
+            (taskUpdated)="updateTask($event)"
+            (taskDeleted)="deleteTask($event)"
+          ></app-card>
+        </li>
+      </ul>
+    </section>
+    <section class="tasks-completed">
+      <span>Completed</span>
+      <ul>
+        <li
+          *ngFor="
+            let task of tasks | filter : { status: 'completed' };
+            trackBy: trackById
+          "
+        >
+          <app-card
+            [task]="task"
+            (taskUpdated)="updateTask($event)"
+            (taskDeleted)="deleteTask($event)"
+          ></app-card>
+        </li>
+      </ul>
+    </section>
+  </section>
+</main>
+
+
+================================================
+File: /app/src/app/components/register/register.component.html
+================================================
+<div class="auth-container">
+  <span>Register</span>
+  <form (ngSubmit)="onSubmit()">
+    <div>
+      <label for="email">Email:</label>
+      <input
+        type="email"
+        id="email"
+        [(ngModel)]="email"
+        name="email"
+        placeholder="Email"
+        required
+      />
+    </div>
+    <div>
+      <label for="password">Password:</label>
+      <input
+        type="password"
+        id="password"
+        [(ngModel)]="password"
+        name="password"
+        placeholder="Password"
+        required
+      />
+    </div>
+    <div>
+      <label for="firstname">First Name:</label>
+      <input
+        type="text"
+        id="firstname"
+        [(ngModel)]="firstname"
+        name="firstname"
+        placeholder="First Name"
+        required
+      />
+    </div>
+    <div>
+      <label for="lastname">Last Name:</label>
+      <input
+        type="text"
+        id="lastname"
+        [(ngModel)]="lastname"
+        name="lastname"
+        placeholder="Last Name"
+        required
+      />
+    </div>
+    <div>
+      <label for="phone">Phone:</label>
+      <input
+        type="text"
+        id="phone"
+        [(ngModel)]="phone"
+        name="phone"
+        placeholder="Phone"
+        required
+      />
+    </div>
+    <div>
+      <label for="countryCode">Country Code:</label>
+      <input
+        type="text"
+        id="countryCode"
+        [(ngModel)]="countryCode"
+        name="countryCode"
+        placeholder="Country Code"
+        required
+      />
+    </div>
+    <div>
+      <label for="birthdate">Birthdate:</label>
+      <input
+        type="date"
+        id="birthdate"
+        [(ngModel)]="birthdate"
+        name="birthdate"
+        required
+      />
+    </div>
+    <div>
+      <label for="allowNewsletter">Allow Newsletter:</label>
+      <input
+        type="checkbox"
+        id="allowNewsletter"
+        [(ngModel)]="allowNewsletter"
+        name="allowNewsletter"
+      />
+    </div>
+    <div>
+      <label for="consent">Consent:</label>
+      <input
+        type="checkbox"
+        id="consent"
+        [(ngModel)]="consent"
+        name="consent"
+        required
+      />
+    </div>
+    <div>
+      <label for="avatar">Avatar:</label>
+      <input
+        type="file"
+        id="avatar"
+        (change)="onFileChange($event)"
+        name="avatar"
+      />
+    </div>
+    <button type="submit">REGISTER</button>
+    <p>Already have an account? <a routerLink="/login">Login</a></p>
+    <p *ngIf="error" class="error">{{ error }}</p>
+  </form>
+</div>
+
+
+================================================
+File: /app/src/app/components/register/register.component.ts
+================================================
+import { Component } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Router, RouterModule } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+
+@Component({
+  selector: 'app-register',
+  standalone: true,
+  imports: [FormsModule, CommonModule, RouterModule],
+  templateUrl: './register.component.html',
+  styleUrls: ['./register.component.css'],
+})
+export class RegisterComponent {
+  email: string = '';
+  password: string = '';
+  firstname: string = '';
+  lastname: string = '';
+  phone: string = '';
+  countryCode: string = '';
+  birthdate: string = '';
+  allowNewsletter: boolean = false;
+  consent: boolean = false;
+  avatar: File | null = null;
+  error: string = '';
+
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private authService: AuthService
+  ) {}
+
+  onFileChange(event: any) {
+    this.avatar = event.target.files[0];
+  }
+
+  onSubmit() {
+    const formData = new FormData();
+    formData.append('email', this.email);
+    formData.append('password', this.password);
+    formData.append('firstname', this.firstname);
+    formData.append('lastname', this.lastname);
+    formData.append('phone', `${this.countryCode}${this.phone}`);
+    formData.append('birthdate', this.birthdate);
+    formData.append('allowNewsletter', this.allowNewsletter.toString());
+    formData.append('consent', this.consent.toString());
+    if (this.avatar) {
+      formData.append('avatar', this.avatar);
+    }
+
+    this.http
+      .post<any>('http://localhost:5038/api/auth/register', formData)
+      .subscribe({
+        next: () => this.router.navigate(['/login']),
+        error: (err) => {
+          console.error('Error registering:', err);
+          this.error = err.error.error || 'An error occurred';
+        },
+      });
+  }
+}
+
+
+================================================
+File: /app/src/app/components/register/register.component.css
+================================================
+.auth-container {
+  max-width: 400px;
+  margin: 0.5rem 0;
+  padding: 0.5rem;
+  border: 1px solid var(--black);
+  background-color: var(--white);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+label {
+  font-size: 0.75rem;
+}
+
+input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+}
+
+button {
+  width: 100%;
+  padding: 0.5rem;
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: var(--primary);
+}
+
+.error {
+  color: red;
+}
+
+
+================================================
+File: /app/src/app/app.component.css
+================================================
+nav {
+  display: flex;
+  justify-content: space-between;
+  height: 2rem;
+}
+
+nav button {
+  border: 1px solid var(--black);
+  background-color: var(--white);
+  color: var(--black);
+}
+
+nav div {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+nav div img {
+  height: 2rem;
+  aspect-ratio: 1 / 1;
+  border: 1px solid var(--black);
+}
+
+
+================================================
+File: /app/src/app/pipes/filter.pipe.ts
+================================================
+import { Pipe, PipeTransform } from '@angular/core';
+
+@Pipe({
+  name: 'filter',
+  standalone: true,
+})
+export class FilterPipe implements PipeTransform {
+  transform(items: any[], criteria: any): any[] {
+    if (!items || !criteria) {
+      return items;
+    }
+    return items.filter((item) => {
+      for (let key in criteria) {
+        if (item[key] !== criteria[key]) {
+          return false;
+        }
+      }
+      return true;
+    });
+  }
+}
+
+
+================================================
+File: /app/src/app/interceptors/auth.interceptor.ts
+================================================
+import { HttpInterceptorFn } from '@angular/common/http';
+import { inject } from '@angular/core';
+import { AuthService } from '../services/auth.service';
+
+export const authInterceptor: HttpInterceptorFn = (req, next) => {
+  const authService = inject(AuthService);
+  const token = authService.getToken();
+
+  if (token) {
+    const cloned = req.clone({
+      headers: req.headers.set('Authorization', `Bearer ${token}`),
+    });
+    // console.log('Request with token:', cloned);
+    return next(cloned);
+  }
+  // console.log('Request without token:', req);
+  return next(req);
+};
+
+
+================================================
+File: /app/src/app/guards/auth.guard.ts
+================================================
+// src/app/guards/auth.guard.ts
+import { inject } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';
+import { tap } from 'rxjs';
+
+export const authGuard = () => {
+  const authService = inject(AuthService);
+  const router = inject(Router);
+
+  return authService.isAuthenticated$.pipe(
+    tap((isAuthenticated) => {
+      if (!isAuthenticated) {
+        router.navigate(['/login']);
+      }
+    })
+  );
+};
+
+
+================================================
+File: /app/src/app/app.component.ts
+================================================
+import { Component, inject, ChangeDetectorRef } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
+import { AsyncPipe, NgIf } from '@angular/common';
+import { AuthService } from './services/auth.service';
+import { Router } from '@angular/router';
+
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  imports: [RouterOutlet, HttpClientModule, AsyncPipe, NgIf],
+  template: `
+    <header>
+      <nav>
+        <svg
+          id="b"
+          data-name="Calque 2"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 1075.71 579.23"
+        >
+          <g id="c" data-name="Calque 1">
+            <g>
+              <path
+                class="d"
+                d="m82.75,165.5v248.24h165.5v82.75H82.75v82.75H0V0h82.75v82.75h165.5v82.75H82.75Zm165.5,82.75v-82.75h165.5v82.75h-165.5Zm165.5,165.5h-165.5v-82.75h165.5v82.75Zm82.75-165.5v82.75h-82.75v-82.75h82.75Z"
+              />
+              <path
+                class="d"
+                d="m1075.71,248.24v82.75h-82.75v82.75h-165.5v82.75h-165.5v82.75h-82.75V0h82.75v82.75h165.5v82.75h165.5v82.75h82.75Z"
+              />
+            </g>
+          </g>
+        </svg>
+        <div *ngIf="authService.isAuthenticated$ | async">
+          <span *ngIf="userInfo">Welcome {{ userInfo.firstname }}!</span>
+          <img
+            *ngIf="userInfo?.avatar"
+            [src]="'http://localhost:5038/' + userInfo.avatar"
+            alt="Avatar"
+          />
+          <button (click)="logout()">LOGOUT</button>
+        </div>
+      </nav>
+    </header>
+    <router-outlet></router-outlet>
+  `,
+  styleUrls: ['./app.component.css'],
+})
+export class AppComponent {
+  authService = inject(AuthService);
+  router = inject(Router);
+  userInfo = this.authService.getUserInfo();
+  private cdr = inject(ChangeDetectorRef);
+
+  constructor() {
+    this.authService.isAuthenticated$.subscribe(() => {
+      this.userInfo = this.authService.getUserInfo();
+      this.cdr.markForCheck();
+    });
+
+    this.authService.userInfoUpdated.subscribe(() => {
+      this.userInfo = this.authService.getUserInfo();
+      this.cdr.markForCheck();
+    });
+  }
+
+  logout() {
+    this.authService.logout();
+    this.router.navigate(['/login']);
+  }
+}
+
+
+================================================
+File: /app/.editorconfig
+================================================
+# Editor configuration, see https://editorconfig.org
+root = true
+
+[*]
+charset = utf-8
+indent_style = space
+indent_size = 2
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.ts]
+quote_type = single
+
+[*.md]
+max_line_length = off
+trim_trailing_whitespace = false
+
+
+================================================
+File: /app/angular.json
+================================================
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "todo-app": {
+      "projectType": "application",
+      "schematics": {},
+      "root": "",
+      "sourceRoot": "src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:application",
+          "options": {
+            "outputPath": "dist/todo-app",
+            "index": "src/index.html",
+            "browser": "src/main.ts",
+            "polyfills": [
+              "zone.js"
+            ],
+            "tsConfig": "tsconfig.app.json",
+            "assets": [
+              "src/favicon.ico",
+              "src/assets"
+            ],
+            "styles": [
+              "src/styles.css"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "buildTarget": "todo-app:build:production"
+            },
+            "development": {
+              "buildTarget": "todo-app:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "buildTarget": "todo-app:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ],
+            "tsConfig": "tsconfig.spec.json",
+            "assets": [
+              "src/favicon.ico",
+              "src/assets"
+            ],
+            "styles": [
+              "src/styles.css"
+            ],
+            "scripts": []
+          }
+        }
+      }
+    }
+  }
+}
+
+

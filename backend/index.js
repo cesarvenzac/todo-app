@@ -13,12 +13,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/uploads", express.static(path.join(__dirname, "./uploads")));
 
-const CONNECTION_STRING = process.env.CONNECTION_STRING;
+const MONGODB_URI = process.env.MONGODB_URI;
 const DATABASE_NAME = "todo_app";
 let database;
 
 app.listen(5038, () => {
-  MongoClient.connect(CONNECTION_STRING, (error, client) => {
+  MongoClient.connect(MONGODB_URI, (error, client) => {
     if (error) throw error;
     database = client.db(DATABASE_NAME);
     console.log("Connected to `" + DATABASE_NAME + "`!");
