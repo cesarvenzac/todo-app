@@ -9,12 +9,12 @@ import { CardComponent } from '../card/card.component';
 interface Task {
   _id: string;
   name: string;
-  description: string;
+  description: string | null;
   status: 'to start' | 'in progress' | 'completed';
   priority: 'low' | 'medium' | 'high';
   dueDate: string | null;
-  categories: string[];
-  tags: string[];
+  categories: string[] | null;
+  tags: string[] | null;
 }
 
 type TaskStatus = Task['status'];
@@ -64,24 +64,10 @@ export class TasksComponent {
   ) {
     if (!name.trim()) return;
 
-    const processedCategories = categories
-      .split(/[,\s]+/)
-      .map((cat) => cat.trim())
-      .filter((cat) => cat.length > 0);
-
-    const processedTags = tags
-      .split(/[,\s]+/)
-      .map((tag) => tag.trim())
-      .filter((tag) => tag.length > 0);
-
     const headers = new HttpHeaders().set(
       'Authorization',
       `Bearer ${this.authService.getToken()}`
     );
-
-    const formattedDueDate = dueDate
-      ? new Date(dueDate + 'T00:00:00.000Z').toISOString()
-      : null;
 
     this.http
       .post<any>(
@@ -91,9 +77,9 @@ export class TasksComponent {
           description,
           status: this.validateStatus(status),
           priority: this.validatePriority(priority),
-          dueDate: formattedDueDate,
-          categories: processedCategories,
-          tags: processedTags,
+          dueDate: this.formatDueDate(dueDate),
+          categories: this.processCategories(categories),
+          tags: this.processTags(tags),
         },
         { headers }
       )
@@ -175,5 +161,31 @@ export class TasksComponent {
     return validPriorities.includes(priority as TaskPriority)
       ? (priority as TaskPriority)
       : 'medium';
+  }
+
+  private formatDueDate(dueDate: string): string {
+    return dueDate ? new Date(dueDate + 'T00:00:00.000Z').toISOString() : '';
+  }
+
+  private formatDueDateForInput(dueDate: string): string {
+    return dueDate ? new Date(dueDate).toISOString().split('T')[0] : '';
+  }
+
+  private formatDueDateForDisplay(dueDate: string): string {
+    return dueDate ? new Date(dueDate).toLocaleDateString() : '';
+  }
+
+  private processCategories(categories: string): string[] {
+    return categories
+      .split(/[,\s]+/)
+      .map((cat) => cat.trim())
+      .filter((cat) => cat.length > 0);
+  }
+
+  private processTags(tags: string): string[] {
+    return tags
+      .split(/[,\s]+/)
+      .map((tag) => tag.trim())
+      .filter((tag) => tag.length > 0);
   }
 }

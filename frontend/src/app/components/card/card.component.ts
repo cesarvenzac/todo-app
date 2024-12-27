@@ -5,12 +5,12 @@ import { FormsModule } from '@angular/forms';
 interface Task {
   _id: string;
   name: string;
-  description: string;
+  description: string | null;
   status: 'to start' | 'in progress' | 'completed';
   priority: 'low' | 'medium' | 'high';
   dueDate: string | null;
-  categories: string[];
-  tags: string[];
+  categories: string[] | null;
+  tags: string[] | null;
 }
 
 @Component({
@@ -63,8 +63,11 @@ export class CardComponent {
       this.updateTask(this.task);
     }
   }
-
   removeCategory(categoryToRemove: string) {
+    if (!this.task.categories) {
+      this.task.categories = [];
+      return;
+    }
     this.task.categories = this.task.categories.filter(
       (category) => category !== categoryToRemove
     );
@@ -81,8 +84,11 @@ export class CardComponent {
       this.updateTask(this.task);
     }
   }
-
   removeTag(tagToRemove: string) {
+    if (!this.task.tags) {
+      this.task.tags = [];
+      return;
+    }
     this.task.tags = this.task.tags.filter((tag) => tag !== tagToRemove);
     this.updateTask(this.task);
   }
