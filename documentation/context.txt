@@ -1,11 +1,12 @@
 Directory structure:
 └── cesarvenzac-todo-app/
+    ├── .env.example
     ├── documentation/
-    │   ├── context.txt
+    │   ├── structure.md
+    │   ├── plan.md
     │   ├── description.md
     │   ├── features.md
-    │   ├── plan.md
-    │   └── structure.md
+    │   └── context.txt
     ├── backend/
     │   ├── controllers/
     │   │   ├── authController.js
@@ -25,168 +26,423 @@ Directory structure:
     │   │   ├── taskRoutes.js
     │   │   └── authRoutes.js
     │   ├── Dockerfile
-    │   ├── package-lock.json
-    │   ├── package.json
     │   └── index.js
-    ├── .env
-    ├── .env.example
+    ├── frontend/
+    │   ├── .vscode/
+    │   │   ├── tasks.json
+    │   │   ├── launch.json
+    │   │   └── extensions.json
+    │   ├── .gitignore
+    │   ├── tsconfig.app.json
+    │   ├── package.json
+    │   ├── tsconfig.spec.json
+    │   ├── .dockerignore
+    │   ├── Dockerfile
+    │   ├── tsconfig.json
+    │   ├── README.md
+    │   ├── src/
+    │   │   ├── index.html
+    │   │   ├── styles.css
+    │   │   ├── assets/
+    │   │   │   ├── fonts/
+    │   │   │   │   └── departure-mono/
+    │   │   │   │       ├── DepartureMono-Regular.woff2
+    │   │   │   │       ├── DepartureMono-Regular.otf
+    │   │   │   │       └── DepartureMono-Regular.woff
+    │   │   │   ├── .gitkeep
+    │   │   │   └── favicons/
+    │   │   ├── main.ts
+    │   │   └── app/
+    │   │       ├── app.routes.ts
+    │   │       ├── app.config.ts
+    │   │       ├── services/
+    │   │       │   └── auth.service.ts
+    │   │       ├── app.component.spec.ts
+    │   │       ├── components/
+    │   │       │   ├── card/
+    │   │       │   │   ├── card.component.spec.ts
+    │   │       │   │   ├── card.component.html
+    │   │       │   │   ├── card.component.ts
+    │   │       │   │   └── card.component.css
+    │   │       │   ├── login/
+    │   │       │   │   ├── login.component.html
+    │   │       │   │   ├── login.component.css
+    │   │       │   │   └── login.component.ts
+    │   │       │   ├── tasks/
+    │   │       │   │   ├── tasks.component.ts
+    │   │       │   │   ├── tasks.component.css
+    │   │       │   │   └── tasks.component.html
+    │   │       │   └── register/
+    │   │       │       ├── register.component.html
+    │   │       │       ├── register.component.ts
+    │   │       │       └── register.component.css
+    │   │       ├── app.component.css
+    │   │       ├── pipes/
+    │   │       │   └── filter.pipe.ts
+    │   │       ├── interceptors/
+    │   │       │   └── auth.interceptor.ts
+    │   │       ├── guards/
+    │   │       │   └── auth.guard.ts
+    │   │       ├── app.component.ts
+    │   │       └── app.component.html
+    │   ├── .editorconfig
+    │   └── angular.json
     ├── .dockerignore
-    ├── .gitignore
     ├── README.md
-    ├── docker-compose.yml
-    └── frontend/
-        ├── .vscode/
-        │   ├── tasks.json
-        │   ├── launch.json
-        │   └── extensions.json
-        ├── .gitignore
-        ├── tsconfig.app.json
-        ├── package.json
-        ├── tsconfig.spec.json
-        ├── Dockerfile
-        ├── tsconfig.json
-        ├── package-lock.json
-        ├── README.md
-        ├── src/
-        │   ├── index.html
-        │   ├── styles.css
-        │   ├── assets/
-        │   │   ├── fonts/
-        │   │   │   └── departure-mono/
-        │   │   │       ├── DepartureMono-Regular.woff2
-        │   │   │       ├── DepartureMono-Regular.otf
-        │   │   │       └── DepartureMono-Regular.woff
-        │   │   ├── .gitkeep
-        │   │   └── favicons/
-        │   ├── main.ts
-        │   └── app/
-        │       ├── app.routes.ts
-        │       ├── app.config.ts
-        │       ├── services/
-        │       │   └── auth.service.ts
-        │       ├── app.component.spec.ts
-        │       ├── components/
-        │       │   ├── card/
-        │       │   │   ├── card.component.spec.ts
-        │       │   │   ├── card.component.html
-        │       │   │   ├── card.component.ts
-        │       │   │   └── card.component.css
-        │       │   ├── login/
-        │       │   │   ├── login.component.html
-        │       │   │   ├── login.component.css
-        │       │   │   └── login.component.ts
-        │       │   ├── tasks/
-        │       │   │   ├── tasks.component.ts
-        │       │   │   ├── tasks.component.css
-        │       │   │   └── tasks.component.html
-        │       │   └── register/
-        │       │       ├── register.component.html
-        │       │       ├── register.component.ts
-        │       │       └── register.component.css
-        │       ├── app.component.css
-        │       ├── pipes/
-        │       │   └── filter.pipe.ts
-        │       ├── interceptors/
-        │       │   └── auth.interceptor.ts
-        │       ├── guards/
-        │       │   └── auth.guard.ts
-        │       ├── app.component.ts
-        │       └── app.component.html
-        ├── .editorconfig
-        └── angular.json
+    └── docker-compose.yml
 
 ================================================
 File: /README.md
 ================================================
-# Todo List App
+# Todo List Application
 
-## Overview
+A modern task management application built with Express.js, Angular, and MongoDB, designed for efficient task organization and team collaboration.
 
-The Todo List App is a task management application designed to help users efficiently organize and track their tasks. Built with Express.js, Angular.js, and MongoDB, it offers a seamless and responsive user experience.
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
+![Node](https://img.shields.io/badge/node-%3E%3D14.0.0-brightgreen)
+![Angular](https://img.shields.io/badge/angular-17-red)
 
-## Technologies
+## Features
 
-- **Backend**: Express.js
-- **Frontend**: Angular.js
-- **Database**: MongoDB
-- **Containerization**: Docker
+### Core Features
 
-## Key Features
+- **Secure Authentication System**
 
-- **Authentication**: Secure login and registration for users. [DONE]
-- **Team Management**: Create teams and add users to teams for collaborative task management. [TO DO]
-- **Project Management**: Create projects and assign users to projects. [TO DO]
-- **Task Management**:
-  - Create, edit, and delete tasks. [DONE]
-  - Assign users to tasks. [TO DO]
-  - Provide detailed task descriptions. [TO IMPROVE]
-  - Track task status (to start, in progress, completed). [DONE]
-  - Set task priorities (low, medium, high). [DONE]
-  - Categorize tasks (work, personal, shopping, etc.). [TO DO]
-  - Attach images, files, and other documents to tasks. [TO DO]
-  - Share tasks with other users. [TO DO]
-  - Add comments and notes to tasks. [TO DO]
-  - Set task due dates. [TO DO]
-  - Use tags for task filtering and organization. [TO DO]
-  - Receive email and push notifications for task updates. [TO DO]
+  - JWT-based authentication
+  - User registration with profile customization
+  - Protected routes and secure endpoints
 
-## Prerequisites
+- **Task Management**
+  - Intuitive task creation and editing
+  - Status tracking (To Start, In Progress, Completed)
+  - Priority levels (Low, Medium, High)
+  - Real-time progress visualization
+  - Priority distribution analytics
+
+### Coming Soon
+
+- Team collaboration features
+- Project management capabilities
+- Enhanced task features (attachments, comments, due dates)
+- Notifications system
+- Mobile optimization
+
+## Tech Stack
+
+### Backend
+
+- Express.js
+- MongoDB
+- JWT Authentication
+- Multer for file uploads
+- bcrypt for security
+
+### Frontend
+
+- Angular 17
+- Angular Router
+- HttpClient
+- Custom CSS with Variables
+
+### Infrastructure
+
+- Docker & Docker Compose
+- RESTful API architecture
+- Microservices design
+
+## Getting Started
+
+### Prerequisites
 
 - Docker and Docker Compose
-- Node.js 14+
+- Node.js ≥ 14
 - npm or yarn
 
-## Installation
+### Installation
 
-1. Clone the repository:
+1. Clone the repository
 
-```sh
+```bash
 git clone https://github.com/yourusername/todo-list-app.git
 cd todo-list-app
 ```
 
-2. Configure the environment:
+2. Set up environment variables
 
-```sh
+```bash
 cp .env.example .env
 ```
 
-3. Launch the application with Docker:
+3. Launch with Docker
 
-```sh
+```bash
 docker-compose up --build
 ```
 
-## Documentation
+### Development Mode
 
-- [Detailed Description](documentation/description.md)
-- [Features](documentation/features.md)
-- [Architecture](documentation/structure.md)
-
-## Development
-
-```sh
+```bash
 npm install
 npm run dev
 ```
 
-## Testing
+### Testing
 
-```sh
+```bash
 npm run test
 ```
 
+## Documentation
+
+Detailed documentation is available in the `/documentation` directory:
+
+- [Technical Description](documentation/description.md)
+- [Feature List](documentation/features.md)
+- [Architecture Overview](documentation/structure.md)
+- [Development Roadmap](documentation/plan.md)
+
 ## Contributing
 
-Contributions are welcome! Please refer to our contribution guidelines for more details.
+Contributions are welcome! Please read our [Contributing Guidelines](CONTRIBUTING.md) before submitting pull requests.
 
 ## License
 
-This project is licensed under the MIT License.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Support
+
+For support, please open an issue in the GitHub repository or contact the maintainers.
 
 
 ================================================
-File: /api/controllers/authController.js
+File: /.env.example
+================================================
+# Application
+NODE_ENV=development
+PORT=5038
+MONGODB_URI=mongodb://your-mongodb-uri
+DATABASE_NAME=todo_app
+
+# Authentication
+JWT_SECRET=your-secret-key
+JWT_EXPIRATION=24h
+
+# CORS
+CORS_ORIGIN=http://localhost:4200
+
+# File Upload
+UPLOAD_DIR=uploads
+MAX_FILE_SIZE=5242880
+ALLOWED_FILE_TYPES=image/jpeg,image/png,image/gif
+
+# Logging
+LOG_LEVEL=debug
+LOG_FILE_PATH=logs/app.log 
+
+================================================
+File: /documentation/structure.md
+================================================
+# Project Structure
+
+## Directory Organization
+
+```
+cesarvenzac-todo-app/
+├── backend/                 # Express.js backend
+│   ├── controllers/        # Request handlers
+│   ├── services/          # Business logic
+│   ├── middlewares/       # Custom middlewares
+│   ├── routes/            # API routes
+│   └── uploads/           # File storage
+└── frontend/              # Angular frontend
+    └── src/
+        ├── app/
+        │   ├── components/    # UI components
+        │   ├── services/      # Data services
+        │   ├── guards/        # Route protection
+        │   ├── interceptors/  # HTTP interceptors
+        │   └── pipes/         # Data transformation
+```
+
+## Key Components
+
+### Backend Components
+1. **Controllers**
+   - `authController.js`: Handles authentication requests
+   - `taskController.js`: Manages task operations
+
+2. **Services**
+   - `authService.js`: Authentication business logic
+   - `taskService.js`: Task management logic
+
+3. **Middlewares**
+   - `authMiddleware.js`: JWT validation
+
+### Frontend Components
+1. **Core Components**
+   - `AppComponent`: Application shell
+   - `CardComponent`: Task card display
+   - `TasksComponent`: Task management
+   - `LoginComponent`: User authentication
+   - `RegisterComponent`: User registration
+
+2. **Services**
+   - `AuthService`: Authentication state management
+   - `AuthGuard`: Route protection
+   - `AuthInterceptor`: Token injection
+
+3. **Utilities**
+   - `FilterPipe`: Task filtering
+
+================================================
+File: /documentation/plan.md
+================================================
+# Development Plan
+
+## Phase 1: Core Features [COMPLETED]
+
+- [x] Basic authentication system
+- [x] Task CRUD operations
+- [x] Task status management
+- [x] Priority management
+- [x] Basic UI implementation
+
+## Phase 2: Enhanced Task Management [IN PROGRESS]
+
+- [ ] Improved task descriptions
+- [ ] File attachments
+- [ ] Task categories
+- [ ] Due dates
+- [ ] Tags system
+
+## Phase 3: Team Features [PLANNED]
+
+- [ ] Team creation
+- [ ] User invitations
+- [ ] Team management
+- [ ] Shared tasks
+- [ ] Team permissions
+
+## Phase 4: Project Management [PLANNED]
+
+- [ ] Project creation
+- [ ] Project assignment
+- [ ] Multiple projects
+- [ ] Project analytics
+
+## Phase 5: Advanced Features [PLANNED]
+
+- [ ] Email notifications
+- [ ] Push notifications
+- [ ] Task comments
+- [ ] Activity tracking
+- [ ] Advanced analytics
+
+## Phase 6: Optimization [PLANNED]
+
+- [ ] Performance improvements
+- [ ] Mobile optimization
+- [ ] Offline support
+- [ ] Data backup system
+
+
+================================================
+File: /documentation/description.md
+================================================
+# Todo List Application
+
+## Overview
+
+A modern task management application built with Express.js, Angular, and MongoDB. The application provides a secure and intuitive interface for managing personal and team tasks.
+
+## Technical Stack
+
+### Backend
+
+- **Framework**: Express.js
+- **Database**: MongoDB
+- **Authentication**: JWT (JSON Web Tokens)
+- **File Upload**: Multer
+- **Security**: bcrypt for password hashing
+
+### Frontend
+
+- **Framework**: Angular 17
+- **State Management**: Built-in Angular services
+- **HTTP Client**: Angular HttpClient
+- **Routing**: Angular Router
+- **Styling**: Custom CSS with CSS Variables
+
+## Architecture
+
+The application follows a microservices architecture with:
+
+- Separate frontend and backend containers
+- RESTful API design
+- Token-based authentication
+- Component-based frontend architecture
+
+
+================================================
+File: /documentation/features.md
+================================================
+# Features
+
+## Current Features
+
+### Authentication
+
+- [x] User registration with:
+  - Email and password
+  - Personal information (name, phone, birthdate)
+  - Avatar upload
+  - Newsletter subscription option
+  - Terms consent
+- [x] Secure login system
+- [x] JWT-based authentication
+- [x] Protected routes
+
+### Task Management
+
+- [x] Create new tasks
+- [x] Edit existing tasks
+- [x] Delete tasks
+- [x] Task status tracking (to start, in progress, completed)
+- [x] Priority levels (low, medium, high)
+- [x] Task filtering by status
+- [x] Real-time task updates
+- [x] Progress tracking
+- [x] Priority distribution visualization
+
+## Planned Features
+
+### Team Collaboration
+
+- [ ] Team creation and management
+- [ ] User invitations
+- [ ] Team member roles and permissions
+- [ ] Shared task lists
+
+### Project Management
+
+- [ ] Project creation
+- [ ] Project assignment
+- [ ] Project progress tracking
+- [ ] Multiple project support
+
+### Enhanced Task Features
+
+- [ ] File attachments
+- [ ] Task comments
+- [ ] Due dates
+- [ ] Task categories
+- [ ] Task tags
+- [ ] Task sharing
+- [ ] Task notifications
+
+
+================================================
+File: /backend/controllers/authController.js
 ================================================
 const { registerUser, loginUser } = require("../services/authService");
 
@@ -231,7 +487,7 @@ module.exports = { register, login };
 
 
 ================================================
-File: /api/controllers/taskController.js
+File: /backend/controllers/taskController.js
 ================================================
 const { getAllTasks, createTask, modifyTask, removeTask } = require("../services/taskService");
 
@@ -285,7 +541,7 @@ module.exports = { getTasks, addTask, updateTask, deleteTask };
 
 
 ================================================
-File: /api/services/taskService.js
+File: /backend/services/taskService.js
 ================================================
 const { ObjectId } = require("mongodb");
 
@@ -368,7 +624,7 @@ module.exports = { getAllTasks, createTask, modifyTask, removeTask };
 
 
 ================================================
-File: /api/services/authService.js
+File: /backend/services/authService.js
 ================================================
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -454,7 +710,7 @@ module.exports = { registerUser, loginUser };
 
 
 ================================================
-File: /api/middlewares/authMiddleware.js
+File: /backend/middlewares/authMiddleware.js
 ================================================
 const jwt = require("jsonwebtoken");
 const JWT_SECRET = process.env.JWT_SECRET;
@@ -476,7 +732,7 @@ module.exports = { authenticateToken };
 
 
 ================================================
-File: /api/package.json
+File: /backend/package.json
 ================================================
 {
   "name": "api",
@@ -503,7 +759,7 @@ File: /api/package.json
 
 
 ================================================
-File: /api/routes/taskRoutes.js
+File: /backend/routes/taskRoutes.js
 ================================================
 const express = require("express");
 const { getTasks, addTask, updateTask, deleteTask } = require("../controllers/taskController");
@@ -527,7 +783,7 @@ module.exports = (database) => {
 
 
 ================================================
-File: /api/routes/authRoutes.js
+File: /backend/routes/authRoutes.js
 ================================================
 const express = require("express");
 const { register, login } = require("../controllers/authController");
@@ -545,7 +801,7 @@ module.exports = (database) => {
 
 
 ================================================
-File: /api/Dockerfile
+File: /backend/Dockerfile
 ================================================
 # Use the official Node.js image as the base image
 FROM node:18
@@ -553,12 +809,14 @@ FROM node:18
 # Set the working directory
 WORKDIR /usr/src/app
 
-# Copy package.json and package-lock.json
-COPY package.json ./ 
-COPY package-lock.json ./ 
+# Copy package files
+COPY package*.json ./
 
 # Install dependencies
-RUN npm install
+RUN npm install --no-package-lock
+
+# Rebuild bcrypt
+RUN npm rebuild bcrypt --build-from-source
 
 # Copy the rest of the application code
 COPY . .
@@ -570,7 +828,7 @@ EXPOSE 5038
 CMD ["node", "index.js"]
 
 ================================================
-File: /api/index.js
+File: /backend/index.js
 ================================================
 require("dotenv").config();
 const express = require("express");
@@ -587,12 +845,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/uploads", express.static(path.join(__dirname, "./uploads")));
 
-const CONNECTION_STRING = process.env.CONNECTION_STRING;
+const MONGODB_URI = process.env.MONGODB_URI;
 const DATABASE_NAME = "todo_app";
 let database;
 
 app.listen(5038, () => {
-  MongoClient.connect(CONNECTION_STRING, (error, client) => {
+  MongoClient.connect(MONGODB_URI, (error, client) => {
     if (error) throw error;
     database = client.db(DATABASE_NAME);
     console.log("Connected to `" + DATABASE_NAME + "`!");
@@ -606,44 +864,7 @@ app.listen(5038, () => {
 
 
 ================================================
-File: /.dockerignore
-================================================
-node_modules
-dist
-.git
-.vscode
-*.log
-
-================================================
-File: /docker-compose.yml
-================================================
-services:
-  api:
-    build:
-      context: ./api
-    ports:
-      - "5038:5038"
-    environment:
-      - NODE_ENV=production
-    volumes:
-      - ./api:/usr/src/app
-      - /usr/src/app/node_modules
-
-  app:
-    build:
-      context: ./app
-    ports:
-      - "4200:4200"
-    depends_on:
-      - api
-    volumes:
-      - ./app:/usr/src/app
-      - /usr/src/app/node_modules
-    command: ng serve --host 0.0.0.0 --poll 2000
-
-
-================================================
-File: /app/.vscode/tasks.json
+File: /frontend/.vscode/tasks.json
 ================================================
 {
   // For more information, visit: https://go.microsoft.com/fwlink/?LinkId=733558
@@ -690,7 +911,7 @@ File: /app/.vscode/tasks.json
 
 
 ================================================
-File: /app/.vscode/launch.json
+File: /frontend/.vscode/launch.json
 ================================================
 {
   // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
@@ -715,7 +936,7 @@ File: /app/.vscode/launch.json
 
 
 ================================================
-File: /app/.vscode/extensions.json
+File: /frontend/.vscode/extensions.json
 ================================================
 {
   // For more information, visit: https://go.microsoft.com/fwlink/?linkid=827846
@@ -724,7 +945,7 @@ File: /app/.vscode/extensions.json
 
 
 ================================================
-File: /app/.gitignore
+File: /frontend/.gitignore
 ================================================
 # See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
 
@@ -771,7 +992,7 @@ Thumbs.db
 
 
 ================================================
-File: /app/tsconfig.app.json
+File: /frontend/tsconfig.app.json
 ================================================
 /* To learn more about this file see: https://angular.io/config/tsconfig. */
 {
@@ -790,7 +1011,7 @@ File: /app/tsconfig.app.json
 
 
 ================================================
-File: /app/package.json
+File: /frontend/package.json
 ================================================
 {
   "name": "todo-app",
@@ -833,7 +1054,7 @@ File: /app/package.json
 
 
 ================================================
-File: /app/tsconfig.spec.json
+File: /frontend/tsconfig.spec.json
 ================================================
 /* To learn more about this file see: https://angular.io/config/tsconfig. */
 {
@@ -852,34 +1073,41 @@ File: /app/tsconfig.spec.json
 
 
 ================================================
-File: /app/Dockerfile
+File: /frontend/.dockerignore
+================================================
+node_modules
+npm-debug.log
+dist
+.git
+.angular
+.vscode
+*.md
+*.log
+.editorconfig 
+
+================================================
+File: /frontend/Dockerfile
 ================================================
 FROM node:18-alpine
 
-# Set the working directory
 WORKDIR /usr/src/app
 
-# Copy package.json and package-lock.json
-COPY package.json ./ 
-COPY package-lock.json ./ 
-
-# Install dependencies
-RUN npm install
+# Copy package.json only and install dependencies
+COPY package.json ./
+RUN npm install --legacy-peer-deps
 
 # Install Angular CLI globally
-RUN npm install -g @angular/cli
+RUN npm install -g @angular/cli@17.3.11
 
 # Copy the rest of the application files
 COPY . .
 
-# Expose the port the app runs on
 EXPOSE 4200
 
-# Command to run the application
 CMD ["ng", "serve", "--host", "0.0.0.0", "--poll", "2000"]
 
 ================================================
-File: /app/tsconfig.json
+File: /frontend/tsconfig.json
 ================================================
 /* To learn more about this file see: https://angular.io/config/tsconfig. */
 {
@@ -916,7 +1144,7 @@ File: /app/tsconfig.json
 
 
 ================================================
-File: /app/README.md
+File: /frontend/README.md
 ================================================
 # TodoApp
 
@@ -948,7 +1176,7 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 
 ================================================
-File: /app/src/index.html
+File: /frontend/src/index.html
 ================================================
 <!DOCTYPE html>
 <html lang="en">
@@ -968,7 +1196,7 @@ File: /app/src/index.html
 
 
 ================================================
-File: /app/src/styles.css
+File: /frontend/src/styles.css
 ================================================
 @font-face {
   font-family: "Departure";
@@ -1037,7 +1265,7 @@ button {
 
 
 ================================================
-File: /app/src/main.ts
+File: /frontend/src/main.ts
 ================================================
 import { bootstrapApplication } from '@angular/platform-browser';
 import { appConfig } from './app/app.config';
@@ -1048,7 +1276,7 @@ bootstrapApplication(AppComponent, appConfig)
 
 
 ================================================
-File: /app/src/app/app.routes.ts
+File: /frontend/src/app/app.routes.ts
 ================================================
 // src/app/app.routes.ts
 import { Routes } from '@angular/router';
@@ -1066,7 +1294,7 @@ export const routes: Routes = [
 
 
 ================================================
-File: /app/src/app/app.config.ts
+File: /frontend/src/app/app.config.ts
 ================================================
 // src/app/app.config.ts
 import { ApplicationConfig } from '@angular/core';
@@ -1084,7 +1312,7 @@ export const appConfig: ApplicationConfig = {
 
 
 ================================================
-File: /app/src/app/services/auth.service.ts
+File: /frontend/src/app/services/auth.service.ts
 ================================================
 import { Injectable, EventEmitter } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
@@ -1149,7 +1377,7 @@ export class AuthService {
 
 
 ================================================
-File: /app/src/app/app.component.spec.ts
+File: /frontend/src/app/app.component.spec.ts
 ================================================
 import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
@@ -1183,7 +1411,7 @@ describe('AppComponent', () => {
 
 
 ================================================
-File: /app/src/app/components/card/card.component.spec.ts
+File: /frontend/src/app/components/card/card.component.spec.ts
 ================================================
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
@@ -1211,7 +1439,7 @@ describe('CardComponent', () => {
 
 
 ================================================
-File: /app/src/app/components/card/card.component.html
+File: /frontend/src/app/components/card/card.component.html
 ================================================
 <div class="task-controls">
   <input
@@ -1251,7 +1479,7 @@ File: /app/src/app/components/card/card.component.html
 
 
 ================================================
-File: /app/src/app/components/card/card.component.ts
+File: /frontend/src/app/components/card/card.component.ts
 ================================================
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -1280,7 +1508,7 @@ export class CardComponent {
 
 
 ================================================
-File: /app/src/app/components/card/card.component.css
+File: /frontend/src/app/components/card/card.component.css
 ================================================
 .task-controls {
   display: flex;
@@ -1335,7 +1563,7 @@ button:hover {
 
 
 ================================================
-File: /app/src/app/components/login/login.component.html
+File: /frontend/src/app/components/login/login.component.html
 ================================================
 <div class="login-container">
   <span>Login</span>
@@ -1368,7 +1596,7 @@ File: /app/src/app/components/login/login.component.html
 
 
 ================================================
-File: /app/src/app/components/login/login.component.css
+File: /frontend/src/app/components/login/login.component.css
 ================================================
 .login-container {
   max-width: 400px;
@@ -1416,7 +1644,7 @@ button:hover {
 
 
 ================================================
-File: /app/src/app/components/login/login.component.ts
+File: /frontend/src/app/components/login/login.component.ts
 ================================================
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
@@ -1469,7 +1697,7 @@ export class LoginComponent {
 }
 
 ================================================
-File: /app/src/app/components/tasks/tasks.component.ts
+File: /frontend/src/app/components/tasks/tasks.component.ts
 ================================================
 import { Component, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -1613,7 +1841,7 @@ export class TasksComponent {
 
 
 ================================================
-File: /app/src/app/components/tasks/tasks.component.css
+File: /frontend/src/app/components/tasks/tasks.component.css
 ================================================
 main {
   margin-top: 0.5rem;
@@ -1795,7 +2023,7 @@ button:hover {
 
 
 ================================================
-File: /app/src/app/components/tasks/tasks.component.html
+File: /frontend/src/app/components/tasks/tasks.component.html
 ================================================
 <main>
   <section class="side-menu">
@@ -1933,7 +2161,7 @@ File: /app/src/app/components/tasks/tasks.component.html
 
 
 ================================================
-File: /app/src/app/components/register/register.component.html
+File: /frontend/src/app/components/register/register.component.html
 ================================================
 <div class="auth-container">
   <span>Register</span>
@@ -2050,7 +2278,7 @@ File: /app/src/app/components/register/register.component.html
 
 
 ================================================
-File: /app/src/app/components/register/register.component.ts
+File: /frontend/src/app/components/register/register.component.ts
 ================================================
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
@@ -2117,7 +2345,7 @@ export class RegisterComponent {
 
 
 ================================================
-File: /app/src/app/components/register/register.component.css
+File: /frontend/src/app/components/register/register.component.css
 ================================================
 .auth-container {
   max-width: 400px;
@@ -2165,7 +2393,7 @@ button:hover {
 
 
 ================================================
-File: /app/src/app/app.component.css
+File: /frontend/src/app/app.component.css
 ================================================
 nav {
   display: flex;
@@ -2193,7 +2421,7 @@ nav div img {
 
 
 ================================================
-File: /app/src/app/pipes/filter.pipe.ts
+File: /frontend/src/app/pipes/filter.pipe.ts
 ================================================
 import { Pipe, PipeTransform } from '@angular/core';
 
@@ -2219,7 +2447,7 @@ export class FilterPipe implements PipeTransform {
 
 
 ================================================
-File: /app/src/app/interceptors/auth.interceptor.ts
+File: /frontend/src/app/interceptors/auth.interceptor.ts
 ================================================
 import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
@@ -2242,7 +2470,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
 
 ================================================
-File: /app/src/app/guards/auth.guard.ts
+File: /frontend/src/app/guards/auth.guard.ts
 ================================================
 // src/app/guards/auth.guard.ts
 import { inject } from '@angular/core';
@@ -2265,7 +2493,7 @@ export const authGuard = () => {
 
 
 ================================================
-File: /app/src/app/app.component.ts
+File: /frontend/src/app/app.component.ts
 ================================================
 import { Component, inject, ChangeDetectorRef } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
@@ -2341,7 +2569,7 @@ export class AppComponent {
 
 
 ================================================
-File: /app/.editorconfig
+File: /frontend/.editorconfig
 ================================================
 # Editor configuration, see https://editorconfig.org
 root = true
@@ -2362,7 +2590,7 @@ trim_trailing_whitespace = false
 
 
 ================================================
-File: /app/angular.json
+File: /frontend/angular.json
 ================================================
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
@@ -2459,5 +2687,49 @@ File: /app/angular.json
     }
   }
 }
+
+
+================================================
+File: /.dockerignore
+================================================
+node_modules
+dist
+.git
+.vscode
+*.log
+
+================================================
+File: /docker-compose.yml
+================================================
+services:
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - "5038:5038"
+    environment:
+      - NODE_ENV=production
+    env_file:
+      - .env
+    volumes:
+      - ./backend:/usr/src/app
+      - /usr/src/app/node_modules
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        - NODE_ENV=production
+    ports:
+      - "4200:4200"
+    depends_on:
+      - backend
+    volumes:
+      - ./frontend:/usr/src/app
+      - /usr/src/app/node_modules
+    deploy:
+      resources:
+        limits:
+          memory: 2G
 
 
