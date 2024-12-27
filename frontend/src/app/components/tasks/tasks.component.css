@@ -7,6 +7,30 @@ main {
   gap: 0.5rem;
 }
 
+/* Add media query for mobile devices */
+@media screen and (max-width: 768px) {
+  main {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .side-menu {
+    width: 100%;
+  }
+
+  .tasks-list {
+    width: 100%;
+    flex-direction: column;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  .tasks-list > * {
+    width: max-content;
+    min-height: 200px; /* Give some minimum height to task columns */
+  }
+}
+
 .side-menu {
   display: flex;
   flex-direction: column;
@@ -106,7 +130,6 @@ main {
 
 .tasks-list > * {
   padding: 0.5rem;
-  width: 100%;
   border: 1px solid var(--black);
   background-color: var(--white);
   gap: 0.5rem;
