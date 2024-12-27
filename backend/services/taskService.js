@@ -10,6 +10,7 @@ async function createTask(
   description = "",
   status = "to start",
   priority = "medium",
+  dueDate = null,
   database
 ) {
   if (!name) {
@@ -21,6 +22,7 @@ async function createTask(
     description,
     status,
     priority,
+    dueDate,
     userId,
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -28,7 +30,7 @@ async function createTask(
   return { message: "Task added successfully", taskId: result.insertedId };
 }
 
-async function modifyTask(userId, taskId, name, description, status, priority, database) {
+async function modifyTask(userId, taskId, name, description, status, priority, dueDate, database) {
   const validStatuses = ["to start", "in progress", "completed"];
   if (status && !validStatuses.includes(status)) {
     throw { status: 400, message: "Invalid status" };
@@ -50,6 +52,7 @@ async function modifyTask(userId, taskId, name, description, status, priority, d
         ...(description && { description }),
         ...(status && { status }),
         ...(priority && { priority }),
+        ...(dueDate && { dueDate }),
         updatedAt: new Date(),
       },
     }

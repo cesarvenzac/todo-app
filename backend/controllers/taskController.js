@@ -11,8 +11,16 @@ async function getTasks(req, res, database) {
 
 async function addTask(req, res, database) {
   try {
-    const { name, description, status, priority } = req.body;
-    const result = await createTask(req.user.userId, name, description, status, priority, database);
+    const { name, description, status, priority, dueDate } = req.body;
+    const result = await createTask(
+      req.user.userId,
+      name,
+      description,
+      status,
+      priority,
+      dueDate ? new Date(dueDate) : null,
+      database
+    );
     res.json(result);
   } catch (error) {
     res.status(500).json({ error: "Internal server error" });
@@ -21,7 +29,7 @@ async function addTask(req, res, database) {
 
 async function updateTask(req, res, database) {
   try {
-    const { name, description, status, priority } = req.body;
+    const { name, description, status, priority, dueDate } = req.body;
     const result = await modifyTask(
       req.user.userId,
       req.params._id,
@@ -29,6 +37,7 @@ async function updateTask(req, res, database) {
       description,
       status,
       priority,
+      dueDate ? new Date(dueDate) : undefined,
       database
     );
     res.json(result);

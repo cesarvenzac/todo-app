@@ -6,6 +6,11 @@
     (blur)="updateTask(task)"
     placeholder="Task name"
   />
+  <input
+    type="date"
+    [(ngModel)]="formattedDueDate"
+    (ngModelChange)="onDateChange($event)"
+  />
   <!-- <input
     type="text"
     [(ngModel)]="task.description"
