@@ -46,7 +46,7 @@
 
 - [ ] File attachments
 - [ ] Task comments
-- [x] Due dates
+- [x] Task due dates
 - [x] Task categories
 - [x] Task tags
 - [ ] Task sharing

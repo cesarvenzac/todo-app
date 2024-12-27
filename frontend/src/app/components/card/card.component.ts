@@ -53,43 +53,55 @@ export class CardComponent {
     this.taskDeleted.emit(taskId);
   }
 
-  addCategory(category: string) {
-    if (!category.trim()) return;
-    if (!this.task.categories) {
-      this.task.categories = [];
+  addTag(tagInput: string) {
+    if (!tagInput.trim()) return;
+
+    // Split by comma or space and process each tag
+    const newTags = tagInput
+      .split(/[,\s]+/)
+      .map((tag) => tag.trim())
+      .filter((tag) => tag.length > 0);
+
+    if (!this.task.tags) {
+      this.task.tags = [];
     }
-    if (!this.task.categories.includes(category.trim())) {
-      this.task.categories = [...this.task.categories, category.trim()];
-      this.updateTask(this.task);
-    }
-  }
-  removeCategory(categoryToRemove: string) {
-    if (!this.task.categories) {
-      this.task.categories = [];
-      return;
-    }
-    this.task.categories = this.task.categories.filter(
-      (category) => category !== categoryToRemove
-    );
+
+    // Add new tags that don't already exist
+    this.task.tags = [...new Set([...this.task.tags, ...newTags])];
+
     this.updateTask(this.task);
   }
 
-  addTag(tag: string) {
-    if (!tag.trim()) return;
-    if (!this.task.tags) {
-      this.task.tags = [];
+  addCategory(categoryInput: string) {
+    if (!categoryInput.trim()) return;
+
+    // Split by comma or space and process each category
+    const newCategories = categoryInput
+      .split(/[,\s]+/)
+      .map((category) => category.trim())
+      .filter((category) => category.length > 0);
+
+    if (!this.task.categories) {
+      this.task.categories = [];
     }
-    if (!this.task.tags.includes(tag.trim())) {
-      this.task.tags = [...this.task.tags, tag.trim()];
-      this.updateTask(this.task);
-    }
+
+    // Add new categories that don't already exist
+    this.task.categories = [
+      ...new Set([...this.task.categories, ...newCategories]),
+    ];
+
+    this.updateTask(this.task);
   }
   removeTag(tagToRemove: string) {
-    if (!this.task.tags) {
-      this.task.tags = [];
-      return;
-    }
+    if (!this.task.tags) return;
     this.task.tags = this.task.tags.filter((tag) => tag !== tagToRemove);
+    this.updateTask(this.task);
+  }
+  removeCategory(categoryToRemove: string) {
+    if (!this.task.categories) return;
+    this.task.categories = this.task.categories.filter(
+      (category) => category !== categoryToRemove
+    );
     this.updateTask(this.task);
   }
 }
