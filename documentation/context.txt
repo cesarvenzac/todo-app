@@ -26,8 +26,10 @@ Directory structure:
     │   │   └── authRoutes.js
     │   ├── Dockerfile
     │   ├── package-lock.json
+    │   ├── package.json
     │   └── index.js
     ├── .env
+    ├── .env.example
     ├── .dockerignore
     ├── .gitignore
     ├── README.md

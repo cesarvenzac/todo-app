@@ -4,12 +4,14 @@ FROM node:18
 # Set the working directory
 WORKDIR /usr/src/app
 
-# Copy package.json and package-lock.json
-COPY package.json ./ 
-COPY package-lock.json ./ 
+# Copy package files
+COPY package*.json ./
 
 # Install dependencies
-RUN npm install
+RUN npm install --no-package-lock
+
+# Rebuild bcrypt
+RUN npm rebuild bcrypt --build-from-source
 
 # Copy the rest of the application code
 COPY . .
