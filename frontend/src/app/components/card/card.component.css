@@ -48,3 +48,48 @@ button:hover {
 .high-priority {
   background-color: lightcoral;
 }
+
+.tags-input {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 150px;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+.tag {
+  background-color: #e0e0e0;
+  padding: 0.125rem 0.5rem;
+  border-radius: 1rem;
+  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.tag button {
+  background: none;
+  border: none;
+  color: #666;
+  padding: 0;
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.tag button:hover {
+  color: #ff4444;
+  background: none;
+}
+
+.tag-input {
+  padding: 0.25rem;
+  border: 1px solid #ccc;
+  font-size: 0.75rem;
+  min-width: 100px;
+}

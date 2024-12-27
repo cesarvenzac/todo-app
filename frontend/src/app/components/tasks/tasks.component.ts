@@ -13,6 +13,7 @@ interface Task {
   status: 'to start' | 'in progress' | 'completed';
   priority: 'low' | 'medium' | 'high';
   dueDate: string | null;
+  tags: string[];
 }
 
 type TaskStatus = Task['status'];
@@ -97,6 +98,7 @@ export class TasksComponent {
           status: task.status,
           priority: task.priority,
           dueDate: task.dueDate,
+          tags: task.tags,
         },
         { headers }
       )

@@ -6,18 +6,7 @@
     (blur)="updateTask(task)"
     placeholder="Task name"
   />
-  <input
-    type="date"
-    [(ngModel)]="formattedDueDate"
-    (ngModelChange)="onDateChange($event)"
-  />
-  <!-- <input
-    type="text"
-    [(ngModel)]="task.description"
-    (keyup.enter)="updateTask(task)"
-    (blur)="updateTask(task)"
-    placeholder="Description"
-  /> -->
+  <input type="date" [(ngModel)]="task.dueDate" (change)="updateTask(task)" />
   <select [(ngModel)]="task.status" (change)="updateTask(task)">
     <option value="to start">To Start</option>
     <option value="in progress">In Progress</option>
@@ -36,5 +25,20 @@
     <option value="medium">Medium</option>
     <option value="high">High</option>
   </select>
+  <div class="tags-container">
+    <div class="tags">
+      <span class="tag" *ngFor="let tag of task.tags">
+        {{ tag }}
+        <button class="remove-tag" (click)="removeTag(tag)">×</button>
+      </span>
+    </div>
+    <input
+      #tagInput
+      type="text"
+      placeholder="Add tag..."
+      class="tag-input"
+      (keyup.enter)="addTag(tagInput.value); tagInput.value = ''"
+    />
+  </div>
   <button (click)="deleteTask(task._id)">×</button>
 </div>

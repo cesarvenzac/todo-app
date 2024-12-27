@@ -11,7 +11,7 @@ async function getTasks(req, res, database) {
 
 async function addTask(req, res, database) {
   try {
-    const { name, description, status, priority, dueDate } = req.body;
+    const { name, description, status, priority, dueDate, tags } = req.body;
     const result = await createTask(
       req.user.userId,
       name,
@@ -19,6 +19,7 @@ async function addTask(req, res, database) {
       status,
       priority,
       dueDate ? new Date(dueDate) : null,
+      tags,
       database
     );
     res.json(result);
@@ -29,7 +30,7 @@ async function addTask(req, res, database) {
 
 async function updateTask(req, res, database) {
   try {
-    const { name, description, status, priority, dueDate } = req.body;
+    const { name, description, status, priority, dueDate, tags } = req.body;
     const result = await modifyTask(
       req.user.userId,
       req.params._id,
@@ -38,6 +39,7 @@ async function updateTask(req, res, database) {
       status,
       priority,
       dueDate ? new Date(dueDate) : undefined,
+      tags,
       database
     );
     res.json(result);
