@@ -13,6 +13,7 @@ interface Task {
   status: 'to start' | 'in progress' | 'completed';
   priority: 'low' | 'medium' | 'high';
   dueDate: string | null;
+  categories: string[];
   tags: string[];
 }
 
@@ -52,10 +53,16 @@ export class TasksComponent {
     });
   }
 
-  addTask(name: string, description: string, priority: string) {
+  addTask(
+    name: string,
+    description: string,
+    status: string,
+    priority: string,
+    dueDate: string,
+    categories: string[],
+    tags: string[]
+  ) {
     if (!name.trim()) return;
-
-    const validPriority = this.validatePriority(priority);
 
     const headers = new HttpHeaders().set(
       'Authorization',
@@ -68,8 +75,11 @@ export class TasksComponent {
         {
           name,
           description,
-          priority: validPriority,
-          status: 'to start' as TaskStatus,
+          status: this.validateStatus(status),
+          priority: this.validatePriority(priority),
+          dueDate,
+          categories,
+          tags,
         },
         { headers }
       )
@@ -98,6 +108,7 @@ export class TasksComponent {
           status: task.status,
           priority: task.priority,
           dueDate: task.dueDate,
+          categories: task.categories,
           tags: task.tags,
         },
         { headers }
@@ -132,6 +143,17 @@ export class TasksComponent {
 
   trackById(index: number, task: Task): string {
     return task._id;
+  }
+
+  private validateStatus(status: string): TaskStatus {
+    const validStatuses: TaskStatus[] = [
+      'to start',
+      'in progress',
+      'completed',
+    ];
+    return validStatuses.includes(status as TaskStatus)
+      ? (status as TaskStatus)
+      : 'to start';
   }
 
   private validatePriority(priority: string): TaskPriority {

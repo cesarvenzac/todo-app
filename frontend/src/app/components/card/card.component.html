@@ -25,6 +25,23 @@
     <option value="medium">Medium</option>
     <option value="high">High</option>
   </select>
+  <div class="categories-container">
+    <div class="categories">
+      <span class="category" *ngFor="let category of task.categories">
+        {{ category }}
+        <button class="remove-category" (click)="removeCategory(category)">
+          ×
+        </button>
+      </span>
+    </div>
+    <input
+      #categoryInput
+      type="text"
+      placeholder="Add category..."
+      class="category-input"
+      (keyup.enter)="addCategory(categoryInput.value); categoryInput.value = ''"
+    />
+  </div>
   <div class="tags-container">
     <div class="tags">
       <span class="tag" *ngFor="let tag of task.tags">

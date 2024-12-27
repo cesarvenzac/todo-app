@@ -49,11 +49,49 @@ button:hover {
   background-color: lightcoral;
 }
 
-.tags-input {
+.categories-input {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
   min-width: 150px;
+}
+
+.categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+.category {
+  background-color: #e0e0e0;
+  padding: 0.125rem 0.5rem;
+  border-radius: 1rem;
+  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.category button {
+  background: none;
+  border: none;
+  color: #666;
+  padding: 0;
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.category button:hover {
+  color: #ff4444;
+  background: none;
+}
+
+.category-input {
+  padding: 0.25rem;
+  border: 1px solid #ccc;
+  font-size: 0.75rem;
+  min-width: 100px;
 }
 
 .tags {

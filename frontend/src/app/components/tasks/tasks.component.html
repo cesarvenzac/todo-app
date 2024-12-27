@@ -4,14 +4,30 @@
       <span>Add</span>
       <input #newTaskName type="text" placeholder="Task name" />
       <input #newTaskDesc type="text" placeholder="Task description" />
+      <select #newTaskStatus>
+        <option value="to start">To Start</option>
+        <option value="in progress">In Progress</option>
+        <option value="completed">Completed</option>
+      </select>
       <select #newTaskPriority>
         <option value="low">Low</option>
         <option value="medium" selected>Medium</option>
         <option value="high">High</option>
       </select>
+      <input #newTaskDueDate type="date" placeholder="Due date" />
+      <input #newTaskCategories type="text" placeholder="Categories" />
+      <input #newTaskTags type="text" placeholder="Tags" />
       <button
         (click)="
-          addTask(newTaskName.value, newTaskDesc.value, newTaskPriority.value)
+          addTask(
+            newTaskName.value,
+            newTaskDesc.value,
+            newTaskStatus.value,
+            newTaskPriority.value,
+            newTaskDueDate.value,
+            newTaskCategories.value.split(','),
+            newTaskTags.value.split(',')
+          )
         "
       >
         ADD

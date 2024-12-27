@@ -11,6 +11,7 @@ async function createTask(
   status = "to start",
   priority = "medium",
   dueDate = null,
+  categories = [],
   tags = [],
   database
 ) {
@@ -24,6 +25,7 @@ async function createTask(
     status,
     priority,
     dueDate,
+    categories,
     tags,
     userId,
     createdAt: new Date(),
@@ -40,6 +42,7 @@ async function modifyTask(
   status,
   priority,
   dueDate,
+  categories,
   tags,
   database
 ) {
@@ -65,6 +68,7 @@ async function modifyTask(
         ...(status && { status }),
         ...(priority && { priority }),
         ...(dueDate && { dueDate }),
+        ...(categories && { categories }),
         ...(tags && { tags }),
         updatedAt: new Date(),
       },

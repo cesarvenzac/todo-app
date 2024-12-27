@@ -9,6 +9,7 @@ interface Task {
   status: 'to start' | 'in progress' | 'completed';
   priority: 'low' | 'medium' | 'high';
   dueDate: string | null;
+  categories: string[];
   tags: string[];
 }
 
@@ -30,6 +31,24 @@ export class CardComponent {
 
   deleteTask(taskId: string) {
     this.taskDeleted.emit(taskId);
+  }
+
+  addCategory(category: string) {
+    if (!category.trim()) return;
+    if (!this.task.categories) {
+      this.task.categories = [];
+    }
+    if (!this.task.categories.includes(category.trim())) {
+      this.task.categories = [...this.task.categories, category.trim()];
+      this.updateTask(this.task);
+    }
+  }
+
+  removeCategory(categoryToRemove: string) {
+    this.task.categories = this.task.categories.filter(
+      (category) => category !== categoryToRemove
+    );
+    this.updateTask(this.task);
   }
 
   addTag(tag: string) {
