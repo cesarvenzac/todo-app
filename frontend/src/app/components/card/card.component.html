@@ -6,7 +6,7 @@
     (blur)="updateTask(task)"
     placeholder="Task name"
   />
-  <input type="date" [(ngModel)]="task.dueDate" (change)="updateTask(task)" />
+  <input type="date" [(ngModel)]="formattedDueDate" />
   <select [(ngModel)]="task.status" (change)="updateTask(task)">
     <option value="to start">To Start</option>
     <option value="in progress">In Progress</option>

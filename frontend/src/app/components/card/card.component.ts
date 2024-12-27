@@ -25,6 +25,26 @@ export class CardComponent {
   @Output() taskUpdated = new EventEmitter<Task>();
   @Output() taskDeleted = new EventEmitter<string>();
 
+  get formattedDueDate(): string {
+    if (!this.task?.dueDate) return '';
+    try {
+      const date = new Date(this.task.dueDate);
+      return date.toISOString().split('T')[0];
+    } catch (e) {
+      console.error('Error formatting date:', e);
+      return '';
+    }
+  }
+
+  set formattedDueDate(value: string) {
+    if (value) {
+      this.task.dueDate = new Date(value + 'T00:00:00.000Z').toISOString();
+    } else {
+      this.task.dueDate = null;
+    }
+    this.updateTask(this.task);
+  }
+
   updateTask(task: Task) {
     this.taskUpdated.emit(task);
   }

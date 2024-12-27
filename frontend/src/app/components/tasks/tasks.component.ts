@@ -59,15 +59,29 @@ export class TasksComponent {
     status: string,
     priority: string,
     dueDate: string,
-    categories: string[],
-    tags: string[]
+    categories: string,
+    tags: string
   ) {
     if (!name.trim()) return;
+
+    const processedCategories = categories
+      .split(/[,\s]+/)
+      .map((cat) => cat.trim())
+      .filter((cat) => cat.length > 0);
+
+    const processedTags = tags
+      .split(/[,\s]+/)
+      .map((tag) => tag.trim())
+      .filter((tag) => tag.length > 0);
 
     const headers = new HttpHeaders().set(
       'Authorization',
       `Bearer ${this.authService.getToken()}`
     );
+
+    const formattedDueDate = dueDate
+      ? new Date(dueDate + 'T00:00:00.000Z').toISOString()
+      : null;
 
     this.http
       .post<any>(
@@ -77,9 +91,9 @@ export class TasksComponent {
           description,
           status: this.validateStatus(status),
           priority: this.validatePriority(priority),
-          dueDate,
-          categories,
-          tags,
+          dueDate: formattedDueDate,
+          categories: processedCategories,
+          tags: processedTags,
         },
         { headers }
       )
