@@ -95,7 +95,7 @@ export class TasksComponent implements OnInit {
       });
   }
 
-  updateTask(task: Task) {
+  updateTask(task: Task, openModal: boolean = false) {
     const headers = new HttpHeaders().set(
       'Authorization',
       `Bearer ${this.authService.getToken()}`
@@ -117,8 +117,10 @@ export class TasksComponent implements OnInit {
       )
       .subscribe({
         next: () => {
-          this.activeTaskId = task._id;
-          localStorage.setItem('activeTaskId', task._id);
+          if (openModal) {
+            this.activeTaskId = task._id;
+            localStorage.setItem('activeTaskId', task._id);
+          }
           this.refreshTasks();
         },
         error: (error) => {

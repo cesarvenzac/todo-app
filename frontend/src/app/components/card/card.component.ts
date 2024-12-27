@@ -24,7 +24,7 @@ interface Task {
 export class CardComponent {
   @Input() task!: Task;
   @Input() isModalOpen = false;
-  @Output() taskUpdated = new EventEmitter<Task>();
+  @Output() taskUpdated = new EventEmitter<[Task, boolean]>();
   @Output() taskDeleted = new EventEmitter<string>();
   @Output() modalClosed = new EventEmitter<void>();
 
@@ -49,7 +49,7 @@ export class CardComponent {
   }
 
   updateTask(task: Task) {
-    this.taskUpdated.emit(task);
+    this.taskUpdated.emit([task, false]);
   }
 
   deleteTask(taskId: string) {
@@ -109,13 +109,11 @@ export class CardComponent {
   }
 
   openModal() {
-    // Store task ID in localStorage when opening modal
-    localStorage.setItem('activeTaskId', this.task._id);
-    this.taskUpdated.emit({ ...this.task, _id: this.task._id });
+    // Update task and open modal
+    this.taskUpdated.emit([this.task, true]);
   }
 
   closeModal() {
-    // Remove task ID from localStorage when closing modal
     localStorage.removeItem('activeTaskId');
     this.modalClosed.emit();
   }

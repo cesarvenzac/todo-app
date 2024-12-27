@@ -126,7 +126,7 @@
           <app-card
             [task]="task"
             [isModalOpen]="isTaskModalOpen(task._id)"
-            (taskUpdated)="updateTask($event)"
+            (taskUpdated)="updateTask($event[0], $event[1])"
             (taskDeleted)="deleteTask($event)"
             (modalClosed)="onModalClose()"
           ></app-card>
@@ -145,7 +145,7 @@
           <app-card
             [task]="task"
             [isModalOpen]="isTaskModalOpen(task._id)"
-            (taskUpdated)="updateTask($event)"
+            (taskUpdated)="updateTask($event[0], $event[1])"
             (taskDeleted)="deleteTask($event)"
             (modalClosed)="onModalClose()"
           ></app-card>
@@ -164,7 +164,7 @@
           <app-card
             [task]="task"
             [isModalOpen]="isTaskModalOpen(task._id)"
-            (taskUpdated)="updateTask($event)"
+            (taskUpdated)="updateTask($event[0], $event[1])"
             (taskDeleted)="deleteTask($event)"
             (modalClosed)="onModalClose()"
           ></app-card>
