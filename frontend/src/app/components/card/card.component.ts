@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { TaskModalComponent } from '../task-modal/task-modal.component';
 
 interface Task {
   _id: string;
@@ -16,14 +17,16 @@ interface Task {
 @Component({
   selector: 'app-card',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, TaskModalComponent],
   templateUrl: './card.component.html',
   styleUrls: ['./card.component.css'],
 })
 export class CardComponent {
   @Input() task!: Task;
+  @Input() isModalOpen = false;
   @Output() taskUpdated = new EventEmitter<Task>();
   @Output() taskDeleted = new EventEmitter<string>();
+  @Output() modalClosed = new EventEmitter<void>();
 
   get formattedDueDate(): string {
     if (!this.task?.dueDate) return '';
@@ -103,5 +106,17 @@ export class CardComponent {
       (category) => category !== categoryToRemove
     );
     this.updateTask(this.task);
+  }
+
+  openModal() {
+    // Store task ID in localStorage when opening modal
+    localStorage.setItem('activeTaskId', this.task._id);
+    this.taskUpdated.emit({ ...this.task, _id: this.task._id });
+  }
+
+  closeModal() {
+    // Remove task ID from localStorage when closing modal
+    localStorage.removeItem('activeTaskId');
+    this.modalClosed.emit();
   }
 }

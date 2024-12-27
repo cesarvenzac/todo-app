@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { DecimalPipe, CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -27,14 +27,16 @@ type TaskPriority = Task['priority'];
   templateUrl: './tasks.component.html',
   styleUrls: ['./tasks.component.css'],
 })
-export class TasksComponent {
+export class TasksComponent implements OnInit {
   private http = inject(HttpClient);
   private authService = inject(AuthService);
   private readonly apiUrl = 'http://localhost:5038/api/';
   tasks: Task[] = [];
   Math = Math;
+  activeTaskId: string | null = null;
 
   ngOnInit() {
+    this.activeTaskId = localStorage.getItem('activeTaskId');
     this.refreshTasks();
   }
 
@@ -115,6 +117,8 @@ export class TasksComponent {
       )
       .subscribe({
         next: () => {
+          this.activeTaskId = task._id;
+          localStorage.setItem('activeTaskId', task._id);
           this.refreshTasks();
         },
         error: (error) => {
@@ -187,5 +191,14 @@ export class TasksComponent {
       .split(/[,\s]+/)
       .map((tag) => tag.trim())
       .filter((tag) => tag.length > 0);
+  }
+
+  isTaskModalOpen(taskId: string): boolean {
+    return this.activeTaskId === taskId;
+  }
+
+  onModalClose() {
+    this.activeTaskId = null;
+    localStorage.removeItem('activeTaskId');
   }
 }
