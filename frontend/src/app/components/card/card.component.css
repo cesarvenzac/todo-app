@@ -1,146 +1,46 @@
+:host {
+  width: 100%;
+  display: block;
+}
+
 .task-controls {
   display: flex;
   flex-direction: row;
   gap: 0.5rem;
+  width: 100%;
+}
+
+input[type="text"] {
   flex: 1;
-}
-
-select {
-  padding: 0.25rem;
-  border-radius: unset;
-  outline: none;
-  /* border: none; */
-  border: 1px solid #ccc;
-  font-size: 0.75rem;
-  color: black;
-  /* -webkit-appearance: none;
-  -moz-appearance: none;
-  text-indent: 1px;
-  text-overflow: ""; */
-}
-
-input {
+  min-width: 0;
   padding: 0.25rem;
   border: 1px solid #ccc;
 }
 
 button {
-  padding: 0.25rem 0.5rem;
-  border: none;
-  background-color: lightgrey;
-  color: red;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: red;
-  color: white;
-}
-
-.low-priority {
-  background-color: lightgreen;
-}
-
-.medium-priority {
-  background-color: lightsalmon;
-}
-
-.high-priority {
-  background-color: lightcoral;
-}
-
-.categories-input {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-  min-width: 150px;
-}
-
-.categories {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.25rem;
-}
-
-.category {
-  background-color: #e0e0e0;
-  padding: 0.125rem 0.5rem;
-  border-radius: 1rem;
-  font-size: 0.75rem;
+  width: 2rem;
+  aspect-ratio: 1 / 1;
   display: flex;
   align-items: center;
-  gap: 0.25rem;
-}
-
-.category button {
-  background: none;
-  border: none;
-  color: #666;
-  padding: 0;
-  font-size: 1rem;
-  line-height: 1;
-  cursor: pointer;
-}
-
-.category button:hover {
-  color: #ff4444;
-  background: none;
-}
-
-.category-input {
-  padding: 0.25rem;
-  border: 1px solid #ccc;
-  font-size: 0.75rem;
-  min-width: 100px;
-}
-
-.tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.25rem;
-}
-
-.tag {
-  background-color: #e0e0e0;
-  padding: 0.125rem 0.5rem;
-  border-radius: 1rem;
-  font-size: 0.75rem;
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-}
-
-.tag button {
-  background: none;
-  border: none;
-  color: #666;
-  padding: 0;
-  font-size: 1rem;
-  line-height: 1;
-  cursor: pointer;
-}
-
-.tag button:hover {
-  color: #ff4444;
-  background: none;
-}
-
-.tag-input {
-  padding: 0.25rem;
-  border: 1px solid #ccc;
-  font-size: 0.75rem;
-  min-width: 100px;
+  justify-content: center;
 }
 
 .view-details {
-  background-color: #4a90e2;
-  color: white;
-  padding: 0.25rem 0.5rem;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
+  background-color: var(--primary);
+  color: lightgrey;
 }
 
 .view-details:hover {
-  background-color: #357abd;
+  background-color: lightgrey;
+  color: var(--primary);
+}
+
+.delete-btn {
+  background-color: lightgrey;
+  color: red;
+}
+
+.delete-btn:hover {
+  background-color: red;
+  color: lightgrey;
 }

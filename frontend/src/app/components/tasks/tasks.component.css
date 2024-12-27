@@ -7,7 +7,6 @@ main {
   gap: 0.5rem;
 }
 
-/* Add media query for mobile devices */
 @media screen and (max-width: 768px) {
   main {
     flex-direction: column;
@@ -26,8 +25,8 @@ main {
   }
 
   .tasks-list > * {
-    width: max-content;
-    min-height: 200px; /* Give some minimum height to task columns */
+    min-width: 100%;
+    min-height: 200px;
   }
 }
 
@@ -129,6 +128,7 @@ main {
 }
 
 .tasks-list > * {
+  width: calc(100% / 3 - 6px);
   padding: 0.5rem;
   border: 1px solid var(--black);
   background-color: var(--white);
@@ -143,6 +143,7 @@ main {
 }
 
 ul {
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -150,9 +151,10 @@ ul {
 }
 
 li {
+  width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: stretch;
   gap: 0.5rem;
 }
 

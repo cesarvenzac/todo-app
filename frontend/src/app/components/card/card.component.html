@@ -6,8 +6,8 @@
     (blur)="updateTask(task)"
     placeholder="Task name"
   />
-  <button class="view-details" (click)="openModal()">View Details</button>
-  <button (click)="deleteTask(task._id)">×</button>
+  <button class="view-details" (click)="openModal()">↗</button>
+  <button class="delete-btn" (click)="deleteTask(task._id)">×</button>
 </div>
 
 <app-task-modal
