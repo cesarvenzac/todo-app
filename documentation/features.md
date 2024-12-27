@@ -48,6 +48,6 @@
 - [ ] Task comments
 - [x] Due dates
 - [ ] Task categories
-- [ ] Task tags
+- [x] Task tags
 - [ ] Task sharing
 - [ ] Task notifications
