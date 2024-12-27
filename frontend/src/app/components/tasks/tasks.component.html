@@ -92,6 +92,26 @@
         </div>
       </section>
     </section>
+    <section class="tasks-stats">
+      <span>Categories:</span>
+      <section class="categories-stats">
+        <div class="category-bar">
+          <div class="category" *ngFor="let task of tasks">
+            {{ task.categories }}
+          </div>
+        </div>
+      </section>
+    </section>
+    <section class="tasks-stats">
+      <span>Tags:</span>
+      <section class="tags-stats">
+        <div class="tag-bar">
+          <div class="tag" *ngFor="let task of tasks">
+            {{ task.tags }}
+          </div>
+        </div>
+      </section>
+    </section>
   </section>
   <section class="tasks-list">
     <section class="tasks-to_start">
