@@ -1,3 +1,4 @@
+// task.schema.ts
 import { z } from "zod";
 
 export const taskSchema = z.object({
@@ -9,8 +10,8 @@ export const taskSchema = z.object({
     .string()
     .transform((str) => (str ? new Date(str) : undefined))
     .optional(),
-  categories: z.array(z.string()).optional(),
-  tags: z.array(z.string()).optional(),
+  categories: z.array(z.string()).default([]),
+  tags: z.array(z.string()).default([]),
 });
 
 export type TaskInput = z.infer<typeof taskSchema>;

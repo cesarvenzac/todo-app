@@ -14,7 +14,6 @@ export class TaskService extends BaseService<Task> {
   }
 
   async createTask(userId: string, taskData: TaskInput): Promise<Task> {
-    // Ensure all required fields are present
     const task = await this.create({
       userId,
       name: taskData.name,
@@ -22,8 +21,8 @@ export class TaskService extends BaseService<Task> {
       status: taskData.status,
       priority: taskData.priority,
       dueDate: taskData.dueDate,
-      categories: taskData.categories || [],
-      tags: taskData.tags || [],
+      categories: taskData.categories ?? [],
+      tags: taskData.tags ?? [],
     });
 
     return task;
@@ -40,16 +39,15 @@ export class TaskService extends BaseService<Task> {
       throw new Error("Task not found");
     }
 
-    // Only update provided fields
-    const updateData: Partial<Task> = {
-      ...(taskData.name && { name: taskData.name }),
-      ...(taskData.description !== undefined && { description: taskData.description }),
-      ...(taskData.status && { status: taskData.status }),
-      ...(taskData.priority && { priority: taskData.priority }),
-      ...(taskData.dueDate !== undefined && { dueDate: taskData.dueDate }),
-      ...(taskData.categories && { categories: taskData.categories }),
-      ...(taskData.tags && { tags: taskData.tags }),
-    };
+    const updateData: Partial<Task> = {};
+
+    if (taskData.name !== undefined) updateData.name = taskData.name;
+    if (taskData.description !== undefined) updateData.description = taskData.description;
+    if (taskData.status !== undefined) updateData.status = taskData.status;
+    if (taskData.priority !== undefined) updateData.priority = taskData.priority;
+    if (taskData.dueDate !== undefined) updateData.dueDate = taskData.dueDate;
+    if (taskData.categories !== undefined) updateData.categories = taskData.categories;
+    if (taskData.tags !== undefined) updateData.tags = taskData.tags;
 
     return await this.update({ _id: objectId }, updateData);
   }

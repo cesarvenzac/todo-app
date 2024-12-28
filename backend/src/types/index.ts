@@ -20,12 +20,12 @@ export interface User extends BaseDocument {
 }
 
 export interface Task extends BaseDocument {
-  userId: string | ObjectId;
+  userId: string;
   name: string;
-  description?: string;
+  description: string | undefined;
   status: "to start" | "in progress" | "completed";
   priority: "low" | "medium" | "high";
-  dueDate?: Date;
+  dueDate: Date | undefined;
   categories: string[];
   tags: string[];
 }

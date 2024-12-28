@@ -14,13 +14,16 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 
 interface Task {
   _id: string;
+  userId: string;
   name: string;
-  description: string | null;
+  description?: string | null;
   status: 'to start' | 'in progress' | 'completed';
   priority: 'low' | 'medium' | 'high';
-  dueDate: string | null;
-  categories: string[] | null;
-  tags: string[] | null;
+  dueDate?: string | null;
+  categories: string[];
+  tags: string[];
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 type TaskStatus = Task['status'];
@@ -45,8 +48,8 @@ export class TasksComponent implements OnInit {
   private authService = inject(AuthService);
   private readonly apiUrl = 'http://localhost:5038/api/';
   tasks: Task[] = [];
-  Math = Math;
   activeTaskId: string | null = null;
+  Math = Math;
 
   ngOnInit() {
     this.activeTaskId = localStorage.getItem('activeTaskId');
@@ -84,20 +87,18 @@ export class TasksComponent implements OnInit {
       `Bearer ${this.authService.getToken()}`
     );
 
+    const taskData = {
+      name: name.trim(),
+      description: description.trim() || undefined,
+      status: this.validateStatus(status),
+      priority: this.validatePriority(priority),
+      dueDate: this.formatDueDate(dueDate),
+      categories: this.processCategories(categories),
+      tags: this.processTags(tags),
+    };
+
     this.http
-      .post<any>(
-        this.apiUrl + 'tasks',
-        {
-          name,
-          description,
-          status: this.validateStatus(status),
-          priority: this.validatePriority(priority),
-          dueDate: this.formatDueDate(dueDate),
-          categories: this.processCategories(categories),
-          tags: this.processTags(tags),
-        },
-        { headers }
-      )
+      .post<Task>(this.apiUrl + 'tasks', taskData, { headers })
       .subscribe({
         next: () => {
           this.refreshTasks();
@@ -114,20 +115,19 @@ export class TasksComponent implements OnInit {
       `Bearer ${this.authService.getToken()}`
     );
 
+    // Prepare update data matching backend schema
+    const taskData = {
+      name: task.name,
+      description: task.description || undefined,
+      status: task.status,
+      priority: task.priority,
+      dueDate: task.dueDate ? this.formatDueDate(task.dueDate) : undefined,
+      categories: task.categories || [],
+      tags: task.tags || [],
+    };
+
     this.http
-      .put<any>(
-        this.apiUrl + 'tasks/' + task._id,
-        {
-          name: task.name,
-          description: task.description,
-          status: task.status,
-          priority: task.priority,
-          dueDate: task.dueDate,
-          categories: task.categories,
-          tags: task.tags,
-        },
-        { headers }
-      )
+      .put<Task>(this.apiUrl + 'tasks/' + task._id, taskData, { headers })
       .subscribe({
         next: () => {
           if (openModal) {
@@ -148,14 +148,16 @@ export class TasksComponent implements OnInit {
       `Bearer ${this.authService.getToken()}`
     );
 
-    this.http.delete<any>(this.apiUrl + 'tasks/' + _id, { headers }).subscribe({
-      next: () => {
-        this.refreshTasks();
-      },
-      error: (error) => {
-        console.error('Error deleting task:', error);
-      },
-    });
+    this.http
+      .delete<void>(this.apiUrl + 'tasks/' + _id, { headers })
+      .subscribe({
+        next: () => {
+          this.refreshTasks();
+        },
+        error: (error) => {
+          console.error('Error deleting task:', error);
+        },
+      });
   }
 
   trackById(index: number, task: Task): string {
@@ -180,30 +182,28 @@ export class TasksComponent implements OnInit {
       : 'medium';
   }
 
-  private formatDueDate(dueDate: string): string {
-    return dueDate ? new Date(dueDate + 'T00:00:00.000Z').toISOString() : '';
-  }
-
-  private formatDueDateForInput(dueDate: string): string {
-    return dueDate ? new Date(dueDate).toISOString().split('T')[0] : '';
-  }
-
-  private formatDueDateForDisplay(dueDate: string): string {
-    return dueDate ? new Date(dueDate).toLocaleDateString() : '';
+  private formatDueDate(dueDate: string | null): string | undefined {
+    if (!dueDate) return undefined;
+    const date = new Date(dueDate);
+    return date.toISOString();
   }
 
   private processCategories(categories: string): string[] {
     return categories
-      .split(/[,\s]+/)
-      .map((cat) => cat.trim())
-      .filter((cat) => cat.length > 0);
+      ? categories
+          .split(/[,\s]+/)
+          .map((cat) => cat.trim())
+          .filter((cat) => cat.length > 0)
+      : [];
   }
 
   private processTags(tags: string): string[] {
     return tags
-      .split(/[,\s]+/)
-      .map((tag) => tag.trim())
-      .filter((tag) => tag.length > 0);
+      ? tags
+          .split(/[,\s]+/)
+          .map((tag) => tag.trim())
+          .filter((tag) => tag.length > 0)
+      : [];
   }
 
   isTaskModalOpen(taskId: string): boolean {
@@ -233,11 +233,10 @@ export class TasksComponent implements OnInit {
         event.currentIndex
       );
 
-      // Update the dropped task's status
       const task = event.container.data[event.currentIndex];
       const newStatus = event.container.id;
       if (task.status !== newStatus) {
-        task.status = newStatus as 'to start' | 'in progress' | 'completed';
+        task.status = newStatus as TaskStatus;
         this.updateTask(task, false);
       }
     }
