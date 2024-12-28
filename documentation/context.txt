@@ -39,6 +39,7 @@ Directory structure:
     │   ├── .dockerignore
     │   ├── Dockerfile
     │   ├── tsconfig.json
+    │   ├── package-lock.json
     │   ├── README.md
     │   ├── src/
     │   │   ├── index.html
@@ -72,6 +73,10 @@ Directory structure:
     │   │       │   │   ├── tasks.component.ts
     │   │       │   │   ├── tasks.component.css
     │   │       │   │   └── tasks.component.html
+    │   │       │   ├── task-modal/
+    │   │       │   │   ├── task-modal.component.css
+    │   │       │   │   ├── task-modal.component.html
+    │   │       │   │   └── task-modal.component.ts
     │   │       │   └── register/
     │   │       │       ├── register.component.html
     │   │       │       ├── register.component.ts
@@ -98,34 +103,53 @@ File: /README.md
 
 A modern task management application built with Express.js, Angular, and MongoDB, designed for efficient task organization and team collaboration.
 
-![License](https://img.shields.io/badge/license-MIT-blue.svg)
 ![Node](https://img.shields.io/badge/node-%3E%3D14.0.0-brightgreen)
 ![Angular](https://img.shields.io/badge/angular-17-red)
 
 ## Features
 
-### Core Features
+### Authentication System
 
-- **Secure Authentication System**
-
+- **Secure User Management**
+  - User registration with personal information
+  - Avatar upload capability
+  - Newsletter subscription option
+  - Terms consent handling
   - JWT-based authentication
-  - User registration with profile customization
   - Protected routes and secure endpoints
 
-- **Task Management**
-  - Intuitive task creation and editing
+### Task Management
+
+- **Comprehensive Task Control**
+  - Create, edit, and delete tasks
+  - Rich task descriptions
   - Status tracking (To Start, In Progress, Completed)
   - Priority levels (Low, Medium, High)
-  - Real-time progress visualization
-  - Priority distribution analytics
+  - Due dates management
+  - Categories and tags support
+  - Drag-and-drop task organization
+  - Detailed task modal view
 
 ### Coming Soon
 
-- Team collaboration features
-- Project management capabilities
-- Enhanced task features (attachments, comments, due dates)
-- Notifications system
-- Mobile optimization
+- **Team Collaboration**
+
+  - Team creation and management
+  - User invitations system
+  - Role-based permissions
+  - Shared task lists
+
+- **Project Management**
+
+  - Project creation and assignment
+  - Progress tracking
+  - Multi-project support
+
+- **Enhanced Task Features**
+  - File attachments
+  - Task comments
+  - Task sharing
+  - Notification system
 
 ## Tech Stack
 
@@ -143,6 +167,7 @@ A modern task management application built with Express.js, Angular, and MongoDB
 - Angular Router
 - HttpClient
 - Custom CSS with Variables
+- Angular CDK for Drag & Drop
 
 ### Infrastructure
 
@@ -199,7 +224,7 @@ Detailed documentation is available in the `/documentation` directory:
 - [Technical Description](documentation/description.md)
 - [Feature List](documentation/features.md)
 - [Architecture Overview](documentation/structure.md)
-- [Development Roadmap](documentation/plan.md)
+- [Development Plan](documentation/plan.md)
 
 ## Contributing
 
@@ -302,41 +327,53 @@ File: /documentation/plan.md
 ## Phase 1: Core Features [COMPLETED]
 
 - [x] Basic authentication system
+  - [x] User registration with email/password
+  - [x] Personal information collection
+  - [x] Avatar upload
+  - [x] Newsletter subscription
+  - [x] Terms consent
+- [x] JWT-based authentication
+- [x] Protected routes
 - [x] Task CRUD operations
 - [x] Task status management
 - [x] Priority management
 - [x] Basic UI implementation
 
-## Phase 2: Enhanced Task Management [IN PROGRESS]
+## Phase 2: Enhanced Task Management [COMPLETED]
 
-- [ ] Improved task descriptions
-- [ ] File attachments
-- [ ] Task categories
-- [ ] Due dates
-- [ ] Tags system
+- [x] Create new tasks
+- [x] Edit existing tasks
+- [x] Delete tasks
+- [x] Task description
+- [x] Task status tracking (to start, in progress, completed)
+- [x] Task priority levels (low, medium, high)
+- [x] Task due dates
+- [x] Task categories
+- [x] Task tags
+- [x] Task details modal
+- [x] Drag and drop tasks between lists
 
 ## Phase 3: Team Features [PLANNED]
 
-- [ ] Team creation
+- [ ] Team creation and management
 - [ ] User invitations
-- [ ] Team management
-- [ ] Shared tasks
-- [ ] Team permissions
+- [ ] Team member roles and permissions
+- [ ] Shared task lists
+- [ ] Multiple team support
 
 ## Phase 4: Project Management [PLANNED]
 
 - [ ] Project creation
 - [ ] Project assignment
-- [ ] Multiple projects
-- [ ] Project analytics
+- [ ] Project progress tracking
+- [ ] Multiple project support
 
 ## Phase 5: Advanced Features [PLANNED]
 
-- [ ] Email notifications
-- [ ] Push notifications
+- [ ] Task file attachments
 - [ ] Task comments
-- [ ] Activity tracking
-- [ ] Advanced analytics
+- [ ] Task sharing
+- [ ] Task notifications
 
 ## Phase 6: Optimization [PLANNED]
 
@@ -407,12 +444,14 @@ File: /documentation/features.md
 - [x] Create new tasks
 - [x] Edit existing tasks
 - [x] Delete tasks
+- [x] Task description
 - [x] Task status tracking (to start, in progress, completed)
-- [x] Priority levels (low, medium, high)
-- [x] Task filtering by status
-- [x] Real-time task updates
-- [x] Progress tracking
-- [x] Priority distribution visualization
+- [x] Task priority levels (low, medium, high)
+- [x] Task due dates
+- [x] Task categories
+- [x] Task tags
+- [x] Task details modal
+- [x] Drag and drop tasks between lists
 
 ## Planned Features
 
@@ -422,6 +461,7 @@ File: /documentation/features.md
 - [ ] User invitations
 - [ ] Team member roles and permissions
 - [ ] Shared task lists
+- [ ] Multiple team support
 
 ### Project Management
 
@@ -432,11 +472,8 @@ File: /documentation/features.md
 
 ### Enhanced Task Features
 
-- [ ] File attachments
+- [ ] Task file attachments
 - [ ] Task comments
-- [ ] Due dates
-- [ ] Task categories
-- [ ] Task tags
 - [ ] Task sharing
 - [ ] Task notifications
 
@@ -502,8 +539,18 @@ async function getTasks(req, res, database) {
 
 async function addTask(req, res, database) {
   try {
-    const { name, description, status, priority } = req.body;
-    const result = await createTask(req.user.userId, name, description, status, priority, database);
+    const { name, description, status, priority, dueDate, categories, tags } = req.body;
+    const result = await createTask(
+      req.user.userId,
+      name,
+      description,
+      status,
+      priority,
+      dueDate ? new Date(dueDate) : null,
+      categories,
+      tags,
+      database
+    );
     res.json(result);
   } catch (error) {
     res.status(500).json({ error: "Internal server error" });
@@ -512,7 +559,7 @@ async function addTask(req, res, database) {
 
 async function updateTask(req, res, database) {
   try {
-    const { name, description, status, priority } = req.body;
+    const { name, description, status, priority, dueDate, categories, tags } = req.body;
     const result = await modifyTask(
       req.user.userId,
       req.params._id,
@@ -520,6 +567,9 @@ async function updateTask(req, res, database) {
       description,
       status,
       priority,
+      dueDate ? new Date(dueDate) : undefined,
+      categories,
+      tags,
       database
     );
     res.json(result);
@@ -555,6 +605,9 @@ async function createTask(
   description = "",
   status = "to start",
   priority = "medium",
+  dueDate = null,
+  categories = [],
+  tags = [],
   database
 ) {
   if (!name) {
@@ -566,6 +619,9 @@ async function createTask(
     description,
     status,
     priority,
+    dueDate,
+    categories,
+    tags,
     userId,
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -573,7 +629,18 @@ async function createTask(
   return { message: "Task added successfully", taskId: result.insertedId };
 }
 
-async function modifyTask(userId, taskId, name, description, status, priority, database) {
+async function modifyTask(
+  userId,
+  taskId,
+  name,
+  description,
+  status,
+  priority,
+  dueDate,
+  categories,
+  tags,
+  database
+) {
   const validStatuses = ["to start", "in progress", "completed"];
   if (status && !validStatuses.includes(status)) {
     throw { status: 400, message: "Invalid status" };
@@ -595,6 +662,9 @@ async function modifyTask(userId, taskId, name, description, status, priority, d
         ...(description && { description }),
         ...(status && { status }),
         ...(priority && { priority }),
+        ...(dueDate && { dueDate }),
+        ...(categories && { categories }),
+        ...(tags && { tags }),
         updatedAt: new Date(),
       },
     }
@@ -1026,6 +1096,7 @@ File: /frontend/package.json
   "private": true,
   "dependencies": {
     "@angular/animations": "^17.3.0",
+    "@angular/cdk": "^19.0.4",
     "@angular/common": "^17.3.0",
     "@angular/compiler": "^17.3.0",
     "@angular/core": "^17.3.0",
@@ -1034,7 +1105,7 @@ File: /frontend/package.json
     "@angular/platform-browser-dynamic": "^17.3.0",
     "@angular/router": "^17.3.0",
     "rxjs": "~7.8.0",
-    "tslib": "^2.3.0",
+    "tslib": "^2.8.1",
     "zone.js": "~0.14.3"
   },
   "devDependencies": {
@@ -1235,7 +1306,7 @@ html {
 }
 
 body {
-  height: 100%;
+  /* height: 100%; */
   width: 100%;
   background-color: lightgrey;
   color: var(--black);
@@ -1449,33 +1520,17 @@ File: /frontend/src/app/components/card/card.component.html
     (blur)="updateTask(task)"
     placeholder="Task name"
   />
-  <!-- <input
-    type="text"
-    [(ngModel)]="task.description"
-    (keyup.enter)="updateTask(task)"
-    (blur)="updateTask(task)"
-    placeholder="Description"
-  /> -->
-  <select [(ngModel)]="task.status" (change)="updateTask(task)">
-    <option value="to start">To Start</option>
-    <option value="in progress">In Progress</option>
-    <option value="completed">Completed</option>
-  </select>
-  <select
-    [(ngModel)]="task.priority"
-    (change)="updateTask(task)"
-    [ngClass]="{
-      'low-priority': task.priority === 'low',
-      'medium-priority': task.priority === 'medium',
-      'high-priority': task.priority === 'high'
-    }"
-  >
-    <option value="low">Low</option>
-    <option value="medium">Medium</option>
-    <option value="high">High</option>
-  </select>
-  <button (click)="deleteTask(task._id)">×</button>
+  <button class="view-details" (click)="openModal()">↗</button>
+  <button class="drag-handle" cdkDragHandle>═</button>
+  <button class="delete-btn" (click)="deleteTask(task._id)">×</button>
 </div>
+
+<app-task-modal
+  [task]="task"
+  [isOpen]="isModalOpen"
+  (closeModal)="closeModal()"
+  (taskUpdated)="updateTask($event)"
+></app-task-modal>
 
 
 ================================================
@@ -1484,25 +1539,128 @@ File: /frontend/src/app/components/card/card.component.ts
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { TaskModalComponent } from '../task-modal/task-modal.component';
+import { CdkDrag, CdkDragHandle } from '@angular/cdk/drag-drop';
+
+interface Task {
+  _id: string;
+  name: string;
+  description: string | null;
+  status: 'to start' | 'in progress' | 'completed';
+  priority: 'low' | 'medium' | 'high';
+  dueDate: string | null;
+  categories: string[] | null;
+  tags: string[] | null;
+}
 
 @Component({
   selector: 'app-card',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    TaskModalComponent,
+    CdkDrag,
+    CdkDragHandle,
+  ],
   templateUrl: './card.component.html',
   styleUrls: ['./card.component.css'],
 })
 export class CardComponent {
-  @Input() task: any;
-  @Output() taskUpdated = new EventEmitter<any>();
+  @Input() task!: Task;
+  @Input() isModalOpen = false;
+  @Output() taskUpdated = new EventEmitter<[Task, boolean]>();
   @Output() taskDeleted = new EventEmitter<string>();
+  @Output() modalClosed = new EventEmitter<void>();
 
-  updateTask(task: any) {
-    this.taskUpdated.emit(task);
+  get formattedDueDate(): string {
+    if (!this.task?.dueDate) return '';
+    try {
+      const date = new Date(this.task.dueDate);
+      return date.toISOString().split('T')[0];
+    } catch (e) {
+      console.error('Error formatting date:', e);
+      return '';
+    }
+  }
+
+  set formattedDueDate(value: string) {
+    if (value) {
+      this.task.dueDate = new Date(value + 'T00:00:00.000Z').toISOString();
+    } else {
+      this.task.dueDate = null;
+    }
+    this.updateTask(this.task);
+  }
+
+  updateTask(task: Task) {
+    this.taskUpdated.emit([task, false]);
   }
 
   deleteTask(taskId: string) {
     this.taskDeleted.emit(taskId);
+  }
+
+  addTag(tagInput: string) {
+    if (!tagInput.trim()) return;
+
+    // Split by comma or space and process each tag
+    const newTags = tagInput
+      .split(/[,\s]+/)
+      .map((tag) => tag.trim())
+      .filter((tag) => tag.length > 0);
+
+    if (!this.task.tags) {
+      this.task.tags = [];
+    }
+
+    // Add new tags that don't already exist
+    this.task.tags = [...new Set([...this.task.tags, ...newTags])];
+
+    this.updateTask(this.task);
+  }
+
+  addCategory(categoryInput: string) {
+    if (!categoryInput.trim()) return;
+
+    // Split by comma or space and process each category
+    const newCategories = categoryInput
+      .split(/[,\s]+/)
+      .map((category) => category.trim())
+      .filter((category) => category.length > 0);
+
+    if (!this.task.categories) {
+      this.task.categories = [];
+    }
+
+    // Add new categories that don't already exist
+    this.task.categories = [
+      ...new Set([...this.task.categories, ...newCategories]),
+    ];
+
+    this.updateTask(this.task);
+  }
+  removeTag(tagToRemove: string) {
+    if (!this.task.tags) return;
+    this.task.tags = this.task.tags.filter((tag) => tag !== tagToRemove);
+    this.updateTask(this.task);
+  }
+  removeCategory(categoryToRemove: string) {
+    if (!this.task.categories) return;
+    this.task.categories = this.task.categories.filter(
+      (category) => category !== categoryToRemove
+    );
+    this.updateTask(this.task);
+  }
+
+  openModal() {
+    // Update task and open modal
+    this.taskUpdated.emit([this.task, true]);
+  }
+
+  closeModal() {
+    localStorage.removeItem('activeTaskId');
+    this.modalClosed.emit();
   }
 }
 
@@ -1510,55 +1668,73 @@ export class CardComponent {
 ================================================
 File: /frontend/src/app/components/card/card.component.css
 ================================================
+:host {
+  width: 100%;
+  display: block;
+}
+
 .task-controls {
   display: flex;
   flex-direction: row;
   gap: 0.5rem;
+  width: 100%;
+}
+
+input[type="text"] {
   flex: 1;
-}
-
-select {
-  padding: 0.25rem;
-  border-radius: unset;
-  outline: none;
-  /* border: none; */
-  border: 1px solid #ccc;
-  font-size: 0.75rem;
-  color: black;
-  /* -webkit-appearance: none;
-  -moz-appearance: none;
-  text-indent: 1px;
-  text-overflow: ""; */
-}
-
-input {
+  min-width: 0;
   padding: 0.25rem;
   border: 1px solid #ccc;
 }
 
 button {
-  padding: 0.25rem 0.5rem;
-  border: none;
+  width: 2rem;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.view-details {
+  background-color: var(--primary);
+  color: lightgrey;
+}
+
+.view-details:hover {
+  background-color: lightgrey;
+  color: var(--primary);
+}
+
+.delete-btn {
   background-color: lightgrey;
   color: red;
-  cursor: pointer;
 }
 
-button:hover {
+.delete-btn:hover {
   background-color: red;
-  color: white;
+  color: lightgrey;
 }
 
-.low-priority {
-  background-color: lightgreen;
+.drag-handle {
+  cursor: move;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  touch-action: none;
 }
 
-.medium-priority {
-  background-color: lightsalmon;
+.drag-handle:hover {
+  color: var(--primary);
+  background-color: lightgrey;
 }
 
-.high-priority {
-  background-color: lightcoral;
+.cdk-drag {
+  cursor: default;
+}
+
+.cdk-drag-handle {
+  cursor: move;
 }
 
 
@@ -1699,20 +1875,29 @@ export class LoginComponent {
 ================================================
 File: /frontend/src/app/components/tasks/tasks.component.ts
 ================================================
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { DecimalPipe, CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { FilterPipe } from '../../pipes/filter.pipe';
 import { CardComponent } from '../card/card.component';
+import {
+  CdkDragDrop,
+  moveItemInArray,
+  transferArrayItem,
+} from '@angular/cdk/drag-drop';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 interface Task {
   _id: string;
   name: string;
-  description: string;
+  description: string | null;
   status: 'to start' | 'in progress' | 'completed';
   priority: 'low' | 'medium' | 'high';
+  dueDate: string | null;
+  categories: string[] | null;
+  tags: string[] | null;
 }
 
 type TaskStatus = Task['status'];
@@ -1721,18 +1906,27 @@ type TaskPriority = Task['priority'];
 @Component({
   selector: 'app-tasks',
   standalone: true,
-  imports: [DecimalPipe, CommonModule, FormsModule, FilterPipe, CardComponent],
+  imports: [
+    DecimalPipe,
+    CommonModule,
+    FormsModule,
+    FilterPipe,
+    CardComponent,
+    DragDropModule,
+  ],
   templateUrl: './tasks.component.html',
   styleUrls: ['./tasks.component.css'],
 })
-export class TasksComponent {
+export class TasksComponent implements OnInit {
   private http = inject(HttpClient);
   private authService = inject(AuthService);
   private readonly apiUrl = 'http://localhost:5038/api/';
   tasks: Task[] = [];
   Math = Math;
+  activeTaskId: string | null = null;
 
   ngOnInit() {
+    this.activeTaskId = localStorage.getItem('activeTaskId');
     this.refreshTasks();
   }
 
@@ -1751,10 +1945,16 @@ export class TasksComponent {
     });
   }
 
-  addTask(name: string, description: string, priority: string) {
+  addTask(
+    name: string,
+    description: string,
+    status: string,
+    priority: string,
+    dueDate: string,
+    categories: string,
+    tags: string
+  ) {
     if (!name.trim()) return;
-
-    const validPriority = this.validatePriority(priority);
 
     const headers = new HttpHeaders().set(
       'Authorization',
@@ -1767,8 +1967,11 @@ export class TasksComponent {
         {
           name,
           description,
-          priority: validPriority,
-          status: 'to start' as TaskStatus,
+          status: this.validateStatus(status),
+          priority: this.validatePriority(priority),
+          dueDate: this.formatDueDate(dueDate),
+          categories: this.processCategories(categories),
+          tags: this.processTags(tags),
         },
         { headers }
       )
@@ -1782,7 +1985,7 @@ export class TasksComponent {
       });
   }
 
-  updateTask(task: Task) {
+  updateTask(task: Task, openModal: boolean = false) {
     const headers = new HttpHeaders().set(
       'Authorization',
       `Bearer ${this.authService.getToken()}`
@@ -1796,11 +1999,18 @@ export class TasksComponent {
           description: task.description,
           status: task.status,
           priority: task.priority,
+          dueDate: task.dueDate,
+          categories: task.categories,
+          tags: task.tags,
         },
         { headers }
       )
       .subscribe({
         next: () => {
+          if (openModal) {
+            this.activeTaskId = task._id;
+            localStorage.setItem('activeTaskId', task._id);
+          }
           this.refreshTasks();
         },
         error: (error) => {
@@ -1831,11 +2041,85 @@ export class TasksComponent {
     return task._id;
   }
 
+  private validateStatus(status: string): TaskStatus {
+    const validStatuses: TaskStatus[] = [
+      'to start',
+      'in progress',
+      'completed',
+    ];
+    return validStatuses.includes(status as TaskStatus)
+      ? (status as TaskStatus)
+      : 'to start';
+  }
+
   private validatePriority(priority: string): TaskPriority {
     const validPriorities: TaskPriority[] = ['low', 'medium', 'high'];
     return validPriorities.includes(priority as TaskPriority)
       ? (priority as TaskPriority)
       : 'medium';
+  }
+
+  private formatDueDate(dueDate: string): string {
+    return dueDate ? new Date(dueDate + 'T00:00:00.000Z').toISOString() : '';
+  }
+
+  private formatDueDateForInput(dueDate: string): string {
+    return dueDate ? new Date(dueDate).toISOString().split('T')[0] : '';
+  }
+
+  private formatDueDateForDisplay(dueDate: string): string {
+    return dueDate ? new Date(dueDate).toLocaleDateString() : '';
+  }
+
+  private processCategories(categories: string): string[] {
+    return categories
+      .split(/[,\s]+/)
+      .map((cat) => cat.trim())
+      .filter((cat) => cat.length > 0);
+  }
+
+  private processTags(tags: string): string[] {
+    return tags
+      .split(/[,\s]+/)
+      .map((tag) => tag.trim())
+      .filter((tag) => tag.length > 0);
+  }
+
+  isTaskModalOpen(taskId: string): boolean {
+    return this.activeTaskId === taskId;
+  }
+
+  onModalClose() {
+    this.activeTaskId = null;
+    localStorage.removeItem('activeTaskId');
+    setTimeout(() => {
+      this.refreshTasks();
+    }, 0);
+  }
+
+  onDrop(event: CdkDragDrop<Task[]>) {
+    if (event.previousContainer === event.container) {
+      moveItemInArray(
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
+    } else {
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
+
+      // Update the dropped task's status
+      const task = event.container.data[event.currentIndex];
+      const newStatus = event.container.id;
+      if (task.status !== newStatus) {
+        task.status = newStatus as 'to start' | 'in progress' | 'completed';
+        this.updateTask(task, false);
+      }
+    }
   }
 }
 
@@ -1843,13 +2127,44 @@ export class TasksComponent {
 ================================================
 File: /frontend/src/app/components/tasks/tasks.component.css
 ================================================
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.5rem;
+  height: 100%;
+}
+
 main {
-  margin-top: 0.5rem;
-  height: calc(100vh - 3.5rem);
+  margin-top: calc(0.5rem + 1px);
+  height: calc(100vh - 3.5rem - 1px);
   width: 100%;
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
+}
+
+@media screen and (max-width: 768px) {
+  main {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .side-menu {
+    width: 100%;
+  }
+
+  .tasks-list {
+    width: 100%;
+    flex-direction: column;
+    /* overflow-x: hidden;
+    overflow-y: auto; */
+  }
+
+  .tasks-list > * {
+    min-width: 100%;
+    min-height: 200px;
+  }
 }
 
 .side-menu {
@@ -1950,8 +2265,8 @@ main {
 }
 
 .tasks-list > * {
+  width: calc(100% / 3 - 1rem / 3);
   padding: 0.5rem;
-  width: 100%;
   border: 1px solid var(--black);
   background-color: var(--white);
   gap: 0.5rem;
@@ -1965,6 +2280,8 @@ main {
 }
 
 ul {
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -1972,9 +2289,10 @@ ul {
 }
 
 li {
+  width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: stretch;
   gap: 0.5rem;
 }
 
@@ -2021,6 +2339,31 @@ button:hover {
   background-color: red;
 }
 
+.cdk-drag-preview {
+  box-sizing: border-box;
+  border-radius: 4px;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+    0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+.cdk-drag-placeholder {
+  opacity: 0.3;
+  background: #ccc;
+  border: 1px dashed #999;
+}
+
+.cdk-drag-animating {
+  transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.tasks-list ul.cdk-drop-list-dragging li:not(.cdk-drag-placeholder) {
+  transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+ul.cdk-drop-list-receiving {
+  transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 
 ================================================
 File: /frontend/src/app/components/tasks/tasks.component.html
@@ -2031,14 +2374,30 @@ File: /frontend/src/app/components/tasks/tasks.component.html
       <span>Add</span>
       <input #newTaskName type="text" placeholder="Task name" />
       <input #newTaskDesc type="text" placeholder="Task description" />
+      <select #newTaskStatus>
+        <option value="to start">To Start</option>
+        <option value="in progress">In Progress</option>
+        <option value="completed">Completed</option>
+      </select>
       <select #newTaskPriority>
         <option value="low">Low</option>
         <option value="medium" selected>Medium</option>
         <option value="high">High</option>
       </select>
+      <input #newTaskDueDate type="date" placeholder="Due date" />
+      <input #newTaskCategories type="text" placeholder="Categories" />
+      <input #newTaskTags type="text" placeholder="Tags" />
       <button
         (click)="
-          addTask(newTaskName.value, newTaskDesc.value, newTaskPriority.value)
+          addTask(
+            newTaskName.value,
+            newTaskDesc.value,
+            newTaskStatus.value,
+            newTaskPriority.value,
+            newTaskDueDate.value,
+            newTaskCategories.value,
+            newTaskTags.value
+          )
         "
       >
         ADD
@@ -2103,61 +2462,442 @@ File: /frontend/src/app/components/tasks/tasks.component.html
         </div>
       </section>
     </section>
+    <!-- <section class="tasks-stats">
+      <span>Categories:</span>
+      <section class="categories-stats">
+        <div class="category-bar">
+          <div class="category" *ngFor="let task of tasks">
+            {{ task.categories }}
+          </div>
+        </div>
+      </section>
+    </section>
+    <section class="tasks-stats">
+      <span>Tags:</span>
+      <section class="tags-stats">
+        <div class="tag-bar">
+          <div class="tag" *ngFor="let task of tasks">
+            {{ task.tags }}
+          </div>
+        </div>
+      </section>
+    </section> -->
   </section>
   <section class="tasks-list">
-    <section class="tasks-to_start">
+    <div class="tasks-to-start">
       <span>To Start</span>
-      <ul>
+      <ul
+        cdkDropList
+        id="to start"
+        [cdkDropListData]="tasks | filter : { status: 'to start' }"
+        [cdkDropListConnectedTo]="['in progress', 'completed']"
+        (cdkDropListDropped)="onDrop($event)"
+      >
         <li
           *ngFor="
             let task of tasks | filter : { status: 'to start' };
             trackBy: trackById
           "
+          cdkDrag
+          cdkDragBoundary=".tasks-list"
+          [cdkDragDisabled]="isTaskModalOpen(task._id)"
         >
           <app-card
             [task]="task"
-            (taskUpdated)="updateTask($event)"
+            [isModalOpen]="isTaskModalOpen(task._id)"
+            (taskUpdated)="updateTask($event[0], $event[1])"
             (taskDeleted)="deleteTask($event)"
+            (modalClosed)="onModalClose()"
           ></app-card>
         </li>
       </ul>
-    </section>
-    <section class="tasks-in_progress">
+    </div>
+
+    <div class="tasks-in-progress">
       <span>In Progress</span>
-      <ul>
+      <ul
+        cdkDropList
+        id="in progress"
+        [cdkDropListData]="tasks | filter : { status: 'in progress' }"
+        [cdkDropListConnectedTo]="['to start', 'completed']"
+        (cdkDropListDropped)="onDrop($event)"
+      >
         <li
           *ngFor="
             let task of tasks | filter : { status: 'in progress' };
             trackBy: trackById
           "
+          cdkDrag
+          cdkDragBoundary=".tasks-list"
+          [cdkDragDisabled]="isTaskModalOpen(task._id)"
         >
           <app-card
             [task]="task"
-            (taskUpdated)="updateTask($event)"
+            [isModalOpen]="isTaskModalOpen(task._id)"
+            (taskUpdated)="updateTask($event[0], $event[1])"
             (taskDeleted)="deleteTask($event)"
+            (modalClosed)="onModalClose()"
           ></app-card>
         </li>
       </ul>
-    </section>
-    <section class="tasks-completed">
+    </div>
+
+    <div class="tasks-completed">
       <span>Completed</span>
-      <ul>
+      <ul
+        cdkDropList
+        id="completed"
+        [cdkDropListData]="tasks | filter : { status: 'completed' }"
+        [cdkDropListConnectedTo]="['to start', 'in progress']"
+        (cdkDropListDropped)="onDrop($event)"
+      >
         <li
           *ngFor="
             let task of tasks | filter : { status: 'completed' };
             trackBy: trackById
           "
+          cdkDrag
+          cdkDragBoundary=".tasks-list"
+          [cdkDragDisabled]="isTaskModalOpen(task._id)"
         >
           <app-card
             [task]="task"
-            (taskUpdated)="updateTask($event)"
+            [isModalOpen]="isTaskModalOpen(task._id)"
+            (taskUpdated)="updateTask($event[0], $event[1])"
             (taskDeleted)="deleteTask($event)"
+            (modalClosed)="onModalClose()"
           ></app-card>
         </li>
       </ul>
-    </section>
+    </div>
   </section>
 </main>
+
+
+================================================
+File: /frontend/src/app/components/task-modal/task-modal.component.css
+================================================
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  padding: 0.5rem;
+  border: 1px solid var(--black);
+  max-width: calc(100% - 2rem);
+  width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+}
+
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.close-button {
+  position: absolute;
+  aspect-ratio: 1/1;
+  color: var(--black);
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+.task-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.info-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.info-group label {
+  font-size: 0.75rem;
+}
+
+.categories,
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+.category,
+.tag {
+  height: 2rem;
+  background: var(--primary);
+  color: var(--white);
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+select,
+input,
+textarea {
+  border: 1px solid #ccc;
+  padding: 0.25rem;
+  border-radius: unset;
+  outline: none;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 80px;
+  max-height: 200px;
+}
+
+.remove-btn {
+  background: none;
+  border: none;
+  color: var(--white);
+  padding: 0 0.25rem;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.remove-btn:hover {
+  color: red;
+}
+
+.category-input,
+.tag-input {
+  width: 100%;
+}
+
+.low-priority {
+  background-color: lightgreen;
+}
+.medium-priority {
+  background-color: lightsalmon;
+}
+.high-priority {
+  background-color: lightcoral;
+}
+
+
+================================================
+File: /frontend/src/app/components/task-modal/task-modal.component.html
+================================================
+<div class="modal-overlay" *ngIf="isOpen" (click)="close()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <!-- <button class="close-button" (click)="close()">×</button> -->
+
+    <div class="modal-body">
+      <h2>{{ task.name }}</h2>
+
+      <div class="task-info">
+        <div class="info-group">
+          <label>Status:</label>
+          <select [(ngModel)]="task.status" (change)="updateTask()">
+            <option value="to start">To Start</option>
+            <option value="in progress">In Progress</option>
+            <option value="completed">Completed</option>
+          </select>
+        </div>
+
+        <div class="info-group">
+          <label>Priority:</label>
+          <select
+            [(ngModel)]="task.priority"
+            (change)="updateTask()"
+            [ngClass]="{
+              'low-priority': task.priority === 'low',
+              'medium-priority': task.priority === 'medium',
+              'high-priority': task.priority === 'high'
+            }"
+          >
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+          </select>
+        </div>
+
+        <div class="info-group">
+          <label>Due Date:</label>
+          <input
+            type="date"
+            [ngModel]="formattedDueDate"
+            (ngModelChange)="updateDueDate($event)"
+          />
+        </div>
+
+        <div class="info-group">
+          <label>Description:</label>
+          <textarea
+            [(ngModel)]="task.description"
+            (blur)="updateTask()"
+            rows="3"
+            placeholder="Add a description..."
+          ></textarea>
+        </div>
+
+        <div class="info-group">
+          <label>Categories:</label>
+          <div class="categories" *ngIf="task.categories && task.categories.length > 0">
+            <span class="category" *ngFor="let category of task.categories">
+              {{ category }}
+              <button class="remove-btn" (click)="removeCategory(category)">
+                ×
+              </button>
+            </span>
+          </div>
+          <input
+            #categoryInput
+            type="text"
+            placeholder="Add category..."
+            class="category-input"
+            (keyup.enter)="
+              addCategory(categoryInput.value); categoryInput.value = ''
+            "
+          />
+        </div>
+
+        <div class="info-group">
+          <label>Tags:</label>
+          <div class="tags" *ngIf="task.tags && task.tags.length > 0">
+            <span class="tag" *ngFor="let tag of task.tags">
+              {{ tag }}
+              <button class="remove-btn" (click)="removeTag(tag)">×</button>
+            </span>
+          </div>
+          <input
+            #tagInput
+            type="text"
+            placeholder="Add tag..."
+            class="tag-input"
+            (keyup.enter)="addTag(tagInput.value); tagInput.value = ''"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+================================================
+File: /frontend/src/app/components/task-modal/task-modal.component.ts
+================================================
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+
+interface Task {
+  _id: string;
+  name: string;
+  description: string | null;
+  status: 'to start' | 'in progress' | 'completed';
+  priority: 'low' | 'medium' | 'high';
+  dueDate: string | null;
+  categories: string[] | null;
+  tags: string[] | null;
+}
+
+@Component({
+  selector: 'app-task-modal',
+  standalone: true,
+  imports: [CommonModule, FormsModule],
+  templateUrl: './task-modal.component.html',
+  styleUrls: ['./task-modal.component.css'],
+})
+export class TaskModalComponent {
+  @Input() task!: Task;
+  @Input() isOpen = false;
+  @Output() closeModal = new EventEmitter<void>();
+  @Output() taskUpdated = new EventEmitter<Task>();
+
+  get formattedDueDate(): string {
+    if (!this.task?.dueDate) return '';
+    return new Date(this.task.dueDate).toISOString().split('T')[0];
+  }
+
+  updateDueDate(value: string) {
+    this.task.dueDate = value
+      ? new Date(value + 'T00:00:00.000Z').toISOString()
+      : null;
+    this.updateTask();
+  }
+
+  addCategory(categoryInput: string) {
+    if (!categoryInput.trim()) return;
+
+    const newCategories = categoryInput
+      .split(/[,\s]+/)
+      .map((category) => category.trim())
+      .filter((category) => category.length > 0);
+
+    if (!this.task.categories) {
+      this.task.categories = [];
+    }
+
+    this.task.categories = [
+      ...new Set([...this.task.categories, ...newCategories]),
+    ];
+
+    this.updateTask();
+  }
+
+  addTag(tagInput: string) {
+    if (!tagInput.trim()) return;
+
+    const newTags = tagInput
+      .split(/[,\s]+/)
+      .map((tag) => tag.trim())
+      .filter((tag) => tag.length > 0);
+
+    if (!this.task.tags) {
+      this.task.tags = [];
+    }
+
+    this.task.tags = [...new Set([...this.task.tags, ...newTags])];
+
+    this.updateTask();
+  }
+
+  removeCategory(categoryToRemove: string) {
+    this.task.categories =
+      this.task.categories?.filter(
+        (category) => category !== categoryToRemove
+      ) || [];
+    this.updateTask();
+  }
+
+  removeTag(tagToRemove: string) {
+    this.task.tags = this.task.tags?.filter((tag) => tag !== tagToRemove) || [];
+    this.updateTask();
+  }
+
+  updateTask() {
+    this.taskUpdated.emit(this.task);
+  }
+
+  close() {
+    this.closeModal.emit();
+  }
+}
 
 
 ================================================

@@ -39,6 +39,7 @@ export class LoginComponent {
           });
           this.authService.userInfoUpdated.emit();
           this.router.navigate(['/']);
+          console.log('Token being stored:', this.authService.getToken());
         },
         error: (err) => {
           console.error('Error logging in:', err);

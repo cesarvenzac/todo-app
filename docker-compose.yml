@@ -9,8 +9,11 @@ services:
     env_file:
       - .env
     volumes:
-      - ./backend:/usr/src/app
+      - ./backend/src:/usr/src/app/src
+      - ./backend/uploads:/usr/src/app/uploads
+      - ./backend/logs:/usr/src/app/logs
       - /usr/src/app/node_modules
+      - /usr/src/app/dist
 
   frontend:
     build:

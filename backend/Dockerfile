@@ -13,11 +13,23 @@ RUN npm install --no-package-lock
 # Rebuild bcrypt
 RUN npm rebuild bcrypt --build-from-source
 
-# Copy the rest of the application code
-COPY . .
+# Copy TypeScript config
+COPY tsconfig.json ./
+
+# Create necessary directories
+RUN mkdir -p src dist uploads logs
+
+# Copy source code
+COPY src ./src
+
+# Build TypeScript code
+RUN npm run build
+
+# Verify the build
+RUN ls -la dist/
 
 # Expose the port the app runs on
 EXPOSE 5038
 
-# Command to run the application
-CMD ["node", "index.js"]
+# Run compiled JavaScript
+CMD ["npm", "start"]

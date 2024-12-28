@@ -86,7 +86,7 @@ export class TasksComponent implements OnInit {
 
     this.http
       .post<any>(
-        this.apiUrl + 'tasks/add',
+        this.apiUrl + 'tasks',
         {
           name,
           description,
@@ -116,7 +116,7 @@ export class TasksComponent implements OnInit {
 
     this.http
       .put<any>(
-        this.apiUrl + 'tasks/update/' + task._id,
+        this.apiUrl + 'tasks/' + task._id,
         {
           name: task.name,
           description: task.description,
@@ -148,16 +148,14 @@ export class TasksComponent implements OnInit {
       `Bearer ${this.authService.getToken()}`
     );
 
-    this.http
-      .delete<any>(this.apiUrl + 'tasks/delete/' + _id, { headers })
-      .subscribe({
-        next: () => {
-          this.refreshTasks();
-        },
-        error: (error) => {
-          console.error('Error deleting task:', error);
-        },
-      });
+    this.http.delete<any>(this.apiUrl + 'tasks/' + _id, { headers }).subscribe({
+      next: () => {
+        this.refreshTasks();
+      },
+      error: (error) => {
+        console.error('Error deleting task:', error);
+      },
+    });
   }
 
   trackById(index: number, task: Task): string {
