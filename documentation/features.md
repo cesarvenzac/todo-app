@@ -19,12 +19,14 @@
 - [x] Create new tasks
 - [x] Edit existing tasks
 - [x] Delete tasks
+- [x] Task description
 - [x] Task status tracking (to start, in progress, completed)
-- [x] Priority levels (low, medium, high)
-- [x] Task filtering by status
-- [x] Real-time task updates
-- [x] Progress tracking
-- [x] Priority distribution visualization
+- [x] Task priority levels (low, medium, high)
+- [x] Task due dates
+- [x] Task categories
+- [x] Task tags
+- [x] Task details modal
+- [x] Drag and drop tasks between lists
 
 ## Planned Features
 
@@ -34,6 +36,7 @@
 - [ ] User invitations
 - [ ] Team member roles and permissions
 - [ ] Shared task lists
+- [ ] Multiple team support
 
 ### Project Management
 
@@ -44,10 +47,7 @@
 
 ### Enhanced Task Features
 
-- [ ] File attachments
+- [ ] Task file attachments
 - [ ] Task comments
-- [x] Task due dates
-- [x] Task categories
-- [x] Task tags
 - [ ] Task sharing
 - [ ] Task notifications
