@@ -21,6 +21,7 @@ export class AuthService extends BaseService<User> {
       throw new Error("User already exists");
     }
 
+    console.log(userData);
     // Hash password
     const hashedPassword = await hash(userData.password, 10);
 
@@ -38,7 +39,7 @@ export class AuthService extends BaseService<User> {
     });
 
     // Remove password from response
-    const { password, ...userWithoutPassword } = user;
+    const { password: _, ...userWithoutPassword } = user;
     return userWithoutPassword;
   }
 

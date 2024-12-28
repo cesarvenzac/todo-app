@@ -14,6 +14,7 @@ export const registerSchema = z.object({
   consent: z.boolean().refine((val) => val === true, {
     message: "You must accept the terms and conditions",
   }),
+  avatar: z.any().optional(),
 });
 
 export const loginSchema = z.object({

@@ -43,7 +43,7 @@ export class LoginComponent {
         },
         error: (err) => {
           console.error('Error logging in:', err);
-          this.error = err.error.error || 'An error occurred';
+          this.error = err.error.message || 'An error occurred';
         },
       });
   }
