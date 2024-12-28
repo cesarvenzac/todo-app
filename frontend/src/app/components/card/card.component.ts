@@ -6,13 +6,16 @@ import { CdkDrag, CdkDragHandle } from '@angular/cdk/drag-drop';
 
 interface Task {
   _id: string;
+  userId: string;
   name: string;
-  description: string | null;
+  description?: string | null;
   status: 'to start' | 'in progress' | 'completed';
   priority: 'low' | 'medium' | 'high';
-  dueDate: string | null;
-  categories: string[] | null;
-  tags: string[] | null;
+  dueDate?: string | null;
+  categories: string[];
+  tags: string[];
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 @Component({

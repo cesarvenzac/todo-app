@@ -2,15 +2,19 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
+
 interface Task {
   _id: string;
+  userId: string;
   name: string;
-  description: string | null;
+  description?: string | null;
   status: 'to start' | 'in progress' | 'completed';
   priority: 'low' | 'medium' | 'high';
-  dueDate: string | null;
-  categories: string[] | null;
-  tags: string[] | null;
+  dueDate?: string | null;
+  categories: string[];
+  tags: string[];
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 @Component({
