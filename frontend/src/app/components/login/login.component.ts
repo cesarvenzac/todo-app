@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
@@ -13,17 +13,15 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent {
-  email: string = '';
-  password: string = '';
-  error: string = '';
+  email = '';
+  password = '';
+  error = '';
 
-  constructor(
-    private http: HttpClient,
-    private router: Router,
-    private authService: AuthService
-  ) {}
+  private readonly http = inject(HttpClient);
+  private readonly router = inject(Router);
+  private readonly authService = inject(AuthService);
 
-  onSubmit() {
+  onSubmit(): void {
     this.http
       .post<any>('http://localhost:5038/api/auth/login', {
         email: this.email,
@@ -37,9 +35,7 @@ export class LoginComponent {
             lastname: response.lastname,
             avatar: response.avatar,
           });
-          this.authService.userInfoUpdated.emit();
           this.router.navigate(['/']);
-          console.log('Token being stored:', this.authService.getToken());
         },
         error: (err) => {
           console.error('Error logging in:', err);

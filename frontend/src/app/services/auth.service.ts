@@ -1,60 +1,68 @@
-import { Injectable, EventEmitter } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
+
+interface UserInfo {
+  firstname: string;
+  lastname: string;
+  avatar?: string;
+}
+
+interface LoginResponse {
+  token: string;
+  firstname: string;
+  lastname: string;
+  avatar?: string;
+}
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private tokenKey = 'authToken';
-  private userInfoKey = 'userInfo';
+  private readonly tokenKey = 'authToken';
+  private readonly userInfoKey = 'userInfo';
   private readonly apiUrl = 'http://localhost:5038/api/auth';
-  private isAuthenticatedSubject = new BehaviorSubject<boolean>(
-    this.hasToken()
+
+  private readonly http = inject(HttpClient);
+
+  private readonly isAuthenticatedSubject = new BehaviorSubject<boolean>(
+    Boolean(localStorage.getItem(this.tokenKey))
   );
-  isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
-  userInfoUpdated = new EventEmitter<void>();
+  readonly isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
 
-  constructor(private http: HttpClient) {}
+  private readonly userInfoSubject = new BehaviorSubject<UserInfo | null>(
+    this.loadUserInfo()
+  );
+  readonly userInfo$ = this.userInfoSubject.asObservable();
 
-  private hasToken(): boolean {
-    return !!localStorage.getItem(this.tokenKey);
+  private loadUserInfo(): UserInfo | null {
+    const stored = localStorage.getItem(this.userInfoKey);
+    return stored ? JSON.parse(stored) : null;
   }
 
-  setToken(token: string) {
+  setToken(token: string): void {
     localStorage.setItem(this.tokenKey, token);
     this.isAuthenticatedSubject.next(true);
-  }
-
-  setUserInfo(userInfo: any) {
-    localStorage.setItem(this.userInfoKey, JSON.stringify(userInfo));
-    this.userInfoUpdated.emit();
-  }
-
-  getUserInfo(): any {
-    const userInfo = localStorage.getItem(this.userInfoKey);
-    return userInfo ? JSON.parse(userInfo) : null;
   }
 
   getToken(): string | null {
     return localStorage.getItem(this.tokenKey);
   }
 
-  clearToken() {
+  setUserInfo(userInfo: UserInfo): void {
+    localStorage.setItem(this.userInfoKey, JSON.stringify(userInfo));
+    this.userInfoSubject.next(userInfo);
+  }
+
+  getUserInfo(): UserInfo | null {
+    return this.userInfoSubject.getValue();
+  }
+
+  logout(): void {
     localStorage.removeItem(this.tokenKey);
     localStorage.removeItem(this.userInfoKey);
     this.isAuthenticatedSubject.next(false);
-  }
-
-  register(userData: any): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/register`, { userData });
-  }
-
-  login(email: string, password: string): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/login`, { email, password });
-  }
-
-  logout() {
-    this.clearToken();
+    this.userInfoSubject.next(null);
   }
 }
