@@ -2,34 +2,53 @@
 
 A modern task management application built with Express.js, Angular, and MongoDB, designed for efficient task organization and team collaboration.
 
-![License](https://img.shields.io/badge/license-MIT-blue.svg)
 ![Node](https://img.shields.io/badge/node-%3E%3D14.0.0-brightgreen)
 ![Angular](https://img.shields.io/badge/angular-17-red)
 
 ## Features
 
-### Core Features
+### Authentication System
 
-- **Secure Authentication System**
-
+- **Secure User Management**
+  - User registration with personal information
+  - Avatar upload capability
+  - Newsletter subscription option
+  - Terms consent handling
   - JWT-based authentication
-  - User registration with profile customization
   - Protected routes and secure endpoints
 
-- **Task Management**
-  - Intuitive task creation and editing
+### Task Management
+
+- **Comprehensive Task Control**
+  - Create, edit, and delete tasks
+  - Rich task descriptions
   - Status tracking (To Start, In Progress, Completed)
   - Priority levels (Low, Medium, High)
-  - Real-time progress visualization
-  - Priority distribution analytics
+  - Due dates management
+  - Categories and tags support
+  - Drag-and-drop task organization
+  - Detailed task modal view
 
 ### Coming Soon
 
-- Team collaboration features
-- Project management capabilities
-- Enhanced task features (attachments, comments, due dates)
-- Notifications system
-- Mobile optimization
+- **Team Collaboration**
+
+  - Team creation and management
+  - User invitations system
+  - Role-based permissions
+  - Shared task lists
+
+- **Project Management**
+
+  - Project creation and assignment
+  - Progress tracking
+  - Multi-project support
+
+- **Enhanced Task Features**
+  - File attachments
+  - Task comments
+  - Task sharing
+  - Notification system
 
 ## Tech Stack
 
@@ -47,6 +66,7 @@ A modern task management application built with Express.js, Angular, and MongoDB
 - Angular Router
 - HttpClient
 - Custom CSS with Variables
+- Angular CDK for Drag & Drop
 
 ### Infrastructure
 
@@ -103,7 +123,7 @@ Detailed documentation is available in the `/documentation` directory:
 - [Technical Description](documentation/description.md)
 - [Feature List](documentation/features.md)
 - [Architecture Overview](documentation/structure.md)
-- [Development Roadmap](documentation/plan.md)
+- [Development Plan](documentation/plan.md)
 
 ## Contributing
 
