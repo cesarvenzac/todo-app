@@ -15,7 +15,7 @@
 - [x] Priority management
 - [x] Basic UI implementation
 
-## Phase 2: Enhanced Task Management [UNCOMPLETED]
+## Phase 2: Enhanced Task Management [COMPLETED]
 
 - [x] Create new tasks
 - [x] Edit existing tasks
@@ -27,10 +27,6 @@
 - [x] Task categories
 - [x] Task tags
 - [x] Task details modal
-- [ ] Task file attachments
-- [ ] Task comments
-- [ ] Task sharing
-- [ ] Task notifications
 - [x] Drag and drop tasks between lists
 
 ## Phase 3: Team Features [PLANNED]
