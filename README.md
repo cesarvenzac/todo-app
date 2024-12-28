@@ -129,10 +129,6 @@ Detailed documentation is available in the `/documentation` directory:
 
 Contributions are welcome! Please read our [Contributing Guidelines](CONTRIBUTING.md) before submitting pull requests.
 
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
 ## Support
 
 For support, please open an issue in the GitHub repository or contact the maintainers.
