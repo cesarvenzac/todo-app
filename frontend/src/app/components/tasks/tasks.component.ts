@@ -5,6 +5,12 @@ import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { FilterPipe } from '../../pipes/filter.pipe';
 import { CardComponent } from '../card/card.component';
+import {
+  CdkDragDrop,
+  moveItemInArray,
+  transferArrayItem,
+} from '@angular/cdk/drag-drop';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 interface Task {
   _id: string;
@@ -23,7 +29,14 @@ type TaskPriority = Task['priority'];
 @Component({
   selector: 'app-tasks',
   standalone: true,
-  imports: [DecimalPipe, CommonModule, FormsModule, FilterPipe, CardComponent],
+  imports: [
+    DecimalPipe,
+    CommonModule,
+    FormsModule,
+    FilterPipe,
+    CardComponent,
+    DragDropModule,
+  ],
   templateUrl: './tasks.component.html',
   styleUrls: ['./tasks.component.css'],
 })
@@ -202,5 +215,33 @@ export class TasksComponent implements OnInit {
   onModalClose() {
     this.activeTaskId = null;
     localStorage.removeItem('activeTaskId');
+    setTimeout(() => {
+      this.refreshTasks();
+    }, 0);
+  }
+
+  onDrop(event: CdkDragDrop<Task[]>) {
+    if (event.previousContainer === event.container) {
+      moveItemInArray(
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
+    } else {
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
+
+      // Update the dropped task's status
+      const task = event.container.data[event.currentIndex];
+      const newStatus = event.container.id;
+      if (task.status !== newStatus) {
+        task.status = newStatus as 'to start' | 'in progress' | 'completed';
+        this.updateTask(task, false);
+      }
+    }
   }
 }

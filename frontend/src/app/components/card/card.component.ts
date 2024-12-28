@@ -2,6 +2,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TaskModalComponent } from '../task-modal/task-modal.component';
+import { CdkDrag, CdkDragHandle } from '@angular/cdk/drag-drop';
 
 interface Task {
   _id: string;
@@ -17,7 +18,13 @@ interface Task {
 @Component({
   selector: 'app-card',
   standalone: true,
-  imports: [CommonModule, FormsModule, TaskModalComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    TaskModalComponent,
+    CdkDrag,
+    CdkDragHandle,
+  ],
   templateUrl: './card.component.html',
   styleUrls: ['./card.component.css'],
 })

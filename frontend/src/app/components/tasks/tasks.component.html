@@ -114,14 +114,23 @@
     </section> -->
   </section>
   <section class="tasks-list">
-    <section class="tasks-to_start">
+    <div class="tasks-to-start">
       <span>To Start</span>
-      <ul>
+      <ul
+        cdkDropList
+        id="to start"
+        [cdkDropListData]="tasks | filter : { status: 'to start' }"
+        [cdkDropListConnectedTo]="['in progress', 'completed']"
+        (cdkDropListDropped)="onDrop($event)"
+      >
         <li
           *ngFor="
             let task of tasks | filter : { status: 'to start' };
             trackBy: trackById
           "
+          cdkDrag
+          cdkDragBoundary=".tasks-list"
+          [cdkDragDisabled]="isTaskModalOpen(task._id)"
         >
           <app-card
             [task]="task"
@@ -132,15 +141,25 @@
           ></app-card>
         </li>
       </ul>
-    </section>
-    <section class="tasks-in_progress">
+    </div>
+
+    <div class="tasks-in-progress">
       <span>In Progress</span>
-      <ul>
+      <ul
+        cdkDropList
+        id="in progress"
+        [cdkDropListData]="tasks | filter : { status: 'in progress' }"
+        [cdkDropListConnectedTo]="['to start', 'completed']"
+        (cdkDropListDropped)="onDrop($event)"
+      >
         <li
           *ngFor="
             let task of tasks | filter : { status: 'in progress' };
             trackBy: trackById
           "
+          cdkDrag
+          cdkDragBoundary=".tasks-list"
+          [cdkDragDisabled]="isTaskModalOpen(task._id)"
         >
           <app-card
             [task]="task"
@@ -151,15 +170,25 @@
           ></app-card>
         </li>
       </ul>
-    </section>
-    <section class="tasks-completed">
+    </div>
+
+    <div class="tasks-completed">
       <span>Completed</span>
-      <ul>
+      <ul
+        cdkDropList
+        id="completed"
+        [cdkDropListData]="tasks | filter : { status: 'completed' }"
+        [cdkDropListConnectedTo]="['to start', 'in progress']"
+        (cdkDropListDropped)="onDrop($event)"
+      >
         <li
           *ngFor="
             let task of tasks | filter : { status: 'completed' };
             trackBy: trackById
           "
+          cdkDrag
+          cdkDragBoundary=".tasks-list"
+          [cdkDragDisabled]="isTaskModalOpen(task._id)"
         >
           <app-card
             [task]="task"
@@ -170,6 +199,6 @@
           ></app-card>
         </li>
       </ul>
-    </section>
+    </div>
   </section>
 </main>

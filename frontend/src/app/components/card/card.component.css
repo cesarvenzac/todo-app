@@ -44,3 +44,25 @@ button {
   background-color: red;
   color: lightgrey;
 }
+
+.drag-handle {
+  cursor: move;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  touch-action: none;
+}
+
+.drag-handle:hover {
+  color: var(--primary);
+  background-color: lightgrey;
+}
+
+.cdk-drag {
+  cursor: default;
+}
+
+.cdk-drag-handle {
+  cursor: move;
+}
