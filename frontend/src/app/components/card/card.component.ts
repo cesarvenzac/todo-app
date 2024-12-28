@@ -25,7 +25,6 @@ interface Task {
     CommonModule,
     FormsModule,
     TaskModalComponent,
-    CdkDrag,
     CdkDragHandle,
   ],
   templateUrl: './card.component.html',

@@ -23,6 +23,7 @@ import { Router } from '@angular/router';
             />
           </ng-container>
           <button (click)="logout()">LOGOUT</button>
+          <button (click)="logUser()">PRINT</button>
         </div>
       </nav>
     </header>
@@ -33,6 +34,12 @@ import { Router } from '@angular/router';
 export class AppComponent {
   readonly authService = inject(AuthService);
   private readonly router = inject(Router);
+
+  logUser(): void {
+    this.authService.userInfo$.subscribe((userInfo) =>
+      console.log('UserInfo:', userInfo)
+    );
+  }
 
   logout(): void {
     this.authService.logout();

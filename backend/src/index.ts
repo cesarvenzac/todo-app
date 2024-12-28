@@ -1,4 +1,5 @@
 import express from "express";
+import path from "path";
 import cors from "cors";
 import { config } from "./config";
 import { MongoDBService } from "./services/database.service";
@@ -28,10 +29,13 @@ async function bootstrap() {
     // Create Express app
     const app = express();
 
+    // Serve static files from the "uploads" directory
+    app.use("/uploads", express.static(path.resolve(__dirname, "../uploads")));
+
     // CORS configuration
     app.use(
       cors({
-        origin: ["http://localhost:4200"], // Add your frontend URL
+        origin: ["http://localhost:4200"],
         methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
         allowedHeaders: ["Content-Type", "Authorization"],
         credentials: true,

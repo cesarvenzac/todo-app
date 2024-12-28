@@ -29,11 +29,12 @@ export class LoginComponent {
       })
       .subscribe({
         next: (response) => {
+          const user = response.user;
           this.authService.setToken(response.token);
           this.authService.setUserInfo({
-            firstname: response.firstname,
-            lastname: response.lastname,
-            avatar: response.avatar,
+            firstname: user.firstname,
+            lastname: user.lastname,
+            avatar: user.avatarPath,
           });
           this.router.navigate(['/']);
         },

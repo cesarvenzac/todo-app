@@ -42,7 +42,7 @@ export class AuthController {
     try {
       const userData: RegisterInput & { avatarPath?: string } = req.body;
       if (req.file) {
-        userData.avatarPath = req.file.path;
+        userData.avatarPath = `/uploads/${req.file.filename}`;
       }
 
       const user = await this.authService.register(userData);
