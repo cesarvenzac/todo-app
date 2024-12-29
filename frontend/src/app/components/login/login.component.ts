@@ -32,8 +32,11 @@ export class LoginComponent {
           const user = response.user;
           this.authService.setToken(response.token);
           this.authService.setUserInfo({
+            email: user.email,
             firstname: user.firstname,
             lastname: user.lastname,
+            phone: user.phone,
+            birthdate: user.birthdate,
             avatar: user.avatarPath,
           });
           this.router.navigate(['/']);
