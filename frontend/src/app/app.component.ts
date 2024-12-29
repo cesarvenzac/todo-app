@@ -9,26 +9,7 @@ import { Router } from '@angular/router';
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet, HttpClientModule, AsyncPipe, NgIf],
-  template: `
-    <header>
-      <nav>
-        <svg>...</svg>
-        <div *ngIf="authService.isAuthenticated$ | async">
-          <ng-container *ngIf="authService.userInfo$ | async as userInfo">
-            <span>Welcome {{ userInfo.firstname }}!</span>
-            <img
-              *ngIf="userInfo.avatar"
-              [src]="'http://localhost:5038/' + userInfo.avatar"
-              alt="Avatar"
-            />
-          </ng-container>
-          <button (click)="logout()">LOGOUT</button>
-          <button (click)="logUser()">PRINT</button>
-        </div>
-      </nav>
-    </header>
-    <router-outlet></router-outlet>
-  `,
+  templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {

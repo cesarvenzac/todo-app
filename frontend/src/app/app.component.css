@@ -1,23 +1,32 @@
-nav {
-  display: flex;
-  justify-content: space-between;
-  height: 2rem;
+header {
+  padding: 0.5rem;
 }
 
-nav button {
+nav {
+  height: 2rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+nav > div > button {
+  height: 100%;
+  padding: 0.5rem;
   border: 1px solid var(--black);
   background-color: var(--white);
   color: var(--black);
-}
-
-nav div {
   display: flex;
-  gap: 0.5rem;
   align-items: center;
+  justify-content: center;
 }
 
-nav div img {
-  height: 2rem;
+nav > div {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+nav > div > img {
+  height: 100%;
   aspect-ratio: 1 / 1;
   border: 1px solid var(--black);
 }
