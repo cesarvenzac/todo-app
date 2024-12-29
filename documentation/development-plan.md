@@ -32,14 +32,17 @@
 ## Phase 3: Team Features [PLANNED]
 
 - [ ] Team creation and management
-- [ ] User invitations
 - [ ] Team member roles and permissions
+- [ ] Add user as team member
+- [ ] Edit team member roles and permissions
+- [ ] Delete user from team
 - [ ] Shared task lists
-- [ ] Multiple team support
+- [ ] Multiple teams support
 
 ## Phase 4: Project Management [PLANNED]
 
-- [ ] Project creation
+- [ ] Project creation and management
+- [ ] Project task lists
 - [ ] Project assignment
 - [ ] Project progress tracking
 - [ ] Multiple project support
