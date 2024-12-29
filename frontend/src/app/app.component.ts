@@ -16,12 +16,6 @@ export class AppComponent {
   readonly authService = inject(AuthService);
   private readonly router = inject(Router);
 
-  logUser(): void {
-    this.authService.userInfo$.subscribe((userInfo) =>
-      console.log('UserInfo:', userInfo)
-    );
-  }
-
   logout(): void {
     this.authService.logout();
     this.router.navigate(['/login']);
