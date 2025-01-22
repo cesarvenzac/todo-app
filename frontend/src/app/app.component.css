@@ -8,25 +8,34 @@ nav {
   justify-content: space-between;
 }
 
-nav > div > button {
-  height: 100%;
+nav > svg {
+  border: 1px solid var(--a3);
   padding: 0.5rem;
-  border: 1px solid var(--black);
-  background-color: var(--white);
-  color: var(--black);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  fill: var(--primary);
 }
 
 nav > div {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.125rem;
+  border: 1px solid var(--a3);
+  padding: 0.125rem;
+  text-transform: uppercase;
 }
 
 nav > div > img {
   height: 100%;
   aspect-ratio: 1 / 1;
-  border: 1px solid var(--black);
+  border: 1px solid var(--a3);
+}
+
+nav > div > button {
+  height: 100%;
+  padding: 0.5rem;
+  border: 1px solid var(--a3);
+  background-color: var(--e5);
+  color: var(--black);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

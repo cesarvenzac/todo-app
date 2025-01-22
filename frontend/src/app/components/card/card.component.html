@@ -1,4 +1,12 @@
 <div class="task-controls">
+  <div
+    class="priority-indicator"
+    [ngClass]="{
+      'low-priority': task.priority === 'low',
+      'medium-priority': task.priority === 'medium',
+      'high-priority': task.priority === 'high'
+    }"
+  ></div>
   <input
     type="text"
     [(ngModel)]="task.name"
@@ -10,7 +18,6 @@
   <button class="drag-handle" cdkDragHandle>═</button>
   <button class="delete-btn" (click)="deleteTask(task._id)">×</button>
 </div>
-
 <app-task-modal
   [task]="task"
   [isOpen]="isModalOpen"

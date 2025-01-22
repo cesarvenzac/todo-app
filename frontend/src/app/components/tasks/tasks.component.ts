@@ -76,7 +76,6 @@ export class TasksComponent implements OnInit {
     description: string,
     status: string,
     priority: string,
-    dueDate: string,
     categories: string,
     tags: string
   ) {
@@ -92,7 +91,6 @@ export class TasksComponent implements OnInit {
       description: description.trim() || undefined,
       status: this.validateStatus(status),
       priority: this.validatePriority(priority),
-      dueDate: this.formatDueDate(dueDate),
       categories: this.processCategories(categories),
       tags: this.processTags(tags),
     };

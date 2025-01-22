@@ -2,19 +2,20 @@
   <section class="side-menu">
     <section class="add-task">
       <span>Add</span>
-      <input #newTaskName type="text" placeholder="Task name" />
-      <input #newTaskDesc type="text" placeholder="Task description" />
+      <input #newTaskName type="text" placeholder="Name" />
+      <input #newTaskDesc type="text" placeholder="Description" />
       <select #newTaskStatus>
+        <option value="" disabled selected>Progress</option>
         <option value="to start">To Start</option>
         <option value="in progress">In Progress</option>
         <option value="completed">Completed</option>
       </select>
       <select #newTaskPriority>
+        <option value="" disabled selected>Priority</option>
         <option value="low">Low</option>
-        <option value="medium" selected>Medium</option>
+        <option value="medium">Medium</option>
         <option value="high">High</option>
       </select>
-      <input #newTaskDueDate type="date" placeholder="Due date" />
       <input #newTaskCategories type="text" placeholder="Categories" />
       <input #newTaskTags type="text" placeholder="Tags" />
       <button
@@ -24,7 +25,6 @@
             newTaskDesc.value,
             newTaskStatus.value,
             newTaskPriority.value,
-            newTaskDueDate.value,
             newTaskCategories.value,
             newTaskTags.value
           )

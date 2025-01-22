@@ -1,19 +1,22 @@
 :host {
   width: 100%;
   display: block;
+  padding: 0.125rem;
+  border: 1px solid var(--a3);
+  background-color: var(--e9);
 }
 
 .task-controls {
   display: flex;
   flex-direction: row;
-  gap: 0.5rem;
+  gap: 0.125rem;
   width: 100%;
 }
 
 input[type="text"] {
   flex: 1;
   min-width: 0;
-  padding: 0.25rem;
+  padding: 0.25rem 0.5rem;
   border: 1px solid #ccc;
 }
 
@@ -27,22 +30,23 @@ button {
 
 .view-details {
   background-color: var(--primary);
-  color: lightgrey;
+  color: var(--e5);
 }
 
 .view-details:hover {
-  background-color: lightgrey;
+  background-color: var(--e5);
   color: var(--primary);
 }
 
 .delete-btn {
-  background-color: lightgrey;
+  border: 1px solid var(--a3);
+  background-color: var(--e9);
   color: red;
 }
 
 .delete-btn:hover {
   background-color: red;
-  color: lightgrey;
+  color: var(--e5);
 }
 
 .drag-handle {
@@ -56,7 +60,7 @@ button {
 
 .drag-handle:hover {
   color: var(--primary);
-  background-color: lightgrey;
+  background-color: var(--e5);
 }
 
 .cdk-drag {
@@ -65,4 +69,18 @@ button {
 
 .cdk-drag-handle {
   cursor: move;
+}
+
+.priority-indicator {
+  width: 0.5rem;
+}
+
+.low-priority {
+  background-color: var(--green);
+}
+.medium-priority {
+  background-color: var(--orange);
+}
+.high-priority {
+  background-color: var(--red);
 }

@@ -46,12 +46,14 @@ main {
   flex-direction: column;
   gap: 0.5rem;
   padding: 0.5rem;
-  border: 1px solid var(--black);
-  background-color: var(--white);
+  border: 1px solid var(--a3);
+  background-color: var(--e5);
 }
 
 .add-task > span {
-  border-bottom: 1px solid var(--black);
+  white-space: nowrap;
+  text-transform: uppercase;
+  /* border-bottom: 1px solid var(--black); */
 }
 
 .tasks-stats {
@@ -59,8 +61,8 @@ main {
   flex-direction: column;
   gap: 0.5rem;
   padding: 0.5rem;
-  border: 1px solid var(--black);
-  background-color: var(--white);
+  border: 1px solid var(--a3);
+  background-color: var(--e5);
 }
 
 .tasks-stats > span > span {
@@ -76,7 +78,8 @@ main {
 
 .progress-container {
   width: 100%;
-  background-color: #e0e0e0;
+  border: 1px solid var(--a3);
+  background-color: var(--e9);
   height: 1rem;
   overflow: hidden;
 }
@@ -92,6 +95,8 @@ main {
   width: 100%;
   height: 1rem;
   overflow: hidden;
+  border: 1px solid var(--a3);
+  background-color: var(--e9);
 }
 
 .priority {
@@ -100,13 +105,13 @@ main {
 }
 
 .priority.low {
-  background-color: lightgreen;
+  background-color: var(--green);
 }
 .priority.medium {
-  background-color: lightsalmon;
+  background-color: var(--orange);
 }
 .priority.high {
-  background-color: lightcoral;
+  background-color: var(--red);
 }
 
 .tasks-counter {
@@ -135,8 +140,8 @@ main {
 .tasks-list > * {
   width: calc(100% / 3 - 1rem / 3);
   padding: 0.5rem;
-  border: 1px solid var(--black);
-  background-color: var(--white);
+  border: 1px solid var(--a3);
+  background-color: var(--e5);
   gap: 0.5rem;
   display: flex;
   flex-direction: column;
@@ -144,7 +149,8 @@ main {
 
 .tasks-list > * > span {
   white-space: nowrap;
-  border-bottom: 1px solid var(--black);
+  text-transform: uppercase;
+  /* border-bottom: 1px solid var(--black); */
 }
 
 ul {

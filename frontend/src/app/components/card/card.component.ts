@@ -68,7 +68,6 @@ export class CardComponent {
   addTag(tagInput: string) {
     if (!tagInput.trim()) return;
 
-    // Split by comma or space and process each tag
     const newTags = tagInput
       .split(/[,\s]+/)
       .map((tag) => tag.trim())
@@ -78,16 +77,13 @@ export class CardComponent {
       this.task.tags = [];
     }
 
-    // Add new tags that don't already exist
     this.task.tags = [...new Set([...this.task.tags, ...newTags])];
-
     this.updateTask(this.task);
   }
 
   addCategory(categoryInput: string) {
     if (!categoryInput.trim()) return;
 
-    // Split by comma or space and process each category
     const newCategories = categoryInput
       .split(/[,\s]+/)
       .map((category) => category.trim())
@@ -97,11 +93,9 @@ export class CardComponent {
       this.task.categories = [];
     }
 
-    // Add new categories that don't already exist
     this.task.categories = [
       ...new Set([...this.task.categories, ...newCategories]),
     ];
-
     this.updateTask(this.task);
   }
   removeTag(tagToRemove: string) {
@@ -118,7 +112,6 @@ export class CardComponent {
   }
 
   openModal() {
-    // Update task and open modal
     this.taskUpdated.emit([this.task, true]);
   }
 

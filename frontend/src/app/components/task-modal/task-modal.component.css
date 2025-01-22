@@ -110,11 +110,11 @@ textarea {
 }
 
 .low-priority {
-  background-color: lightgreen;
+  background-color: var(--green);
 }
 .medium-priority {
-  background-color: lightsalmon;
+  background-color: var(--orange);
 }
 .high-priority {
-  background-color: lightcoral;
+  background-color: var(--red);
 }

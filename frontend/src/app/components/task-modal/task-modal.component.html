@@ -7,7 +7,7 @@
 
       <div class="task-info">
         <div class="info-group">
-          <label>Status:</label>
+          <label>Progress:</label>
           <select [(ngModel)]="task.status" (change)="updateTask()">
             <option value="to start">To Start</option>
             <option value="in progress">In Progress</option>
@@ -53,7 +53,10 @@
 
         <div class="info-group">
           <label>Categories:</label>
-          <div class="categories" *ngIf="task.categories && task.categories.length > 0">
+          <div
+            class="categories"
+            *ngIf="task.categories && task.categories.length > 0"
+          >
             <span class="category" *ngFor="let category of task.categories">
               {{ category }}
               <button class="remove-btn" (click)="removeCategory(category)">
@@ -64,7 +67,7 @@
           <input
             #categoryInput
             type="text"
-            placeholder="Add category..."
+            placeholder="Categories"
             class="category-input"
             (keyup.enter)="
               addCategory(categoryInput.value); categoryInput.value = ''
@@ -83,7 +86,7 @@
           <input
             #tagInput
             type="text"
-            placeholder="Add tag..."
+            placeholder="Tags"
             class="tag-input"
             (keyup.enter)="addTag(tagInput.value); tagInput.value = ''"
           />

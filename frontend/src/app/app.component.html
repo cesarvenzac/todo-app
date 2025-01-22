@@ -1,9 +1,26 @@
 <header>
   <nav>
-    <div></div>
+    <svg
+      id="b"
+      data-name="Calque 2"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 1075.71 579.23"
+    >
+      <g id="c" data-name="Calque 1">
+        <g>
+          <path
+            class="d"
+            d="m82.75,165.5v248.24h165.5v82.75H82.75v82.75H0V0h82.75v82.75h165.5v82.75H82.75Zm165.5,82.75v-82.75h165.5v82.75h-165.5Zm165.5,165.5h-165.5v-82.75h165.5v82.75Zm82.75-165.5v82.75h-82.75v-82.75h82.75Z"
+          />
+          <path
+            class="d"
+            d="m1075.71,248.24v82.75h-82.75v82.75h-165.5v82.75h-165.5v82.75h-82.75V0h82.75v82.75h165.5v82.75h165.5v82.75h82.75Z"
+          />
+        </g>
+      </g>
+    </svg>
     <div *ngIf="authService.isAuthenticated$ | async">
       <ng-container *ngIf="authService.userInfo$ | async as userInfo">
-        <span>Welcome {{ userInfo.firstname }}!</span>
         <img
           *ngIf="userInfo.avatar"
           [src]="'http://localhost:5038/' + userInfo.avatar"
