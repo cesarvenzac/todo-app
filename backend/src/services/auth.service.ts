@@ -2,10 +2,11 @@ import { BaseService } from "./base.service";
 import { User } from "../types";
 import { DatabaseService } from "../types";
 import { compare, hash } from "bcrypt";
-import { sign, verify } from "jsonwebtoken";
+import { sign, verify, Secret, SignOptions } from "jsonwebtoken";
 import { config } from "../config";
 import { RegisterInput } from "../schemas/auth.schema";
 import { ObjectId } from "mongodb";
+import { StringValue } from "ms";
 
 export class AuthService extends BaseService<User> {
   constructor(db: DatabaseService) {
@@ -47,24 +48,24 @@ export class AuthService extends BaseService<User> {
     email: string,
     password: string
   ): Promise<{ token: string; user: Omit<User, "password"> }> {
-    // Find user
     const user = await this.findOne({ email });
-    if (!user) {
+    if (!user || !user._id) {
       throw new Error("Invalid credentials");
     }
 
-    // Check password
     const isValid = await compare(password, user.password);
     if (!isValid) {
       throw new Error("Invalid credentials");
     }
 
-    // Generate token
-    const token = sign({ userId: user._id }, config.jwt.secret, {
-      expiresIn: config.jwt.expiresIn,
-    });
+    const tokenPayload = { userId: user._id.toString() };
+    const secret = config.jwt.secret as Secret;
+    const signOptions: SignOptions = {
+      expiresIn: config.jwt.expiresIn as number | StringValue | undefined,
+    };
 
-    // Remove password from response
+    const token = sign(tokenPayload, secret, signOptions);
+
     const { password: _, ...userWithoutPassword } = user;
     return { token, user: userWithoutPassword };
   }
